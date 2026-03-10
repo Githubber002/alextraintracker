@@ -43,6 +43,22 @@ Deno.serve(async (req) => {
       })
     }
 
+    if (action === 'trips') {
+      const fromStation = url.searchParams.get('fromStation') || ''
+      const toStation = url.searchParams.get('toStation') || ''
+      if (!fromStation || !toStation) {
+        throw new Error('fromStation and toStation are required')
+      }
+      const nsUrl = `https://gateway.apiportal.ns.nl/reisinformatie-api/api/v3/trips?fromStation=${encodeURIComponent(fromStation)}&toStation=${encodeURIComponent(toStation)}&dateTime=${encodeURIComponent(new Date().toISOString())}`
+      const response = await fetch(nsUrl, {
+        headers: { 'Ocp-Apim-Subscription-Key': apiKey },
+      })
+      const data = await response.json()
+      return new Response(JSON.stringify(data), {
+        headers: { ...corsHeaders, 'Content-Type': 'application/json' },
+      })
+    }
+
     return new Response(JSON.stringify({ error: 'Unknown action' }), {
       status: 400,
       headers: { ...corsHeaders, 'Content-Type': 'application/json' },
