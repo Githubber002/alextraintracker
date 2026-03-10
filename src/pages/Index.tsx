@@ -3,7 +3,7 @@ import { RouteDisplay } from "@/components/RouteDisplay";
 import { RouteSettings } from "@/components/RouteSettings";
 import { loadRoutes, RouteConfig } from "@/lib/ns-api";
 import { fetchRouteTrips, RouteTripData } from "@/lib/route-trips";
-import { Train, Settings, RefreshCw, ArrowLeftRight } from "lucide-react";
+import { Train, Settings, RefreshCw, ChevronLeft, ChevronRight } from "lucide-react";
 
 const Index = () => {
   const [routes, setRoutes] = useState<RouteConfig[]>([]);
@@ -84,13 +84,6 @@ const Index = () => {
             {routes.length > 0 && (
               <>
                 <button
-                  onClick={() => setReversed(r => !r)}
-                  className={`p-2 rounded-lg hover:bg-secondary-foreground/10 transition-colors text-secondary-foreground ${reversed ? "bg-secondary-foreground/15" : ""}`}
-                  title={reversed ? "Terug → Heen" : "Heen → Terug"}
-                >
-                  <ArrowLeftRight className="h-5 w-5" />
-                </button>
-                <button
                   onClick={() => refreshTrips(activeRoutes)}
                   disabled={loading}
                   className="p-2 rounded-lg hover:bg-secondary-foreground/10 transition-colors text-secondary-foreground disabled:opacity-50"
@@ -109,15 +102,33 @@ const Index = () => {
         </div>
       </header>
 
-      {/* Direction indicator */}
+      {/* Swipeable direction bar */}
       {routes.length > 0 && (
-        <div className="max-w-2xl mx-auto px-4 pt-3 flex justify-center gap-2">
-          <span className={`text-xs font-semibold px-3 py-1 rounded-full transition-all ${
-            !reversed ? "bg-secondary text-secondary-foreground" : "bg-muted text-muted-foreground"
-          }`}>Heen</span>
-          <span className={`text-xs font-semibold px-3 py-1 rounded-full transition-all ${
-            reversed ? "bg-secondary text-secondary-foreground" : "bg-muted text-muted-foreground"
-          }`}>Terug</span>
+        <div
+          onClick={() => setReversed(r => !r)}
+          className="max-w-2xl mx-auto px-4 pt-3 cursor-pointer select-none"
+        >
+          <div className="relative bg-muted rounded-full p-1 flex items-center h-10 overflow-hidden">
+            {/* Sliding background */}
+            <div
+              className={`absolute top-1 bottom-1 w-[calc(50%-4px)] bg-secondary rounded-full transition-all duration-300 ease-in-out ${
+                reversed ? "left-[calc(50%+2px)]" : "left-1"
+              }`}
+            />
+            <div className="relative z-10 flex-1 flex items-center justify-center gap-1">
+              {!reversed && <ChevronRight className="h-3 w-3 text-secondary-foreground animate-pulse" />}
+              <span className={`text-xs font-semibold transition-colors ${
+                !reversed ? "text-secondary-foreground" : "text-muted-foreground"
+              }`}>Heen</span>
+            </div>
+            <div className="relative z-10 flex-1 flex items-center justify-center gap-1">
+              <span className={`text-xs font-semibold transition-colors ${
+                reversed ? "text-secondary-foreground" : "text-muted-foreground"
+              }`}>Terug</span>
+              {reversed && <ChevronLeft className="h-3 w-3 text-secondary-foreground animate-pulse" />}
+            </div>
+          </div>
+          <p className="text-[10px] text-muted-foreground text-center mt-1">swipe of tik om te wisselen</p>
         </div>
       )}
 
