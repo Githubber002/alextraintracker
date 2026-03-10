@@ -130,7 +130,15 @@ const Index = () => {
           </div>
           <p className="text-[10px] text-muted-foreground text-center mt-1">swipe of tik om te wisselen</p>
         </div>
-      )
+      )}
+
+      <div
+        onTouchStart={handleTouchStart}
+        onTouchMove={handleTouchMove}
+        onTouchEnd={handleTouchEnd}
+        className="min-h-[60vh]"
+      >
+        <main className="max-w-2xl mx-auto px-4 py-5 space-y-4">
           {lastUpdate && (
             <p className="text-xs text-muted-foreground text-right">
               {lastUpdate.toLocaleTimeString("nl-NL", { hour: "2-digit", minute: "2-digit" })}
