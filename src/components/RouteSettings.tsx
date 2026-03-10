@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { RouteConfig, Station, searchStations, saveRoutes } from "@/lib/ns-api";
+import { RouteConfig, RouteDirection, Station, saveRoutes } from "@/lib/ns-api";
 import { StationSearch } from "./StationSearch";
 import { Plus, Trash2, ArrowRight, X, Save } from "lucide-react";
 
@@ -8,6 +8,11 @@ interface RouteSettingsProps {
   onSave: (routes: RouteConfig[]) => void;
   onClose: () => void;
 }
+
+const DIRECTION_OPTIONS: { key: RouteDirection; label: string }[] = [
+  { key: "heen", label: "Heen" },
+  { key: "terug", label: "Terug" },
+];
 
 export function RouteSettings({ routes: initialRoutes, onSave, onClose }: RouteSettingsProps) {
   const [routes, setRoutes] = useState<RouteConfig[]>(initialRoutes);
@@ -18,11 +23,16 @@ export function RouteSettings({ routes: initialRoutes, onSave, onClose }: RouteS
       id: crypto.randomUUID(),
       fromStations: [],
       toStation: null as any,
+      direction: "heen",
     }]);
   };
 
   const removeRoute = (id: string) => {
     setRoutes(routes.filter(r => r.id !== id));
+  };
+
+  const updateDirection = (routeId: string, direction: RouteDirection) => {
+    setRoutes(routes.map(r => r.id === routeId ? { ...r, direction } : r));
   };
 
   const updateFromStation = (routeId: string, index: number, station: Station) => {
@@ -80,6 +90,23 @@ export function RouteSettings({ routes: initialRoutes, onSave, onClose }: RouteS
                 >
                   <Trash2 className="h-4 w-4" />
                 </button>
+              </div>
+
+              {/* Direction toggle */}
+              <div className="flex bg-muted rounded-md p-0.5 gap-0.5 mb-3">
+                {DIRECTION_OPTIONS.map(opt => (
+                  <button
+                    key={opt.key}
+                    onClick={() => updateDirection(route.id, opt.key)}
+                    className={`flex-1 py-1.5 text-xs font-semibold rounded transition-all ${
+                      route.direction === opt.key
+                        ? "bg-secondary text-secondary-foreground shadow-sm"
+                        : "text-muted-foreground hover:text-foreground"
+                    }`}
+                  >
+                    {opt.label}
+                  </button>
+                ))}
               </div>
 
               {/* From stations */}
