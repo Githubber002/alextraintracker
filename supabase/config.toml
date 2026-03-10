@@ -1,1 +1,4 @@
 project_id = "dfqbmvzkocppkjnjirfl"
+
+[functions.ns-departures]
+verify_jwt = false
