@@ -1,5 +1,3 @@
-import { Station } from "@/lib/ns-api";
-
 export interface Departure {
   direction: string;
   name: string;
@@ -13,7 +11,16 @@ export interface Departure {
   routeStations?: { mediumName: string }[];
 }
 
-export type { Station };
+export interface Station {
+  UICCode: string;
+  code: string;
+  namen: {
+    kort: string;
+    middel: string;
+    lang: string;
+  };
+  land: string;
+}
 
 const BASE_URL = `https://${import.meta.env.VITE_SUPABASE_PROJECT_ID}.supabase.co/functions/v1/ns-departures`;
 
