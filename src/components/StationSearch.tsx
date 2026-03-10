@@ -5,13 +5,20 @@ import { Search, MapPin } from "lucide-react";
 interface StationSearchProps {
   onSelect: (station: Station) => void;
   selectedStation?: Station | null;
+  compact?: boolean;
 }
 
-export function StationSearch({ onSelect, selectedStation }: StationSearchProps) {
-  const [query, setQuery] = useState("");
+export function StationSearch({ onSelect, selectedStation, compact }: StationSearchProps) {
+  const [query, setQuery] = useState(selectedStation?.namen.lang || "");
   const [results, setResults] = useState<Station[]>([]);
   const [isOpen, setIsOpen] = useState(false);
   const [loading, setLoading] = useState(false);
+
+  useEffect(() => {
+    if (selectedStation) {
+      setQuery(selectedStation.namen.lang);
+    }
+  }, [selectedStation]);
 
   const search = useCallback(async (q: string) => {
     if (q.length < 2) {
@@ -34,10 +41,14 @@ export function StationSearch({ onSelect, selectedStation }: StationSearchProps)
     return () => clearTimeout(timer);
   }, [query, search]);
 
+  const inputClass = compact
+    ? "w-full pl-9 pr-3 py-2.5 bg-card text-card-foreground rounded-lg border border-border focus:outline-none focus:ring-2 focus:ring-ring text-sm placeholder:text-muted-foreground"
+    : "w-full pl-12 pr-4 py-3.5 bg-card text-card-foreground rounded-xl border border-border focus:outline-none focus:ring-2 focus:ring-ring shadow-sm font-medium text-base placeholder:text-muted-foreground";
+
   return (
-    <div className="relative w-full max-w-md mx-auto">
+    <div className="relative w-full">
       <div className="relative">
-        <Search className="absolute left-4 top-1/2 -translate-y-1/2 h-5 w-5 text-muted-foreground" />
+        <Search className={`absolute ${compact ? "left-3 h-4 w-4" : "left-4 h-5 w-5"} top-1/2 -translate-y-1/2 text-muted-foreground`} />
         <input
           type="text"
           placeholder="Zoek station..."
@@ -47,44 +58,35 @@ export function StationSearch({ onSelect, selectedStation }: StationSearchProps)
             setIsOpen(true);
           }}
           onFocus={() => setIsOpen(true)}
-          className="w-full pl-12 pr-4 py-3.5 bg-card text-card-foreground rounded-xl border border-border 
-                     focus:outline-none focus:ring-2 focus:ring-ring shadow-sm
-                     font-medium text-base placeholder:text-muted-foreground"
+          onBlur={() => setTimeout(() => setIsOpen(false), 200)}
+          className={inputClass}
         />
       </div>
 
-      {selectedStation && !isOpen && (
-        <div className="mt-2 flex items-center gap-2 text-sm text-muted-foreground">
-          <MapPin className="h-4 w-4" />
-          <span>{selectedStation.namen.lang}</span>
-        </div>
-      )}
-
       {isOpen && results.length > 0 && (
-        <div className="absolute z-50 w-full mt-2 bg-card border border-border rounded-xl shadow-lg overflow-hidden">
+        <div className="absolute z-50 w-full mt-1 bg-card border border-border rounded-lg shadow-lg overflow-hidden">
           {results.map((station) => (
             <button
               key={station.code}
+              onMouseDown={(e) => e.preventDefault()}
               onClick={() => {
                 onSelect(station);
                 setQuery(station.namen.lang);
                 setIsOpen(false);
               }}
-              className="w-full px-4 py-3 text-left hover:bg-accent/50 transition-colors
-                         flex items-center gap-3 border-b border-border last:border-0"
+              className="w-full px-3 py-2.5 text-left hover:bg-accent/50 transition-colors
+                         flex items-center gap-2 border-b border-border last:border-0 text-sm"
             >
-              <MapPin className="h-4 w-4 text-secondary shrink-0" />
-              <div>
-                <span className="font-medium text-card-foreground">{station.namen.lang}</span>
-                <span className="ml-2 text-xs text-muted-foreground uppercase tracking-wider">{station.code}</span>
-              </div>
+              <MapPin className="h-3.5 w-3.5 text-secondary shrink-0" />
+              <span className="font-medium text-card-foreground">{station.namen.lang}</span>
+              <span className="text-xs text-muted-foreground uppercase tracking-wider">{station.code}</span>
             </button>
           ))}
         </div>
       )}
 
       {isOpen && loading && (
-        <div className="absolute z-50 w-full mt-2 bg-card border border-border rounded-xl shadow-lg p-4 text-center text-muted-foreground">
+        <div className="absolute z-50 w-full mt-1 bg-card border border-border rounded-lg shadow-lg p-3 text-center text-sm text-muted-foreground">
           Zoeken...
         </div>
       )}
