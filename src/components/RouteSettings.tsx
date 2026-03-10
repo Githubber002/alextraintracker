@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { RouteConfig, RouteDirection, Station, saveRoutes } from "@/lib/ns-api";
+import { RouteConfig, Station, saveRoutes } from "@/lib/ns-api";
 import { StationSearch } from "./StationSearch";
 import { Plus, Trash2, ArrowRight, X, Save } from "lucide-react";
 
@@ -8,11 +8,6 @@ interface RouteSettingsProps {
   onSave: (routes: RouteConfig[]) => void;
   onClose: () => void;
 }
-
-const DIRECTION_OPTIONS: { key: RouteDirection; label: string }[] = [
-  { key: "heen", label: "Heen" },
-  { key: "terug", label: "Terug" },
-];
 
 export function RouteSettings({ routes: initialRoutes, onSave, onClose }: RouteSettingsProps) {
   const [routes, setRoutes] = useState<RouteConfig[]>(initialRoutes);
@@ -23,16 +18,11 @@ export function RouteSettings({ routes: initialRoutes, onSave, onClose }: RouteS
       id: crypto.randomUUID(),
       fromStations: [],
       toStation: null as any,
-      direction: "heen",
     }]);
   };
 
   const removeRoute = (id: string) => {
     setRoutes(routes.filter(r => r.id !== id));
-  };
-
-  const updateDirection = (routeId: string, direction: RouteDirection) => {
-    setRoutes(routes.map(r => r.id === routeId ? { ...r, direction } : r));
   };
 
   const updateFromStation = (routeId: string, index: number, station: Station) => {
@@ -79,6 +69,10 @@ export function RouteSettings({ routes: initialRoutes, onSave, onClose }: RouteS
           </button>
         </div>
 
+        <p className="text-xs text-muted-foreground mb-4">
+          Stel je heenroute in. De terugreis wordt automatisch omgedraaid via het ⇄ icoon.
+        </p>
+
         <div className="space-y-6">
           {routes.map((route, routeIndex) => (
             <div key={route.id} className="bg-muted/50 rounded-lg p-4 border border-border">
@@ -92,24 +86,6 @@ export function RouteSettings({ routes: initialRoutes, onSave, onClose }: RouteS
                 </button>
               </div>
 
-              {/* Direction toggle */}
-              <div className="flex bg-muted rounded-md p-0.5 gap-0.5 mb-3">
-                {DIRECTION_OPTIONS.map(opt => (
-                  <button
-                    key={opt.key}
-                    onClick={() => updateDirection(route.id, opt.key)}
-                    className={`flex-1 py-1.5 text-xs font-semibold rounded transition-all ${
-                      route.direction === opt.key
-                        ? "bg-secondary text-secondary-foreground shadow-sm"
-                        : "text-muted-foreground hover:text-foreground"
-                    }`}
-                  >
-                    {opt.label}
-                  </button>
-                ))}
-              </div>
-
-              {/* From stations */}
               <div className="space-y-2 mb-3">
                 <label className="text-xs font-medium text-muted-foreground uppercase tracking-wider">Van (max 2 stations)</label>
                 {route.fromStations.map((fromStation, i) => (
@@ -145,7 +121,6 @@ export function RouteSettings({ routes: initialRoutes, onSave, onClose }: RouteS
                 <ArrowRight className="h-4 w-4 text-muted-foreground" />
               </div>
 
-              {/* To station */}
               <div>
                 <label className="text-xs font-medium text-muted-foreground uppercase tracking-wider">Naar</label>
                 <div className="mt-1">

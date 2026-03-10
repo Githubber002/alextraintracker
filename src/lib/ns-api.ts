@@ -49,13 +49,10 @@ export interface Trip {
   actualDurationInMinutes?: number;
 }
 
-export type RouteDirection = 'heen' | 'terug';
-
 export interface RouteConfig {
   id: string;
   fromStations: Station[]; // up to 2
   toStation: Station;
-  direction: RouteDirection;
   label?: string;
 }
 
