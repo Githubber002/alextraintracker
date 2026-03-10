@@ -1,14 +1,9 @@
-import { useState, useEffect, useCallback, useRef } from "react";
+import { useState, useEffect, useCallback, useRef, useMemo } from "react";
 import { RouteDisplay } from "@/components/RouteDisplay";
 import { RouteSettings } from "@/components/RouteSettings";
-import { loadRoutes, RouteConfig, RouteDirection } from "@/lib/ns-api";
+import { loadRoutes, RouteConfig } from "@/lib/ns-api";
 import { fetchRouteTrips, RouteTripData } from "@/lib/route-trips";
-import { Train, Settings, RefreshCw } from "lucide-react";
-
-const DIRECTIONS: { key: RouteDirection; label: string }[] = [
-  { key: "heen", label: "Heen" },
-  { key: "terug", label: "Terug" },
-];
+import { Train, Settings, RefreshCw, ArrowLeftRight } from "lucide-react";
 
 const Index = () => {
   const [routes, setRoutes] = useState<RouteConfig[]>([]);
@@ -16,37 +11,39 @@ const Index = () => {
   const [loading, setLoading] = useState(false);
   const [showSettings, setShowSettings] = useState(false);
   const [lastUpdate, setLastUpdate] = useState<Date | null>(null);
-  const [activePage, setActivePage] = useState<RouteDirection>("heen");
+  const [reversed, setReversed] = useState(false);
 
   // Swipe handling
   const touchStartX = useRef(0);
   const touchEndX = useRef(0);
-  const containerRef = useRef<HTMLDivElement>(null);
 
   const handleTouchStart = (e: React.TouchEvent) => {
     touchStartX.current = e.touches[0].clientX;
   };
-
   const handleTouchMove = (e: React.TouchEvent) => {
     touchEndX.current = e.touches[0].clientX;
   };
-
   const handleTouchEnd = () => {
     const diff = touchStartX.current - touchEndX.current;
-    const threshold = 50;
-    if (diff > threshold && activePage === "heen") {
-      setActivePage("terug");
-    } else if (diff < -threshold && activePage === "terug") {
-      setActivePage("heen");
+    if (Math.abs(diff) > 50) {
+      setReversed(prev => !prev);
     }
   };
+
+  // Reverse routes: toStation becomes single fromStation, all fromStations become separate "toStation" routes
+  const activeRoutes = useMemo(() => {
+    if (!reversed) return routes;
+    return routes.map(r => ({
+      ...r,
+      fromStations: [r.toStation],
+      toStation: r.fromStations[0], // use first fromStation as destination
+    }));
+  }, [routes, reversed]);
 
   useEffect(() => {
     const saved = loadRoutes();
     setRoutes(saved);
-    if (saved.length === 0) {
-      setShowSettings(true);
-    }
+    if (saved.length === 0) setShowSettings(true);
   }, []);
 
   const refreshTrips = useCallback(async (currentRoutes: RouteConfig[]) => {
@@ -55,9 +52,7 @@ const Index = () => {
     try {
       const promises = currentRoutes.map(route => fetchRouteTrips(route));
       const results = await Promise.all(promises);
-      const allData: RouteTripData[] = [];
-      results.forEach(routeResults => allData.push(...routeResults));
-      setTripData(allData);
+      setTripData(results.flat());
       setLastUpdate(new Date());
     } catch (err) {
       console.error("Failed to load trips:", err);
@@ -67,24 +62,18 @@ const Index = () => {
   }, []);
 
   useEffect(() => {
-    if (routes.length === 0) return;
-    refreshTrips(routes);
-    const interval = setInterval(() => refreshTrips(routes), 30000);
+    if (activeRoutes.length === 0) return;
+    refreshTrips(activeRoutes);
+    const interval = setInterval(() => refreshTrips(activeRoutes), 30000);
     return () => clearInterval(interval);
-  }, [routes, refreshTrips]);
+  }, [activeRoutes, refreshTrips]);
 
   const handleSaveRoutes = (newRoutes: RouteConfig[]) => {
     setRoutes(newRoutes);
   };
 
-  const activeRoutes = routes.filter(r => r.direction === activePage);
-  const activeTrips = tripData.filter(d => d.route.direction === activePage);
-  const hasHeen = routes.some(r => r.direction === "heen");
-  const hasTerug = routes.some(r => r.direction === "terug");
-
   return (
     <div className="min-h-screen bg-background">
-      {/* Header */}
       <header className="bg-secondary py-4 px-4">
         <div className="max-w-2xl mx-auto flex items-center justify-between">
           <div className="flex items-center gap-3">
@@ -93,13 +82,22 @@ const Index = () => {
           </div>
           <div className="flex items-center gap-2">
             {routes.length > 0 && (
-              <button
-                onClick={() => refreshTrips(routes)}
-                disabled={loading}
-                className="p-2 rounded-lg hover:bg-secondary-foreground/10 transition-colors text-secondary-foreground disabled:opacity-50"
-              >
-                <RefreshCw className={`h-5 w-5 ${loading ? "animate-spin" : ""}`} />
-              </button>
+              <>
+                <button
+                  onClick={() => setReversed(r => !r)}
+                  className={`p-2 rounded-lg hover:bg-secondary-foreground/10 transition-colors text-secondary-foreground ${reversed ? "bg-secondary-foreground/15" : ""}`}
+                  title={reversed ? "Terug → Heen" : "Heen → Terug"}
+                >
+                  <ArrowLeftRight className="h-5 w-5" />
+                </button>
+                <button
+                  onClick={() => refreshTrips(activeRoutes)}
+                  disabled={loading}
+                  className="p-2 rounded-lg hover:bg-secondary-foreground/10 transition-colors text-secondary-foreground disabled:opacity-50"
+                >
+                  <RefreshCw className={`h-5 w-5 ${loading ? "animate-spin" : ""}`} />
+                </button>
+              </>
             )}
             <button
               onClick={() => setShowSettings(true)}
@@ -111,30 +109,19 @@ const Index = () => {
         </div>
       </header>
 
-      {/* Direction tabs */}
-      {hasHeen && hasTerug && (
-        <div className="max-w-2xl mx-auto px-4 pt-4">
-          <div className="flex bg-muted rounded-lg p-1 gap-1">
-            {DIRECTIONS.map(dir => (
-              <button
-                key={dir.key}
-                onClick={() => setActivePage(dir.key)}
-                className={`flex-1 py-2 text-sm font-semibold rounded-md transition-all ${
-                  activePage === dir.key
-                    ? "bg-secondary text-secondary-foreground shadow-sm"
-                    : "text-muted-foreground hover:text-foreground"
-                }`}
-              >
-                {dir.label}
-              </button>
-            ))}
-          </div>
+      {/* Direction indicator */}
+      {routes.length > 0 && (
+        <div className="max-w-2xl mx-auto px-4 pt-3 flex justify-center gap-2">
+          <span className={`text-xs font-semibold px-3 py-1 rounded-full transition-all ${
+            !reversed ? "bg-secondary text-secondary-foreground" : "bg-muted text-muted-foreground"
+          }`}>Heen</span>
+          <span className={`text-xs font-semibold px-3 py-1 rounded-full transition-all ${
+            reversed ? "bg-secondary text-secondary-foreground" : "bg-muted text-muted-foreground"
+          }`}>Terug</span>
         </div>
       )}
 
-      {/* Swipeable content */}
       <div
-        ref={containerRef}
         onTouchStart={handleTouchStart}
         onTouchMove={handleTouchMove}
         onTouchEnd={handleTouchEnd}
@@ -160,7 +147,7 @@ const Index = () => {
             </div>
           )}
 
-          {loading && activeTrips.length === 0 && activeRoutes.length > 0 && (
+          {loading && tripData.length === 0 && activeRoutes.length > 0 && (
             <div className="space-y-4">
               {[...Array(activeRoutes.length)].map((_, i) => (
                 <div key={i} className="bg-card rounded-xl p-4 border border-border animate-pulse">
@@ -175,38 +162,11 @@ const Index = () => {
             </div>
           )}
 
-          {activeTrips.map((data, i) => (
+          {tripData.map((data, i) => (
             <RouteDisplay key={`${data.fromStationCode}-${data.route.toStation.code}-${i}`} data={data} />
           ))}
-
-          {routes.length > 0 && activeRoutes.length === 0 && (
-            <div className="text-center py-16 text-muted-foreground">
-              <p className="text-sm">Geen routes voor "{activePage === "heen" ? "Heen" : "Terug"}"</p>
-              <button
-                onClick={() => setShowSettings(true)}
-                className="mt-3 text-sm text-secondary font-medium hover:underline"
-              >
-                Route toevoegen
-              </button>
-            </div>
-          )}
         </main>
       </div>
-
-      {/* Dot indicators */}
-      {hasHeen && hasTerug && (
-        <div className="flex justify-center gap-2 pb-6">
-          {DIRECTIONS.map(dir => (
-            <button
-              key={dir.key}
-              onClick={() => setActivePage(dir.key)}
-              className={`w-2 h-2 rounded-full transition-all ${
-                activePage === dir.key ? "bg-secondary w-6" : "bg-muted-foreground/30"
-              }`}
-            />
-          ))}
-        </div>
-      )}
 
       {showSettings && (
         <RouteSettings
