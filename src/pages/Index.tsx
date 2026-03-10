@@ -84,13 +84,6 @@ const Index = () => {
             {routes.length > 0 && (
               <>
                 <button
-                  onClick={() => setReversed(r => !r)}
-                  className={`p-2 rounded-lg hover:bg-secondary-foreground/10 transition-colors text-secondary-foreground ${reversed ? "bg-secondary-foreground/15" : ""}`}
-                  title={reversed ? "Terug → Heen" : "Heen → Terug"}
-                >
-                  <ArrowLeftRight className="h-5 w-5" />
-                </button>
-                <button
                   onClick={() => refreshTrips(activeRoutes)}
                   disabled={loading}
                   className="p-2 rounded-lg hover:bg-secondary-foreground/10 transition-colors text-secondary-foreground disabled:opacity-50"
