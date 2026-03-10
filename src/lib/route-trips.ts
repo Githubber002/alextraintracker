@@ -45,7 +45,7 @@ function parseTrips(trips: Trip[]): ParsedTrip[] {
         trainType: firstLeg.product?.shortCategoryName,
       };
     })
-    .filter((t): t is ParsedTrip => t !== null && t.minutesUntil >= -1)
+    .filter((t): t is NonNullable<typeof t> => t !== null && t.minutesUntil >= -1)
     .slice(0, 5);
 }
 
