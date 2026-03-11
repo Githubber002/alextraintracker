@@ -39,7 +39,11 @@ export function RouteDisplay({ data }: RouteDisplayProps) {
         <p className="text-muted-foreground text-sm py-4 text-center">Geen treinen gevonden</p>
       )}
 
-      {!data.loading && data.trips.length > 0 && (
+      {!data.loading && data.trips.length > 0 && (() => {
+        const arrivals = data.trips.map(t => new Date(t.actualArrivalTime || t.arrivalTime).getTime());
+        const fastestIdx = arrivals.indexOf(Math.min(...arrivals));
+
+        return (
         <div className="overflow-x-auto">
           <table className="w-full text-sm">
             <thead>
@@ -55,6 +59,7 @@ export function RouteDisplay({ data }: RouteDisplayProps) {
                 const trackChanged = trip.actualTrack && trip.actualTrack !== trip.track;
                 const delayed = trip.actualDepartureTime && 
                   new Date(trip.actualDepartureTime).getTime() - new Date(trip.departureTime).getTime() > 60000;
+                const isFastest = i === fastestIdx && data.trips.length > 1 && !trip.cancelled;
 
                 return (
                   <tr
@@ -71,7 +76,10 @@ export function RouteDisplay({ data }: RouteDisplayProps) {
                       {trip.actualTrack || trip.track || "-"}
                     </td>
                     <td className="py-3 px-2 text-right font-mono text-card-foreground">
-                      {formatTime(trip.actualArrivalTime || trip.arrivalTime)}
+                      <span className="inline-flex items-center gap-1">
+                        {isFastest && <Zap className="h-3.5 w-3.5 text-secondary fill-secondary" />}
+                        {formatTime(trip.actualArrivalTime || trip.arrivalTime)}
+                      </span>
                     </td>
                   </tr>
                 );
@@ -79,7 +87,8 @@ export function RouteDisplay({ data }: RouteDisplayProps) {
             </tbody>
           </table>
         </div>
-      )}
+        );
+      })()}
     </div>
   );
 }
