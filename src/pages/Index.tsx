@@ -86,6 +86,18 @@ const Index = () => {
             {routes.length > 0 && (
               <>
                 <button
+                  onClick={() => {
+                    setRetro(r => {
+                      localStorage.setItem('retro-mode', String(!r));
+                      return !r;
+                    });
+                  }}
+                  className={`p-2 rounded-lg hover:bg-secondary-foreground/10 transition-colors ${retro ? "text-primary" : "text-secondary-foreground"}`}
+                  title={retro ? "Moderne weergave" : "Retro weergave"}
+                >
+                  <Tv className="h-5 w-5" />
+                </button>
+                <button
                   onClick={() => refreshTrips(activeRoutes)}
                   disabled={loading}
                   className="p-2 rounded-lg hover:bg-secondary-foreground/10 transition-colors text-secondary-foreground disabled:opacity-50"
