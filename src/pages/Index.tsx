@@ -1,9 +1,10 @@
 import { useState, useEffect, useCallback, useRef, useMemo } from "react";
 import { RouteDisplay } from "@/components/RouteDisplay";
+import { RetroRouteDisplay } from "@/components/RetroRouteDisplay";
 import { RouteSettings } from "@/components/RouteSettings";
 import { loadRoutes, RouteConfig } from "@/lib/ns-api";
 import { fetchRouteTrips, RouteTripData } from "@/lib/route-trips";
-import { Train, Settings, RefreshCw, ChevronLeft, ChevronRight } from "lucide-react";
+import { Train, Settings, RefreshCw, ChevronLeft, ChevronRight, Monitor, Tv } from "lucide-react";
 
 const Index = () => {
   const [routes, setRoutes] = useState<RouteConfig[]>([]);
@@ -12,6 +13,7 @@ const Index = () => {
   const [showSettings, setShowSettings] = useState(false);
   const [lastUpdate, setLastUpdate] = useState<Date | null>(null);
   const [reversed, setReversed] = useState(false);
+  const [retro, setRetro] = useState(() => localStorage.getItem('retro-mode') === 'true');
 
   // Swipe handling
   const touchStartX = useRef(0);
@@ -83,6 +85,18 @@ const Index = () => {
           <div className="flex items-center gap-2">
             {routes.length > 0 && (
               <>
+                <button
+                  onClick={() => {
+                    setRetro(r => {
+                      localStorage.setItem('retro-mode', String(!r));
+                      return !r;
+                    });
+                  }}
+                  className={`p-2 rounded-lg hover:bg-secondary-foreground/10 transition-colors ${retro ? "text-primary" : "text-secondary-foreground"}`}
+                  title={retro ? "Moderne weergave" : "Retro weergave"}
+                >
+                  <Tv className="h-5 w-5" />
+                </button>
                 <button
                   onClick={() => refreshTrips(activeRoutes)}
                   disabled={loading}
@@ -174,7 +188,11 @@ const Index = () => {
           )}
 
           {tripData.map((data, i) => (
-            <RouteDisplay key={`${data.fromStationCode}-${data.route.toStation.code}-${i}`} data={data} />
+            retro ? (
+              <RetroRouteDisplay key={`retro-${data.fromStationCode}-${data.route.toStation.code}-${i}`} data={data} />
+            ) : (
+              <RouteDisplay key={`${data.fromStationCode}-${data.route.toStation.code}-${i}`} data={data} />
+            )
           ))}
         </main>
       </div>
