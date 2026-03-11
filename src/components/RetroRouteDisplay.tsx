@@ -61,6 +61,10 @@ function RetroRow({ trip, isFastest, index }: { trip: ParsedTrip; isFastest: boo
         </div>
       </td>
       <td className="retro-td">
+        <div className="flap-tile flap-tile-sm" style={{ fontSize: '0.7rem', letterSpacing: 0 }}>
+          <FlipText text={crowdLabel} startDelay={baseDelay + 250} />
+        </div>
+      <td className="retro-td">
         <div className="flap-tile flap-tile-sm flap-minutes">
           <FlipText text={formatMinutesUntil(trip.minutesUntil).padStart(3, " ")} startDelay={baseDelay + 80} />
         </div>
