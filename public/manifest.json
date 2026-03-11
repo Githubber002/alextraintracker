@@ -1,0 +1,16 @@
+{
+  "name": "Vertrektijden - Train Departures",
+  "short_name": "Vertrektijden",
+  "description": "Live trein vertrektijden voor je dagelijkse route",
+  "start_url": "/",
+  "display": "standalone",
+  "background_color": "#ffffff",
+  "theme_color": "#003082",
+  "icons": [
+    {
+      "src": "/favicon.ico",
+      "sizes": "64x64",
+      "type": "image/x-icon"
+    }
+  ]
+}

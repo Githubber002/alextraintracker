@@ -256,11 +256,27 @@ const Index = () => {
         <p className="text-xs text-muted-foreground text-center mb-3">
           Vibe Coded by Alex
         </p>
+
+        <details className="text-center mb-3">
+          <summary className="text-[10px] text-muted-foreground cursor-pointer hover:text-foreground transition-colors">
+            📲 {t("installPwa")}
+          </summary>
+          <div className="mt-2 text-[10px] text-muted-foreground space-y-1.5 text-left max-w-xs mx-auto">
+            <p className="font-semibold text-foreground">iPhone / iPad:</p>
+            <p>{t("installIos")}</p>
+            <p className="font-semibold text-foreground mt-2">Android:</p>
+            <p>{t("installAndroid")}</p>
+            <p className="font-semibold text-foreground mt-2">Desktop:</p>
+            <p>{t("installDesktop")}</p>
+          </div>
+        </details>
+
         <details className="text-center">
           <summary className="text-[10px] text-muted-foreground cursor-pointer hover:text-foreground transition-colors">
             {t("releaseNotes")}
           </summary>
           <ul className="mt-2 text-[10px] text-muted-foreground space-y-1 list-none">
+            <li>📲 Installeerbaar als app (PWA)</li>
             <li>🌐 Multi-language (NL/EN/ES/HI/TR)</li>
             <li>⚡ Fastest train indicator</li>
             <li>📺 Retro split-flap board mode</li>
