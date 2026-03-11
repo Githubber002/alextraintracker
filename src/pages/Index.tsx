@@ -5,7 +5,7 @@ import { RetroRouteDisplay } from "@/components/RetroRouteDisplay";
 import { RouteSettings } from "@/components/RouteSettings";
 import { loadRoutes, RouteConfig } from "@/lib/ns-api";
 import { fetchRouteTrips, RouteTripData } from "@/lib/route-trips";
-import { Train, Settings, RefreshCw, ChevronLeft, ChevronRight, Monitor, Tv } from "lucide-react";
+import { Train, Settings, RefreshCw, ChevronLeft, ChevronRight, Tv, Monitor, Sun, Moon } from "lucide-react";
 
 const Index = () => {
   const [routes, setRoutes] = useState<RouteConfig[]>([]);
@@ -15,6 +15,17 @@ const Index = () => {
   const [lastUpdate, setLastUpdate] = useState<Date | null>(null);
   const [reversed, setReversed] = useState(false);
   const [retro, setRetro] = useState(() => localStorage.getItem('retro-mode') === 'true');
+  const [dark, setDark] = useState(() => {
+    const saved = localStorage.getItem('dark-mode');
+    if (saved !== null) return saved === 'true';
+    return window.matchMedia('(prefers-color-scheme: dark)').matches;
+  });
+
+  // Apply dark class to html
+  useEffect(() => {
+    document.documentElement.classList.toggle('dark', dark);
+    localStorage.setItem('dark-mode', String(dark));
+  }, [dark]);
 
   // Swipe handling
   const touchStartX = useRef(0);
@@ -83,7 +94,8 @@ const Index = () => {
             <Train className="h-6 w-6 text-secondary-foreground" />
             <h1 className="text-lg font-bold text-secondary-foreground tracking-tight">Vertrektijden</h1>
           </div>
-          <div className="flex items-center gap-2">
+          <div className="flex items-center gap-1">
+            {/* Retro toggle */}
             <button
               onClick={() => {
                 setRetro(r => {
@@ -91,25 +103,43 @@ const Index = () => {
                   return !r;
                 });
               }}
-              className={`p-2 rounded-lg hover:bg-secondary-foreground/10 transition-colors ${retro ? "text-primary" : "text-secondary-foreground"}`}
-              title={retro ? "Moderne weergave" : "Retro weergave"}
+              className={`flex items-center gap-1 px-2 py-1.5 rounded-lg text-xs font-medium transition-colors ${
+                retro 
+                  ? "bg-primary text-primary-foreground" 
+                  : "text-secondary-foreground hover:bg-secondary-foreground/10"
+              }`}
+              title={retro ? "Moderne weergave" : "Retro klapperbord"}
             >
-              <Tv className="h-5 w-5" />
+              {retro ? <Tv className="h-4 w-4" /> : <Monitor className="h-4 w-4" />}
+              <span className="hidden sm:inline">{retro ? "Retro" : "Modern"}</span>
             </button>
+
+            {/* Dark mode toggle */}
+            <button
+              onClick={() => setDark(d => !d)}
+              className="p-2 rounded-lg hover:bg-secondary-foreground/10 transition-colors text-secondary-foreground"
+              title={dark ? "Licht thema" : "Donker thema"}
+            >
+              {dark ? <Sun className="h-4 w-4" /> : <Moon className="h-4 w-4" />}
+            </button>
+
+            {/* Refresh */}
             {routes.length > 0 && (
               <button
                 onClick={() => refreshTrips(activeRoutes)}
                 disabled={loading}
                 className="p-2 rounded-lg hover:bg-secondary-foreground/10 transition-colors text-secondary-foreground disabled:opacity-50"
               >
-                <RefreshCw className={`h-5 w-5 ${loading ? "animate-spin" : ""}`} />
+                <RefreshCw className={`h-4 w-4 ${loading ? "animate-spin" : ""}`} />
               </button>
             )}
+
+            {/* Settings */}
             <button
               onClick={() => setShowSettings(true)}
               className="p-2 rounded-lg hover:bg-secondary-foreground/10 transition-colors text-secondary-foreground"
             >
-              <Settings className="h-5 w-5" />
+              <Settings className="h-4 w-4" />
             </button>
           </div>
         </div>
