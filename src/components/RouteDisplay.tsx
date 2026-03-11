@@ -1,5 +1,6 @@
 import { RouteTripData } from "@/lib/route-trips";
 import { format } from "date-fns";
+import { Zap } from "lucide-react";
 
 interface RouteDisplayProps {
   data: RouteTripData;
