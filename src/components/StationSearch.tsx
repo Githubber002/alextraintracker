@@ -11,6 +11,7 @@ interface StationSearchProps {
 
 export function StationSearch({ onSelect, selectedStation, compact }: StationSearchProps) {
   const { t } = useI18n();
+  const [query, setQuery] = useState(selectedStation?.namen.lang || "");
   const [results, setResults] = useState<Station[]>([]);
   const [isOpen, setIsOpen] = useState(false);
   const [loading, setLoading] = useState(false);
