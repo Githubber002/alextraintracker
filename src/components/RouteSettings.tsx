@@ -97,7 +97,7 @@ export function RouteSettings({ routes: initialRoutes, onSave, onClose }: RouteS
                         compact
                       />
                     </div>
-                    {route.fromStations.length > 1 && (
+                    {route.fromStations.length > 1 && fromStation && (
                       <button
                         onClick={() => removeFromStation(route.id, i)}
                         className="p-1.5 hover:bg-destructive/10 rounded-md transition-colors text-muted-foreground hover:text-destructive"
