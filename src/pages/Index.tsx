@@ -196,6 +196,24 @@ const Index = () => {
         </main>
       </div>
 
+      <footer className="max-w-2xl mx-auto px-4 py-8 mt-8 border-t border-border">
+        <p className="text-xs text-muted-foreground text-center mb-3">
+          Vibe Coded by Alex
+        </p>
+        <details className="text-center">
+          <summary className="text-[10px] text-muted-foreground cursor-pointer hover:text-foreground transition-colors">
+            Release notes
+          </summary>
+          <ul className="mt-2 text-[10px] text-muted-foreground space-y-1 list-none">
+            <li>⚡ Snelste trein indicator</li>
+            <li>📺 Retro split-flap bord modus</li>
+            <li>⚠️ Live storingen ticker</li>
+            <li>↔ Heen/terug wissel met swipe</li>
+            <li>🚂 Multi-route configuratie</li>
+          </ul>
+        </details>
+      </footer>
+
       {showSettings && (
         <RouteSettings
           routes={routes}
