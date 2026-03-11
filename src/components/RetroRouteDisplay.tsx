@@ -116,6 +116,7 @@ export function RetroRouteDisplay({ data }: RetroRouteDisplayProps) {
                 <th className="retro-th">Vertrek</th>
                 <th className="retro-th">Spoor</th>
                 <th className="retro-th retro-th-type">Type</th>
+                <th className="retro-th">Drukte</th>
                 <th className="retro-th">Over</th>
                 <th className="retro-th">Aankomst</th>
               </tr>
