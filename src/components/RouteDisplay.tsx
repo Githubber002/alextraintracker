@@ -73,12 +73,12 @@ export function RouteDisplay({ data }: RouteDisplayProps) {
           <table className="w-full text-sm">
             <thead>
               <tr className="text-muted-foreground">
-                <th className="text-left py-2 px-2 font-medium">Over</th>
-                <th className="text-center py-2 px-2 font-medium">Vertrek</th>
-                <th className="text-center py-2 px-2 font-medium">Spoor</th>
+                <th className="text-left py-2 px-2 font-medium">{t("over")}</th>
+                <th className="text-center py-2 px-2 font-medium">{t("departure")}</th>
+                <th className="text-center py-2 px-2 font-medium">{t("track")}</th>
                 <th className="text-center py-2 px-2 font-medium"><Users className="h-3.5 w-3.5 mx-auto" /></th>
                 <th className="text-center py-2 px-2 font-medium"><ArrowLeftRight className="h-3.5 w-3.5 mx-auto" /></th>
-                <th className="text-right py-2 px-2 font-medium">Aankomst</th>
+                <th className="text-right py-2 px-2 font-medium">{t("arrival")}</th>
               </tr>
             </thead>
             <tbody>
