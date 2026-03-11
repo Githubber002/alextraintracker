@@ -152,7 +152,7 @@ export function RouteSettings({ routes: initialRoutes, onSave, onClose }: RouteS
             onClick={onClose}
             className="flex-1 py-3 bg-muted text-muted-foreground rounded-lg font-medium hover:bg-muted/80 transition-colors"
           >
-            Annuleren
+            {t("cancel")}
           </button>
           <button
             onClick={handleSave}
