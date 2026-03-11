@@ -89,6 +89,7 @@ function RetroRow({ trip, isFastest, index }: { trip: ParsedTrip; isFastest: boo
 }
 
 export function RetroRouteDisplay({ data }: RetroRouteDisplayProps) {
+  const { t } = useI18n();
   const title = `${data.fromStationName} → ${data.route.toStation.namen.lang}`;
 
   const arrivals = data.trips.map(t => new Date(t.actualArrivalTime || t.arrivalTime).getTime());
