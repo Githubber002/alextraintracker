@@ -1,6 +1,6 @@
 import { RouteTripData } from "@/lib/route-trips";
 import { format } from "date-fns";
-import { Zap, Users } from "lucide-react";
+import { Zap, Users, ArrowLeftRight } from "lucide-react";
 
 function CrowdIndicator({ level }: { level?: string }) {
   if (!level) return null;
@@ -75,6 +75,7 @@ export function RouteDisplay({ data }: RouteDisplayProps) {
                 <th className="text-center py-2 px-2 font-medium">Vertrek</th>
                 <th className="text-center py-2 px-2 font-medium">Spoor</th>
                 <th className="text-center py-2 px-2 font-medium"><Users className="h-3.5 w-3.5 mx-auto" /></th>
+                <th className="text-center py-2 px-2 font-medium"><ArrowLeftRight className="h-3.5 w-3.5 mx-auto" /></th>
                 <th className="text-right py-2 px-2 font-medium">Aankomst</th>
               </tr>
             </thead>
@@ -101,6 +102,9 @@ export function RouteDisplay({ data }: RouteDisplayProps) {
                     </td>
                     <td className="py-3 px-2 text-center">
                       <CrowdIndicator level={trip.crowdForecast} />
+                    </td>
+                    <td className="py-3 px-2 text-center text-xs text-muted-foreground">
+                      {trip.transfers > 0 ? `${trip.transfers}×` : "—"}
                     </td>
                     <td className="py-3 px-2 text-right font-mono text-card-foreground">
                       <span className="inline-flex items-center gap-1">
