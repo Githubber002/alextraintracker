@@ -124,7 +124,7 @@ export function RouteSettings({ routes: initialRoutes, onSave, onClose }: RouteS
               </div>
 
               <div>
-                <label className="text-xs font-medium text-muted-foreground uppercase tracking-wider">Naar</label>
+                <label className="text-xs font-medium text-muted-foreground uppercase tracking-wider">{t("to")}</label>
                 <div className="mt-1">
                   <StationSearch
                     onSelect={(s) => updateToStation(route.id, s)}
