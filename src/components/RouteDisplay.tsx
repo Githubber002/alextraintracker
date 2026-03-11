@@ -61,7 +61,7 @@ export function RouteDisplay({ data }: RouteDisplayProps) {
       )}
 
       {!data.loading && !data.error && data.trips.length === 0 && (
-        <p className="text-muted-foreground text-sm py-4 text-center">Geen treinen gevonden</p>
+        <p className="text-muted-foreground text-sm py-4 text-center">{t("noTrains")}</p>
       )}
 
       {!data.loading && data.trips.length > 0 && (() => {
