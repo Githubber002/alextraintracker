@@ -15,7 +15,7 @@ const Index = () => {
   const [loading, setLoading] = useState(false);
   const [showSettings, setShowSettings] = useState(false);
   const [lastUpdate, setLastUpdate] = useState<Date | null>(null);
-  const [reversed, setReversed] = useState(false);
+  const [reversed, setReversed] = useState(() => localStorage.getItem('route-reversed') === 'true');
   const [retro, setRetro] = useState(() => localStorage.getItem('retro-mode') === 'true');
   const [dark, setDark] = useState(() => {
     const saved = localStorage.getItem('dark-mode');
