@@ -113,7 +113,7 @@ const Index = () => {
               title={retro ? t("modernView") : t("retroView")}
             >
               {retro ? <Tv className="h-4 w-4" /> : <Monitor className="h-4 w-4" />}
-              <span className="hidden sm:inline">{retro ? "Retro" : "Modern"}</span>
+              <span className="hidden sm:inline">{retro ? t("retro") : t("modern")}</span>
             </button>
 
             {/* Dark mode toggle */}
