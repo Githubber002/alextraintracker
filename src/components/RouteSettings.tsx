@@ -2,6 +2,7 @@ import { useState } from "react";
 import { RouteConfig, Station, saveRoutes } from "@/lib/ns-api";
 import { StationSearch } from "./StationSearch";
 import { Plus, Trash2, ArrowRight, X, Save } from "lucide-react";
+import { useI18n } from "@/lib/i18n";
 
 interface RouteSettingsProps {
   routes: RouteConfig[];

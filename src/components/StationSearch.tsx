@@ -1,6 +1,7 @@
 import { useState, useEffect, useCallback } from "react";
 import { searchStations, Station } from "@/lib/ns-api";
 import { Search, MapPin } from "lucide-react";
+import { useI18n } from "@/lib/i18n";
 
 interface StationSearchProps {
   onSelect: (station: Station) => void;
