@@ -18,7 +18,7 @@ const Index = () => {
   const [dark, setDark] = useState(() => {
     const saved = localStorage.getItem('dark-mode');
     if (saved !== null) return saved === 'true';
-    return window.matchMedia('(prefers-color-scheme: dark)').matches;
+    return false;
   });
 
   // Apply dark class to html
