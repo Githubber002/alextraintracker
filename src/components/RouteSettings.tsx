@@ -65,7 +65,7 @@ export function RouteSettings({ routes: initialRoutes, onSave, onClose }: RouteS
     <div className="fixed inset-0 z-50 bg-background/80 backdrop-blur-sm flex items-start justify-center pt-8 px-4 overflow-y-auto">
       <div className="bg-card border border-border rounded-xl shadow-xl w-full max-w-lg p-5 mb-8">
         <div className="flex items-center justify-between mb-6">
-          <h2 className="text-xl font-bold text-card-foreground">Routes instellen</h2>
+          <h2 className="text-xl font-bold text-card-foreground">{t("configureRoutes")}</h2>
           <button onClick={onClose} className="p-2 hover:bg-muted rounded-lg transition-colors">
             <X className="h-5 w-5 text-muted-foreground" />
           </button>
