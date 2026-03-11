@@ -258,14 +258,15 @@ const Index = () => {
         </p>
         <details className="text-center">
           <summary className="text-[10px] text-muted-foreground cursor-pointer hover:text-foreground transition-colors">
-            Release notes
+            {t("releaseNotes")}
           </summary>
           <ul className="mt-2 text-[10px] text-muted-foreground space-y-1 list-none">
-            <li>⚡ Snelste trein indicator</li>
-            <li>📺 Retro split-flap bord modus</li>
-            <li>⚠️ Live storingen ticker</li>
-            <li>↔ Heen/terug wissel met swipe</li>
-            <li>🚂 Multi-route configuratie</li>
+            <li>🌐 Multi-language (NL/EN/ES/HI/TR)</li>
+            <li>⚡ Fastest train indicator</li>
+            <li>📺 Retro split-flap board mode</li>
+            <li>⚠️ Live disruption ticker</li>
+            <li>↔ Outbound/return swap</li>
+            <li>🚂 Multi-route config</li>
           </ul>
         </details>
       </footer>
