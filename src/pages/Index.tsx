@@ -120,7 +120,7 @@ const Index = () => {
             <button
               onClick={() => setDark(d => !d)}
               className="p-2 rounded-lg hover:bg-secondary-foreground/10 transition-colors text-secondary-foreground"
-              title={dark ? "Licht thema" : "Donker thema"}
+              title={dark ? t("lightTheme") : t("darkTheme")}
             >
               {dark ? <Sun className="h-4 w-4" /> : <Moon className="h-4 w-4" />}
             </button>
