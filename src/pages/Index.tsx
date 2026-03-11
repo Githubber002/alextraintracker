@@ -217,12 +217,12 @@ const Index = () => {
           {routes.length === 0 && !showSettings && (
             <div className="text-center py-16 text-muted-foreground">
               <Train className="h-12 w-12 mx-auto mb-4 opacity-40" />
-              <p className="text-lg font-medium">Geen routes ingesteld</p>
+              <p className="text-lg font-medium">{t("noRoutes")}</p>
               <button
                 onClick={() => setShowSettings(true)}
                 className="mt-4 px-6 py-3 bg-secondary text-secondary-foreground rounded-lg font-medium hover:bg-secondary/90 transition-colors"
               >
-                Routes instellen
+                {t("setupRoutes")}
               </button>
             </div>
           )}
