@@ -29,6 +29,11 @@ const Index = () => {
     localStorage.setItem('dark-mode', String(dark));
   }, [dark]);
 
+  // Persist reversed state
+  useEffect(() => {
+    localStorage.setItem('route-reversed', String(reversed));
+  }, [reversed]);
+
   // Swipe handling
   const touchStartX = useRef(0);
   const touchEndX = useRef(0);
