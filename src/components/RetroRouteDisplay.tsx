@@ -120,13 +120,13 @@ export function RetroRouteDisplay({ data }: RetroRouteDisplayProps) {
           <table className="retro-table">
             <thead>
               <tr>
-                <th className="retro-th">Vertrek</th>
-                <th className="retro-th">Spoor</th>
-                <th className="retro-th retro-th-type">Type</th>
-                <th className="retro-th">Drukte</th>
-                <th className="retro-th">Ovst.</th>
-                <th className="retro-th">Over</th>
-                <th className="retro-th">Aankomst</th>
+                <th className="retro-th">{t("departure")}</th>
+                <th className="retro-th">{t("track")}</th>
+                <th className="retro-th retro-th-type">{t("type")}</th>
+                <th className="retro-th">{t("crowd")}</th>
+                <th className="retro-th">{t("transfers")}</th>
+                <th className="retro-th">{t("over")}</th>
+                <th className="retro-th">{t("arrival")}</th>
               </tr>
             </thead>
             <tbody>
