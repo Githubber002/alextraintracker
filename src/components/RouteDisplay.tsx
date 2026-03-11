@@ -101,6 +101,7 @@ export function RouteDisplay({ data }: RouteDisplayProps) {
                     </td>
                     <td className="py-3 px-2 text-center">
                       <CrowdIndicator level={trip.crowdForecast} />
+                    </td>
                     <td className="py-3 px-2 text-right font-mono text-card-foreground">
                       <span className="inline-flex items-center gap-1">
                         {isFastest && <Zap className="h-3.5 w-3.5 text-secondary fill-secondary" />}
