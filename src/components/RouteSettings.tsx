@@ -158,7 +158,7 @@ export function RouteSettings({ routes: initialRoutes, onSave, onClose }: RouteS
             onClick={handleSave}
             className="flex-1 py-3 bg-secondary text-secondary-foreground rounded-lg font-medium hover:bg-secondary/90 transition-colors flex items-center justify-center gap-2"
           >
-            <Save className="h-4 w-4" /> Opslaan
+            <Save className="h-4 w-4" /> {t("save")}
           </button>
         </div>
       </div>
