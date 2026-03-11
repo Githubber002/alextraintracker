@@ -72,7 +72,7 @@ export function RouteSettings({ routes: initialRoutes, onSave, onClose }: RouteS
         </div>
 
         <p className="text-xs text-muted-foreground mb-4">
-          Stel je heenroute in. De terugreis wordt automatisch omgedraaid via het ⇄ icoon.
+          {t("routeDescription")}
         </p>
 
         <div className="space-y-6">
