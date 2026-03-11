@@ -34,12 +34,8 @@ function formatTime(dateStr: string): string {
   return format(new Date(dateStr), "HH:mm");
 }
 
-function formatMinutesUntil(minutes: number): string {
-  if (minutes <= 0) return "vertrekt nu";
-  return `${minutes} min.`;
-}
-
 export function RouteDisplay({ data }: RouteDisplayProps) {
+  const { t } = useI18n();
   const title = `${data.fromStationName} → ${data.route.toStation.namen.lang}`;
 
   return (
