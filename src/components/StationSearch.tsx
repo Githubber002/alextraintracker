@@ -53,7 +53,7 @@ export function StationSearch({ onSelect, selectedStation, compact }: StationSea
         <Search className={`absolute ${compact ? "left-3 h-4 w-4" : "left-4 h-5 w-5"} top-1/2 -translate-y-1/2 text-muted-foreground`} />
         <input
           type="text"
-          placeholder="Zoek station..."
+          placeholder={t("searchStation")}
           value={query}
           onChange={(e) => {
             setQuery(e.target.value);
