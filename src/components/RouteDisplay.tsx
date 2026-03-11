@@ -1,6 +1,6 @@
 import { RouteTripData } from "@/lib/route-trips";
 import { format } from "date-fns";
-import { Zap, Users } from "lucide-react";
+import { Zap, Users, ArrowLeftRight } from "lucide-react";
 
 function CrowdIndicator({ level }: { level?: string }) {
   if (!level) return null;
