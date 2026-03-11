@@ -16,7 +16,7 @@ export function RouteSettings({ routes: initialRoutes, onSave, onClose }: RouteS
     if (routes.length >= 5) return;
     setRoutes([...routes, {
       id: crypto.randomUUID(),
-      fromStations: [],
+      fromStations: [null as any],
       toStation: null as any,
     }]);
   };
@@ -97,7 +97,7 @@ export function RouteSettings({ routes: initialRoutes, onSave, onClose }: RouteS
                         compact
                       />
                     </div>
-                    {route.fromStations.length > 1 && (
+                    {route.fromStations.length > 1 && fromStation && (
                       <button
                         onClick={() => removeFromStation(route.id, i)}
                         className="p-1.5 hover:bg-destructive/10 rounded-md transition-colors text-muted-foreground hover:text-destructive"
@@ -107,12 +107,12 @@ export function RouteSettings({ routes: initialRoutes, onSave, onClose }: RouteS
                     )}
                   </div>
                 ))}
-                {route.fromStations.length < 2 && (
+                {route.fromStations.length < 2 && route.fromStations[0] && (
                   <button
                     onClick={() => addFromStation(route.id)}
                     className="text-xs text-secondary hover:text-secondary/80 font-medium flex items-center gap-1"
                   >
-                    <Plus className="h-3 w-3" /> Nog een vertrekstation
+                    <Plus className="h-3 w-3" /> Nog een vertrekstation toevoegen
                   </button>
                 )}
               </div>
