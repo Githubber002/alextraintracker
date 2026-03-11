@@ -16,7 +16,7 @@ export function RouteSettings({ routes: initialRoutes, onSave, onClose }: RouteS
     if (routes.length >= 5) return;
     setRoutes([...routes, {
       id: crypto.randomUUID(),
-      fromStations: [],
+      fromStations: [null as any],
       toStation: null as any,
     }]);
   };
