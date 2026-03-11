@@ -188,12 +188,12 @@ const Index = () => {
               {!reversed && <ChevronRight className="h-3 w-3 text-secondary-foreground animate-pulse" />}
               <span className={`text-xs font-semibold transition-colors ${
                 !reversed ? "text-secondary-foreground" : "text-muted-foreground"
-              }`}>Heen</span>
+              }`}>{t("outbound")}</span>
             </div>
             <div className="relative z-10 flex-1 flex items-center justify-center gap-1">
               <span className={`text-xs font-semibold transition-colors ${
                 reversed ? "text-secondary-foreground" : "text-muted-foreground"
-              }`}>Terug</span>
+              }`}>{t("return")}</span>
               {reversed && <ChevronLeft className="h-3 w-3 text-secondary-foreground animate-pulse" />}
             </div>
           </div>
