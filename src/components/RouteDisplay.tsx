@@ -1,6 +1,29 @@
 import { RouteTripData } from "@/lib/route-trips";
 import { format } from "date-fns";
-import { Zap } from "lucide-react";
+import { Zap, Users } from "lucide-react";
+
+function CrowdIndicator({ level }: { level?: string }) {
+  if (!level) return null;
+  const map: Record<string, { bars: number; label: string; color: string }> = {
+    LOW: { bars: 1, label: "Rustig", color: "text-green-600 dark:text-green-400" },
+    MEDIUM: { bars: 2, label: "Gemiddeld", color: "text-yellow-600 dark:text-yellow-400" },
+    HIGH: { bars: 3, label: "Druk", color: "text-orange-500" },
+    UNKNOWN: { bars: 0, label: "", color: "text-muted-foreground" },
+  };
+  const info = map[level] || map.UNKNOWN;
+  if (info.bars === 0) return null;
+  return (
+    <span className={`inline-flex items-center gap-0.5 ${info.color}`} title={info.label}>
+      {[1, 2, 3].map(n => (
+        <span
+          key={n}
+          className={`inline-block w-1 rounded-sm ${n <= info.bars ? "bg-current" : "bg-current opacity-20"}`}
+          style={{ height: `${8 + n * 3}px` }}
+        />
+      ))}
+    </span>
+  );
+}
 
 interface RouteDisplayProps {
   data: RouteTripData;
@@ -51,6 +74,7 @@ export function RouteDisplay({ data }: RouteDisplayProps) {
                 <th className="text-left py-2 px-2 font-medium">Over</th>
                 <th className="text-center py-2 px-2 font-medium">Vertrek</th>
                 <th className="text-center py-2 px-2 font-medium">Spoor</th>
+                <th className="text-center py-2 px-2 font-medium"><Users className="h-3.5 w-3.5 mx-auto" /></th>
                 <th className="text-right py-2 px-2 font-medium">Aankomst</th>
               </tr>
             </thead>
@@ -74,6 +98,9 @@ export function RouteDisplay({ data }: RouteDisplayProps) {
                     </td>
                     <td className={`py-3 px-2 text-center font-bold ${trackChanged ? "text-destructive" : "text-secondary"}`}>
                       {trip.actualTrack || trip.track || "-"}
+                    </td>
+                    <td className="py-3 px-2 text-center">
+                      <CrowdIndicator level={trip.crowdForecast} />
                     </td>
                     <td className="py-3 px-2 text-right font-mono text-card-foreground">
                       <span className="inline-flex items-center gap-1">

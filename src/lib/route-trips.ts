@@ -19,6 +19,7 @@ export interface ParsedTrip {
   cancelled: boolean;
   minutesUntil: number;
   trainType?: string;
+  crowdForecast?: string;
 }
 
 function parseTrips(trips: Trip[]): ParsedTrip[] {
@@ -43,6 +44,7 @@ function parseTrips(trips: Trip[]): ParsedTrip[] {
         cancelled: trip.legs.some(l => l.cancelled),
         minutesUntil,
         trainType: firstLeg.product?.shortCategoryName,
+        crowdForecast: trip.crowdForecast,
       };
     })
     .filter((t): t is NonNullable<typeof t> => t !== null && t.minutesUntil >= -1)

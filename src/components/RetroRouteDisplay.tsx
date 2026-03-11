@@ -42,6 +42,8 @@ function RetroRow({ trip, isFastest, index }: { trip: ParsedTrip; isFastest: boo
   const arrTime = formatTime(trip.actualArrivalTime || trip.arrivalTime);
   const track = trip.actualTrack || trip.track || "-";
   const baseDelay = index * 250;
+  const crowdMap: Record<string, string> = { LOW: "●○○", MEDIUM: "●●○", HIGH: "●●●" };
+  const crowdLabel = crowdMap[trip.crowdForecast || ""] || "—";
 
   return (
     <tr className={`retro-table-row ${trip.cancelled ? "opacity-40 line-through" : ""}`}>
@@ -58,6 +60,11 @@ function RetroRow({ trip, isFastest, index }: { trip: ParsedTrip; isFastest: boo
       <td className="retro-td retro-td-type">
         <div className="flap-tile">
           <FlipText text={(trip.trainType || "Trein").padEnd(6, " ")} startDelay={baseDelay + 200} />
+        </div>
+      </td>
+      <td className="retro-td">
+        <div className="flap-tile flap-tile-sm" style={{ fontSize: '0.7rem', letterSpacing: 0 }}>
+          <FlipText text={crowdLabel} startDelay={baseDelay + 250} />
         </div>
       </td>
       <td className="retro-td">
@@ -109,6 +116,7 @@ export function RetroRouteDisplay({ data }: RetroRouteDisplayProps) {
                 <th className="retro-th">Vertrek</th>
                 <th className="retro-th">Spoor</th>
                 <th className="retro-th retro-th-type">Type</th>
+                <th className="retro-th">Drukte</th>
                 <th className="retro-th">Over</th>
                 <th className="retro-th">Aankomst</th>
               </tr>
