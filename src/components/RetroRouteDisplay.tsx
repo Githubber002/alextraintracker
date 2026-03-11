@@ -17,10 +17,7 @@ function formatMinutesUntil(minutes: number): string {
 
 function FlipChar({ char, delay = 0 }: { char: string; delay?: number }) {
   return (
-    <span
-      className="flip-char"
-      style={{ animationDelay: `${delay}ms` }}
-    >
+    <span className="flip-char" style={{ animationDelay: `${delay}ms` }}>
       {char}
     </span>
   );
@@ -30,7 +27,7 @@ function FlipText({ text, startDelay = 0 }: { text: string; startDelay?: number 
   return (
     <span className="inline-flex">
       {text.split("").map((char, i) => (
-        <FlipChar key={i} char={char} delay={startDelay + i * 30} />
+        <FlipChar key={i} char={char} delay={startDelay + i * 40} />
       ))}
     </span>
   );
@@ -44,52 +41,37 @@ function RetroRow({ trip, isFastest, index }: { trip: ParsedTrip; isFastest: boo
   const depTime = formatTime(trip.actualDepartureTime || trip.departureTime);
   const arrTime = formatTime(trip.actualArrivalTime || trip.arrivalTime);
   const track = trip.actualTrack || trip.track || "-";
-  const baseDelay = index * 200;
+  const baseDelay = index * 250;
 
   return (
-    <div
-      className={`retro-row ${trip.cancelled ? "opacity-40 line-through" : ""}`}
-    >
-      {/* Vertrek time */}
-      <div className="retro-cell retro-cell-time">
-        <span className="retro-label">Vertrek</span>
-        <span className={`retro-value ${delayed ? "retro-delayed" : ""}`}>
+    <tr className={`retro-table-row ${trip.cancelled ? "opacity-40 line-through" : ""}`}>
+      <td className="retro-td">
+        <div className={`flap-tile ${delayed ? "flap-delayed" : ""}`}>
           <FlipText text={depTime} startDelay={baseDelay} />
-        </span>
-      </div>
-
-      {/* Spoor */}
-      <div className={`retro-cell retro-cell-track ${trackChanged ? "retro-track-changed" : ""}`}>
-        <span className="retro-label">Spoor</span>
-        <span className="retro-value">
-          <FlipText text={track} startDelay={baseDelay + 150} />
-        </span>
-      </div>
-
-      {/* Type */}
-      <div className="retro-cell retro-cell-type">
-        <span className="retro-label">Type</span>
-        <span className="retro-value">
-          <FlipText text={trip.trainType || "Trein"} startDelay={baseDelay + 250} />
-        </span>
-      </div>
-
-      {/* Over */}
-      <div className="retro-cell retro-cell-mins">
-        <span className="retro-value retro-minutes">
-          <FlipText text={formatMinutesUntil(trip.minutesUntil)} startDelay={baseDelay + 100} />
-        </span>
-      </div>
-
-      {/* Aankomst */}
-      <div className="retro-cell retro-cell-arrival">
-        <span className="retro-label">Aankomst</span>
-        <span className="retro-value inline-flex items-center gap-1">
-          {isFastest && <Zap className="h-3 w-3 text-primary fill-primary" />}
-          <FlipText text={arrTime} startDelay={baseDelay + 350} />
-        </span>
-      </div>
-    </div>
+        </div>
+      </td>
+      <td className="retro-td">
+        <div className={`flap-tile flap-tile-sm ${trackChanged ? "flap-delayed" : ""}`}>
+          <FlipText text={track.padStart(2, " ")} startDelay={baseDelay + 120} />
+        </div>
+      </td>
+      <td className="retro-td retro-td-type">
+        <div className="flap-tile">
+          <FlipText text={(trip.trainType || "Trein").padEnd(6, " ")} startDelay={baseDelay + 200} />
+        </div>
+      </td>
+      <td className="retro-td">
+        <div className="flap-tile flap-tile-sm flap-minutes">
+          <FlipText text={formatMinutesUntil(trip.minutesUntil).padStart(3, " ")} startDelay={baseDelay + 80} />
+        </div>
+      </td>
+      <td className="retro-td">
+        <div className={`flap-tile ${isFastest ? "flap-fastest" : ""}`}>
+          {isFastest && <Zap className="h-3.5 w-3.5 flap-zap" />}
+          <FlipText text={arrTime} startDelay={baseDelay + 300} />
+        </div>
+      </td>
+    </tr>
   );
 }
 
@@ -101,39 +83,47 @@ export function RetroRouteDisplay({ data }: RetroRouteDisplayProps) {
 
   return (
     <div className="retro-board">
-      {/* Top header bar */}
       <div className="retro-header">
         <FlipText text={title.toUpperCase()} startDelay={0} />
       </div>
 
-      {data.error && (
-        <p className="retro-error">STORING</p>
-      )}
+      {data.error && <p className="retro-status">STORING</p>}
 
       {data.loading && (
-        <div className="retro-loading">
+        <div className="retro-body p-3">
           {[...Array(3)].map((_, i) => (
-            <div key={i} className="retro-row retro-row-loading">
-              <div className="retro-cell"><span className="retro-value"><FlipText text="--:--" /></span></div>
-            </div>
+            <div key={i} className="h-12 bg-white/10 rounded mb-1 animate-pulse" />
           ))}
         </div>
       )}
 
       {!data.loading && !data.error && data.trips.length === 0 && (
-        <p className="retro-empty">GEEN TREINEN</p>
+        <p className="retro-status">GEEN TREINEN</p>
       )}
 
       {!data.loading && data.trips.length > 0 && (
-        <div className="retro-rows">
-          {data.trips.map((trip, i) => (
-            <RetroRow
-              key={i}
-              trip={trip}
-              isFastest={i === fastestIdx && !trip.cancelled}
-              index={i}
-            />
-          ))}
+        <div className="retro-body">
+          <table className="retro-table">
+            <thead>
+              <tr>
+                <th className="retro-th">Vertrek</th>
+                <th className="retro-th">Spoor</th>
+                <th className="retro-th retro-th-type">Type</th>
+                <th className="retro-th">Over</th>
+                <th className="retro-th">Aankomst</th>
+              </tr>
+            </thead>
+            <tbody>
+              {data.trips.map((trip, i) => (
+                <RetroRow
+                  key={i}
+                  trip={trip}
+                  isFastest={i === fastestIdx && !trip.cancelled}
+                  index={i}
+                />
+              ))}
+            </tbody>
+          </table>
         </div>
       )}
     </div>
