@@ -59,6 +59,18 @@ Deno.serve(async (req) => {
       })
     }
 
+    if (action === 'disruptions') {
+      const isActive = url.searchParams.get('isActive') || 'true'
+      const nsUrl = `https://gateway.apiportal.ns.nl/reisinformatie-api/api/v3/disruptions?isActive=${isActive}`
+      const response = await fetch(nsUrl, {
+        headers: { 'Ocp-Apim-Subscription-Key': apiKey },
+      })
+      const data = await response.json()
+      return new Response(JSON.stringify(data), {
+        headers: { ...corsHeaders, 'Content-Type': 'application/json' },
+      })
+    }
+
     return new Response(JSON.stringify({ error: 'Unknown action' }), {
       status: 400,
       headers: { ...corsHeaders, 'Content-Type': 'application/json' },

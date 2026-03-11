@@ -147,6 +147,42 @@
   }
 }
 
+/* Disruption ticker */
+@layer components {
+  .disruption-ticker {
+    @apply flex items-center overflow-hidden;
+    background: hsl(var(--ns-yellow));
+    height: 28px;
+  }
+
+  .disruption-ticker-icon {
+    @apply flex-shrink-0 px-2 flex items-center;
+    color: hsl(var(--ns-blue));
+  }
+
+  .disruption-ticker-track {
+    @apply flex-1 overflow-hidden;
+  }
+
+  .disruption-ticker-text {
+    @apply flex whitespace-nowrap;
+    animation: ticker-scroll 30s linear infinite;
+    font-family: 'Space Grotesk', sans-serif;
+    font-size: 0.75rem;
+    font-weight: 600;
+    color: hsl(var(--ns-blue));
+  }
+
+  .disruption-ticker-text span {
+    @apply pr-16;
+  }
+
+  @keyframes ticker-scroll {
+    0% { transform: translateX(0); }
+    100% { transform: translateX(-50%); }
+  }
+}
+
 @layer base {
   :root {
     --background: 220 20% 97%;
