@@ -197,7 +197,7 @@ const Index = () => {
               {reversed && <ChevronLeft className="h-3 w-3 text-secondary-foreground animate-pulse" />}
             </div>
           </div>
-          <p className="text-[10px] text-muted-foreground text-center mt-1">swipe of tik om te wisselen</p>
+          <p className="text-[10px] text-muted-foreground text-center mt-1">{t("swipeHint")}</p>
         </div>
       )}
 
