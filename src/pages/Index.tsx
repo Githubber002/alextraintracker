@@ -188,7 +188,11 @@ const Index = () => {
           )}
 
           {tripData.map((data, i) => (
-            <RouteDisplay key={`${data.fromStationCode}-${data.route.toStation.code}-${i}`} data={data} />
+            retro ? (
+              <RetroRouteDisplay key={`retro-${data.fromStationCode}-${data.route.toStation.code}-${i}`} data={data} />
+            ) : (
+              <RouteDisplay key={`${data.fromStationCode}-${data.route.toStation.code}-${i}`} data={data} />
+            )
           ))}
         </main>
       </div>
