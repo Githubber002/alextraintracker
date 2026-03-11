@@ -5,9 +5,11 @@ import { RetroRouteDisplay } from "@/components/RetroRouteDisplay";
 import { RouteSettings } from "@/components/RouteSettings";
 import { loadRoutes, RouteConfig } from "@/lib/ns-api";
 import { fetchRouteTrips, RouteTripData } from "@/lib/route-trips";
-import { Train, Settings, RefreshCw, ChevronLeft, ChevronRight, Tv, Monitor, Sun, Moon } from "lucide-react";
+import { Train, Settings, RefreshCw, ChevronLeft, ChevronRight, Tv, Monitor, Sun, Moon, Globe } from "lucide-react";
+import { useI18n, LANGUAGES } from "@/lib/i18n";
 
 const Index = () => {
+  const { t, lang, setLang } = useI18n();
   const [routes, setRoutes] = useState<RouteConfig[]>([]);
   const [tripData, setTripData] = useState<RouteTripData[]>([]);
   const [loading, setLoading] = useState(false);
@@ -92,7 +94,7 @@ const Index = () => {
         <div className="max-w-2xl mx-auto flex items-center justify-between">
           <div className="flex items-center gap-3">
             <Train className="h-6 w-6 text-secondary-foreground" />
-            <h1 className="text-lg font-bold text-secondary-foreground tracking-tight">Vertrektijden</h1>
+            <h1 className="text-lg font-bold text-secondary-foreground tracking-tight">{t("departures")}</h1>
           </div>
           <div className="flex items-center gap-1">
             {/* Retro toggle */}
@@ -108,17 +110,17 @@ const Index = () => {
                   ? "bg-primary text-primary-foreground" 
                   : "text-secondary-foreground hover:bg-secondary-foreground/10"
               }`}
-              title={retro ? "Moderne weergave" : "Retro klapperbord"}
+              title={retro ? t("modernView") : t("retroView")}
             >
               {retro ? <Tv className="h-4 w-4" /> : <Monitor className="h-4 w-4" />}
-              <span className="hidden sm:inline">{retro ? "Retro" : "Modern"}</span>
+              <span className="hidden sm:inline">{retro ? t("retro") : t("modern")}</span>
             </button>
 
             {/* Dark mode toggle */}
             <button
               onClick={() => setDark(d => !d)}
               className="p-2 rounded-lg hover:bg-secondary-foreground/10 transition-colors text-secondary-foreground"
-              title={dark ? "Licht thema" : "Donker thema"}
+              title={dark ? t("lightTheme") : t("darkTheme")}
             >
               {dark ? <Sun className="h-4 w-4" /> : <Moon className="h-4 w-4" />}
             </button>
@@ -133,6 +135,30 @@ const Index = () => {
                 <RefreshCw className={`h-4 w-4 ${loading ? "animate-spin" : ""}`} />
               </button>
             )}
+
+            {/* Language picker */}
+            <div className="relative group">
+              <button
+                className="p-2 rounded-lg hover:bg-secondary-foreground/10 transition-colors text-secondary-foreground text-xs font-medium"
+                title="Language"
+              >
+                {LANGUAGES.find(l => l.code === lang)?.flag || "🌐"}
+              </button>
+              <div className="absolute right-0 top-full mt-1 bg-card border border-border rounded-lg shadow-lg overflow-hidden hidden group-hover:block z-50">
+                {LANGUAGES.map(l => (
+                  <button
+                    key={l.code}
+                    onClick={() => setLang(l.code)}
+                    className={`w-full px-3 py-2 text-left text-xs flex items-center gap-2 hover:bg-muted transition-colors ${
+                      lang === l.code ? "bg-muted font-semibold text-card-foreground" : "text-muted-foreground"
+                    }`}
+                  >
+                    <span>{l.flag}</span>
+                    <span>{l.label}</span>
+                  </button>
+                ))}
+              </div>
+            </div>
 
             {/* Settings */}
             <button
@@ -162,16 +188,16 @@ const Index = () => {
               {!reversed && <ChevronRight className="h-3 w-3 text-secondary-foreground animate-pulse" />}
               <span className={`text-xs font-semibold transition-colors ${
                 !reversed ? "text-secondary-foreground" : "text-muted-foreground"
-              }`}>Heen</span>
+              }`}>{t("outbound")}</span>
             </div>
             <div className="relative z-10 flex-1 flex items-center justify-center gap-1">
               <span className={`text-xs font-semibold transition-colors ${
                 reversed ? "text-secondary-foreground" : "text-muted-foreground"
-              }`}>Terug</span>
+              }`}>{t("return")}</span>
               {reversed && <ChevronLeft className="h-3 w-3 text-secondary-foreground animate-pulse" />}
             </div>
           </div>
-          <p className="text-[10px] text-muted-foreground text-center mt-1">swipe of tik om te wisselen</p>
+          <p className="text-[10px] text-muted-foreground text-center mt-1">{t("swipeHint")}</p>
         </div>
       )}
 
@@ -191,12 +217,12 @@ const Index = () => {
           {routes.length === 0 && !showSettings && (
             <div className="text-center py-16 text-muted-foreground">
               <Train className="h-12 w-12 mx-auto mb-4 opacity-40" />
-              <p className="text-lg font-medium">Geen routes ingesteld</p>
+              <p className="text-lg font-medium">{t("noRoutes")}</p>
               <button
                 onClick={() => setShowSettings(true)}
                 className="mt-4 px-6 py-3 bg-secondary text-secondary-foreground rounded-lg font-medium hover:bg-secondary/90 transition-colors"
               >
-                Routes instellen
+                {t("setupRoutes")}
               </button>
             </div>
           )}
@@ -232,14 +258,15 @@ const Index = () => {
         </p>
         <details className="text-center">
           <summary className="text-[10px] text-muted-foreground cursor-pointer hover:text-foreground transition-colors">
-            Release notes
+            {t("releaseNotes")}
           </summary>
           <ul className="mt-2 text-[10px] text-muted-foreground space-y-1 list-none">
-            <li>⚡ Snelste trein indicator</li>
-            <li>📺 Retro split-flap bord modus</li>
-            <li>⚠️ Live storingen ticker</li>
-            <li>↔ Heen/terug wissel met swipe</li>
-            <li>🚂 Multi-route configuratie</li>
+            <li>🌐 Multi-language (NL/EN/ES/HI/TR)</li>
+            <li>⚡ Fastest train indicator</li>
+            <li>📺 Retro split-flap board mode</li>
+            <li>⚠️ Live disruption ticker</li>
+            <li>↔ Outbound/return swap</li>
+            <li>🚂 Multi-route config</li>
           </ul>
         </details>
       </footer>

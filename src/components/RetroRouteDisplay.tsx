@@ -1,6 +1,7 @@
 import { RouteTripData, ParsedTrip } from "@/lib/route-trips";
 import { format } from "date-fns";
 import { Zap } from "lucide-react";
+import { useI18n } from "@/lib/i18n";
 
 interface RetroRouteDisplayProps {
   data: RouteTripData;
@@ -88,6 +89,7 @@ function RetroRow({ trip, isFastest, index }: { trip: ParsedTrip; isFastest: boo
 }
 
 export function RetroRouteDisplay({ data }: RetroRouteDisplayProps) {
+  const { t } = useI18n();
   const title = `${data.fromStationName} → ${data.route.toStation.namen.lang}`;
 
   const arrivals = data.trips.map(t => new Date(t.actualArrivalTime || t.arrivalTime).getTime());
@@ -99,7 +101,7 @@ export function RetroRouteDisplay({ data }: RetroRouteDisplayProps) {
         <FlipText text={title.toUpperCase()} startDelay={0} />
       </div>
 
-      {data.error && <p className="retro-status">STORING</p>}
+      {data.error && <p className="retro-status">{t("disruptionRetro")}</p>}
 
       {data.loading && (
         <div className="retro-body p-3">
@@ -110,7 +112,7 @@ export function RetroRouteDisplay({ data }: RetroRouteDisplayProps) {
       )}
 
       {!data.loading && !data.error && data.trips.length === 0 && (
-        <p className="retro-status">GEEN TREINEN</p>
+        <p className="retro-status">{t("noTrainsRetro")}</p>
       )}
 
       {!data.loading && data.trips.length > 0 && (
@@ -118,13 +120,13 @@ export function RetroRouteDisplay({ data }: RetroRouteDisplayProps) {
           <table className="retro-table">
             <thead>
               <tr>
-                <th className="retro-th">Vertrek</th>
-                <th className="retro-th">Spoor</th>
-                <th className="retro-th retro-th-type">Type</th>
-                <th className="retro-th">Drukte</th>
-                <th className="retro-th">Ovst.</th>
-                <th className="retro-th">Over</th>
-                <th className="retro-th">Aankomst</th>
+                <th className="retro-th">{t("departure")}</th>
+                <th className="retro-th">{t("track")}</th>
+                <th className="retro-th retro-th-type">{t("type")}</th>
+                <th className="retro-th">{t("crowd")}</th>
+                <th className="retro-th">{t("transfers")}</th>
+                <th className="retro-th">{t("over")}</th>
+                <th className="retro-th">{t("arrival")}</th>
               </tr>
             </thead>
             <tbody>

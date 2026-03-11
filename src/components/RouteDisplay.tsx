@@ -1,6 +1,7 @@
 import { RouteTripData } from "@/lib/route-trips";
 import { format } from "date-fns";
 import { Zap, Users, ArrowLeftRight } from "lucide-react";
+import { useI18n } from "@/lib/i18n";
 
 function CrowdIndicator({ level }: { level?: string }) {
   if (!level) return null;
@@ -33,13 +34,14 @@ function formatTime(dateStr: string): string {
   return format(new Date(dateStr), "HH:mm");
 }
 
-function formatMinutesUntil(minutes: number): string {
-  if (minutes <= 0) return "vertrekt nu";
-  return `${minutes} min.`;
-}
-
 export function RouteDisplay({ data }: RouteDisplayProps) {
+  const { t } = useI18n();
   const title = `${data.fromStationName} → ${data.route.toStation.namen.lang}`;
+
+  function formatMinutesUntil(minutes: number): string {
+    if (minutes <= 0) return t("departsNow");
+    return `${minutes} ${t("min")}`;
+  }
 
   return (
     <div className="bg-card rounded-xl p-4 border border-border">
@@ -59,7 +61,7 @@ export function RouteDisplay({ data }: RouteDisplayProps) {
       )}
 
       {!data.loading && !data.error && data.trips.length === 0 && (
-        <p className="text-muted-foreground text-sm py-4 text-center">Geen treinen gevonden</p>
+        <p className="text-muted-foreground text-sm py-4 text-center">{t("noTrains")}</p>
       )}
 
       {!data.loading && data.trips.length > 0 && (() => {
@@ -71,12 +73,12 @@ export function RouteDisplay({ data }: RouteDisplayProps) {
           <table className="w-full text-sm">
             <thead>
               <tr className="text-muted-foreground">
-                <th className="text-left py-2 px-2 font-medium">Over</th>
-                <th className="text-center py-2 px-2 font-medium">Vertrek</th>
-                <th className="text-center py-2 px-2 font-medium">Spoor</th>
+                <th className="text-left py-2 px-2 font-medium">{t("over")}</th>
+                <th className="text-center py-2 px-2 font-medium">{t("departure")}</th>
+                <th className="text-center py-2 px-2 font-medium">{t("track")}</th>
                 <th className="text-center py-2 px-2 font-medium"><Users className="h-3.5 w-3.5 mx-auto" /></th>
                 <th className="text-center py-2 px-2 font-medium"><ArrowLeftRight className="h-3.5 w-3.5 mx-auto" /></th>
-                <th className="text-right py-2 px-2 font-medium">Aankomst</th>
+                <th className="text-right py-2 px-2 font-medium">{t("arrival")}</th>
               </tr>
             </thead>
             <tbody>

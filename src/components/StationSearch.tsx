@@ -1,6 +1,7 @@
 import { useState, useEffect, useCallback } from "react";
 import { searchStations, Station } from "@/lib/ns-api";
 import { Search, MapPin } from "lucide-react";
+import { useI18n } from "@/lib/i18n";
 
 interface StationSearchProps {
   onSelect: (station: Station) => void;
@@ -9,6 +10,7 @@ interface StationSearchProps {
 }
 
 export function StationSearch({ onSelect, selectedStation, compact }: StationSearchProps) {
+  const { t } = useI18n();
   const [query, setQuery] = useState(selectedStation?.namen.lang || "");
   const [results, setResults] = useState<Station[]>([]);
   const [isOpen, setIsOpen] = useState(false);
@@ -51,7 +53,7 @@ export function StationSearch({ onSelect, selectedStation, compact }: StationSea
         <Search className={`absolute ${compact ? "left-3 h-4 w-4" : "left-4 h-5 w-5"} top-1/2 -translate-y-1/2 text-muted-foreground`} />
         <input
           type="text"
-          placeholder="Zoek station..."
+          placeholder={t("searchStation")}
           value={query}
           onChange={(e) => {
             setQuery(e.target.value);
@@ -87,7 +89,7 @@ export function StationSearch({ onSelect, selectedStation, compact }: StationSea
 
       {isOpen && loading && (
         <div className="absolute z-50 w-full mt-1 bg-card border border-border rounded-lg shadow-lg p-3 text-center text-sm text-muted-foreground">
-          Zoeken...
+          {t("searching")}
         </div>
       )}
     </div>

@@ -2,6 +2,7 @@ import { useState } from "react";
 import { RouteConfig, Station, saveRoutes } from "@/lib/ns-api";
 import { StationSearch } from "./StationSearch";
 import { Plus, Trash2, ArrowRight, X, Save } from "lucide-react";
+import { useI18n } from "@/lib/i18n";
 
 interface RouteSettingsProps {
   routes: RouteConfig[];
@@ -11,6 +12,7 @@ interface RouteSettingsProps {
 
 export function RouteSettings({ routes: initialRoutes, onSave, onClose }: RouteSettingsProps) {
   const [routes, setRoutes] = useState<RouteConfig[]>(initialRoutes);
+  const { t } = useI18n();
 
   const addRoute = () => {
     if (routes.length >= 5) return;
@@ -63,21 +65,21 @@ export function RouteSettings({ routes: initialRoutes, onSave, onClose }: RouteS
     <div className="fixed inset-0 z-50 bg-background/80 backdrop-blur-sm flex items-start justify-center pt-8 px-4 overflow-y-auto">
       <div className="bg-card border border-border rounded-xl shadow-xl w-full max-w-lg p-5 mb-8">
         <div className="flex items-center justify-between mb-6">
-          <h2 className="text-xl font-bold text-card-foreground">Routes instellen</h2>
+          <h2 className="text-xl font-bold text-card-foreground">{t("configureRoutes")}</h2>
           <button onClick={onClose} className="p-2 hover:bg-muted rounded-lg transition-colors">
             <X className="h-5 w-5 text-muted-foreground" />
           </button>
         </div>
 
         <p className="text-xs text-muted-foreground mb-4">
-          Stel je heenroute in. De terugreis wordt automatisch omgedraaid via het ⇄ icoon.
+          {t("routeDescription")}
         </p>
 
         <div className="space-y-6">
           {routes.map((route, routeIndex) => (
             <div key={route.id} className="bg-muted/50 rounded-lg p-4 border border-border">
               <div className="flex items-center justify-between mb-3">
-                <span className="text-sm font-semibold text-muted-foreground">Route {routeIndex + 1}</span>
+                <span className="text-sm font-semibold text-muted-foreground">{t("route")} {routeIndex + 1}</span>
                 <button
                   onClick={() => removeRoute(route.id)}
                   className="p-1.5 hover:bg-destructive/10 rounded-md transition-colors text-destructive"
@@ -87,7 +89,7 @@ export function RouteSettings({ routes: initialRoutes, onSave, onClose }: RouteS
               </div>
 
               <div className="space-y-2 mb-3">
-                <label className="text-xs font-medium text-muted-foreground uppercase tracking-wider">Van (max 2 stations)</label>
+                <label className="text-xs font-medium text-muted-foreground uppercase tracking-wider">{t("from")}</label>
                 {route.fromStations.map((fromStation, i) => (
                   <div key={i} className="flex items-center gap-2">
                     <div className="flex-1">
@@ -112,7 +114,7 @@ export function RouteSettings({ routes: initialRoutes, onSave, onClose }: RouteS
                     onClick={() => addFromStation(route.id)}
                     className="text-xs text-secondary hover:text-secondary/80 font-medium flex items-center gap-1"
                   >
-                    <Plus className="h-3 w-3" /> Nog een vertrekstation toevoegen
+                    <Plus className="h-3 w-3" /> {t("addDepartureStation")}
                   </button>
                 )}
               </div>
@@ -122,7 +124,7 @@ export function RouteSettings({ routes: initialRoutes, onSave, onClose }: RouteS
               </div>
 
               <div>
-                <label className="text-xs font-medium text-muted-foreground uppercase tracking-wider">Naar</label>
+                <label className="text-xs font-medium text-muted-foreground uppercase tracking-wider">{t("to")}</label>
                 <div className="mt-1">
                   <StationSearch
                     onSelect={(s) => updateToStation(route.id, s)}
@@ -141,7 +143,7 @@ export function RouteSettings({ routes: initialRoutes, onSave, onClose }: RouteS
             className="w-full mt-4 py-3 border-2 border-dashed border-border rounded-lg text-muted-foreground 
                        hover:border-secondary hover:text-secondary transition-colors flex items-center justify-center gap-2 text-sm font-medium"
           >
-            <Plus className="h-4 w-4" /> Route toevoegen
+            <Plus className="h-4 w-4" /> {t("addRoute")}
           </button>
         )}
 
@@ -150,13 +152,13 @@ export function RouteSettings({ routes: initialRoutes, onSave, onClose }: RouteS
             onClick={onClose}
             className="flex-1 py-3 bg-muted text-muted-foreground rounded-lg font-medium hover:bg-muted/80 transition-colors"
           >
-            Annuleren
+            {t("cancel")}
           </button>
           <button
             onClick={handleSave}
             className="flex-1 py-3 bg-secondary text-secondary-foreground rounded-lg font-medium hover:bg-secondary/90 transition-colors flex items-center justify-center gap-2"
           >
-            <Save className="h-4 w-4" /> Opslaan
+            <Save className="h-4 w-4" /> {t("save")}
           </button>
         </div>
       </div>
