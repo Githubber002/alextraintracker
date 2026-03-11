@@ -115,7 +115,7 @@ const Index = () => {
         </div>
       </header>
 
-      {/* Swipeable direction bar */}
+      <DisruptionTicker />
       {routes.length > 0 && (
         <div
           onClick={() => setReversed(r => !r)}
