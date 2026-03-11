@@ -20,6 +20,7 @@ export interface ParsedTrip {
   minutesUntil: number;
   trainType?: string;
   crowdForecast?: string;
+  transfers: number;
 }
 
 function parseTrips(trips: Trip[]): ParsedTrip[] {
