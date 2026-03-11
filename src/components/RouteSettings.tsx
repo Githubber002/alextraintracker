@@ -89,7 +89,7 @@ export function RouteSettings({ routes: initialRoutes, onSave, onClose }: RouteS
               </div>
 
               <div className="space-y-2 mb-3">
-                <label className="text-xs font-medium text-muted-foreground uppercase tracking-wider">Van (max 2 stations)</label>
+                <label className="text-xs font-medium text-muted-foreground uppercase tracking-wider">{t("from")}</label>
                 {route.fromStations.map((fromStation, i) => (
                   <div key={i} className="flex items-center gap-2">
                     <div className="flex-1">
