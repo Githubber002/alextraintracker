@@ -143,7 +143,7 @@ export function RouteSettings({ routes: initialRoutes, onSave, onClose }: RouteS
             className="w-full mt-4 py-3 border-2 border-dashed border-border rounded-lg text-muted-foreground 
                        hover:border-secondary hover:text-secondary transition-colors flex items-center justify-center gap-2 text-sm font-medium"
           >
-            <Plus className="h-4 w-4" /> Route toevoegen
+            <Plus className="h-4 w-4" /> {t("addRoute")}
           </button>
         )}
 
