@@ -79,7 +79,7 @@ export function RouteSettings({ routes: initialRoutes, onSave, onClose }: RouteS
           {routes.map((route, routeIndex) => (
             <div key={route.id} className="bg-muted/50 rounded-lg p-4 border border-border">
               <div className="flex items-center justify-between mb-3">
-                <span className="text-sm font-semibold text-muted-foreground">Route {routeIndex + 1}</span>
+                <span className="text-sm font-semibold text-muted-foreground">{t("route")} {routeIndex + 1}</span>
                 <button
                   onClick={() => removeRoute(route.id)}
                   className="p-1.5 hover:bg-destructive/10 rounded-md transition-colors text-destructive"
