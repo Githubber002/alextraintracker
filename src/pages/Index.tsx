@@ -13,6 +13,7 @@ const Index = () => {
   const [showSettings, setShowSettings] = useState(false);
   const [lastUpdate, setLastUpdate] = useState<Date | null>(null);
   const [reversed, setReversed] = useState(false);
+  const [retro, setRetro] = useState(() => localStorage.getItem('retro-mode') === 'true');
 
   // Swipe handling
   const touchStartX = useRef(0);
