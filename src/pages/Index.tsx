@@ -94,7 +94,7 @@ const Index = () => {
         <div className="max-w-2xl mx-auto flex items-center justify-between">
           <div className="flex items-center gap-3">
             <Train className="h-6 w-6 text-secondary-foreground" />
-            <h1 className="text-lg font-bold text-secondary-foreground tracking-tight">Vertrektijden</h1>
+            <h1 className="text-lg font-bold text-secondary-foreground tracking-tight">{t("departures")}</h1>
           </div>
           <div className="flex items-center gap-1">
             {/* Retro toggle */}
