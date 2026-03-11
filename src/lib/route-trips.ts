@@ -19,6 +19,7 @@ export interface ParsedTrip {
   cancelled: boolean;
   minutesUntil: number;
   trainType?: string;
+  crowdForecast?: string;
 }
 
 function parseTrips(trips: Trip[]): ParsedTrip[] {
