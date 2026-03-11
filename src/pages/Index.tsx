@@ -49,11 +49,15 @@ const Index = () => {
   // Reverse routes: toStation becomes single fromStation, all fromStations become separate "toStation" routes
   const activeRoutes = useMemo(() => {
     if (!reversed) return routes;
-    return routes.map(r => ({
-      ...r,
-      fromStations: [r.toStation],
-      toStation: r.fromStations[0], // use first fromStation as destination
-    }));
+    // For each original route, create a reversed route per fromStation
+    return routes.flatMap(r =>
+      r.fromStations.map(fs => ({
+        ...r,
+        id: `${r.id}-rev-${fs.code}`,
+        fromStations: [r.toStation],
+        toStation: fs,
+      }))
+    );
   }, [routes, reversed]);
 
   useEffect(() => {
