@@ -89,7 +89,7 @@ export function StationSearch({ onSelect, selectedStation, compact }: StationSea
 
       {isOpen && loading && (
         <div className="absolute z-50 w-full mt-1 bg-card border border-border rounded-lg shadow-lg p-3 text-center text-sm text-muted-foreground">
-          Zoeken...
+          {t("searching")}
         </div>
       )}
     </div>
