@@ -38,6 +38,11 @@ export function RouteDisplay({ data }: RouteDisplayProps) {
   const { t } = useI18n();
   const title = `${data.fromStationName} → ${data.route.toStation.namen.lang}`;
 
+  function formatMinutesUntil(minutes: number): string {
+    if (minutes <= 0) return t("departsNow");
+    return `${minutes} ${t("min")}`;
+  }
+
   return (
     <div className="bg-card rounded-xl p-4 border border-border">
       <h3 className="text-lg font-bold text-card-foreground mb-1">{title}</h3>
