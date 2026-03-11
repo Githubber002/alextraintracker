@@ -107,12 +107,12 @@ export function RouteSettings({ routes: initialRoutes, onSave, onClose }: RouteS
                     )}
                   </div>
                 ))}
-                {route.fromStations.length < 2 && (
+                {route.fromStations.length < 2 && route.fromStations[0] && (
                   <button
                     onClick={() => addFromStation(route.id)}
                     className="text-xs text-secondary hover:text-secondary/80 font-medium flex items-center gap-1"
                   >
-                    <Plus className="h-3 w-3" /> Nog een vertrekstation
+                    <Plus className="h-3 w-3" /> Nog een vertrekstation toevoegen
                   </button>
                 )}
               </div>
