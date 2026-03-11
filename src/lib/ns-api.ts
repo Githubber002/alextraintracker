@@ -48,6 +48,7 @@ export interface Trip {
   plannedDurationInMinutes: number;
   actualDurationInMinutes?: number;
   crowdForecast?: string;
+  transfers: number;
 }
 
 export interface RouteConfig {

@@ -46,6 +46,7 @@ function parseTrips(trips: Trip[]): ParsedTrip[] {
         minutesUntil,
         trainType: firstLeg.product?.shortCategoryName,
         crowdForecast: trip.crowdForecast,
+        transfers: trip.transfers,
       };
     })
     .filter((t): t is NonNullable<typeof t> => t !== null && t.minutesUntil >= -1)
