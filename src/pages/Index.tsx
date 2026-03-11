@@ -110,7 +110,7 @@ const Index = () => {
                   ? "bg-primary text-primary-foreground" 
                   : "text-secondary-foreground hover:bg-secondary-foreground/10"
               }`}
-              title={retro ? "Moderne weergave" : "Retro klapperbord"}
+              title={retro ? t("modernView") : t("retroView")}
             >
               {retro ? <Tv className="h-4 w-4" /> : <Monitor className="h-4 w-4" />}
               <span className="hidden sm:inline">{retro ? "Retro" : "Modern"}</span>
