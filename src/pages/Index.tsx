@@ -9,6 +9,7 @@ import { Train, Settings, RefreshCw, ChevronLeft, ChevronRight, Tv, Monitor, Sun
 import { useI18n, LANGUAGES } from "@/lib/i18n";
 
 const Index = () => {
+  const { t, lang, setLang } = useI18n();
   const [routes, setRoutes] = useState<RouteConfig[]>([]);
   const [tripData, setTripData] = useState<RouteTripData[]>([]);
   const [loading, setLoading] = useState(false);
