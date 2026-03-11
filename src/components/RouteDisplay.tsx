@@ -74,6 +74,7 @@ export function RouteDisplay({ data }: RouteDisplayProps) {
                 <th className="text-left py-2 px-2 font-medium">Over</th>
                 <th className="text-center py-2 px-2 font-medium">Vertrek</th>
                 <th className="text-center py-2 px-2 font-medium">Spoor</th>
+                <th className="text-center py-2 px-2 font-medium"><Users className="h-3.5 w-3.5 mx-auto" /></th>
                 <th className="text-right py-2 px-2 font-medium">Aankomst</th>
               </tr>
             </thead>
