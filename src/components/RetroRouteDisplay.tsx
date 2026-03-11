@@ -101,7 +101,7 @@ export function RetroRouteDisplay({ data }: RetroRouteDisplayProps) {
         <FlipText text={title.toUpperCase()} startDelay={0} />
       </div>
 
-      {data.error && <p className="retro-status">STORING</p>}
+      {data.error && <p className="retro-status">{t("disruptionRetro")}</p>}
 
       {data.loading && (
         <div className="retro-body p-3">
@@ -112,7 +112,7 @@ export function RetroRouteDisplay({ data }: RetroRouteDisplayProps) {
       )}
 
       {!data.loading && !data.error && data.trips.length === 0 && (
-        <p className="retro-status">GEEN TREINEN</p>
+        <p className="retro-status">{t("noTrainsRetro")}</p>
       )}
 
       {!data.loading && data.trips.length > 0 && (
