@@ -15,6 +15,17 @@ const Index = () => {
   const [lastUpdate, setLastUpdate] = useState<Date | null>(null);
   const [reversed, setReversed] = useState(false);
   const [retro, setRetro] = useState(() => localStorage.getItem('retro-mode') === 'true');
+  const [dark, setDark] = useState(() => {
+    const saved = localStorage.getItem('dark-mode');
+    if (saved !== null) return saved === 'true';
+    return window.matchMedia('(prefers-color-scheme: dark)').matches;
+  });
+
+  // Apply dark class to html
+  useEffect(() => {
+    document.documentElement.classList.toggle('dark', dark);
+    localStorage.setItem('dark-mode', String(dark));
+  }, [dark]);
 
   // Swipe handling
   const touchStartX = useRef(0);
