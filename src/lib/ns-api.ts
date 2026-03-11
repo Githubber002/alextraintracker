@@ -88,6 +88,21 @@ export async function fetchTrips(fromStation: string, toStation: string): Promis
   return result.trips || [];
 }
 
+export interface Disruption {
+  id: string;
+  type: string;
+  title: string;
+  isActive: boolean;
+  start?: string;
+  end?: string;
+  timespans?: { cause?: { label?: string }; advice?: { label?: string } }[];
+}
+
+export async function fetchDisruptions(): Promise<Disruption[]> {
+  const result = await fetchFromNS({ action: 'disruptions', isActive: 'true' });
+  return result || [];
+}
+
 // Route storage helpers
 const ROUTES_KEY = 'train-routes';
 
