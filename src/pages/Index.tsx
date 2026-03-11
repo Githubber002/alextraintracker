@@ -1,9 +1,10 @@
 import { useState, useEffect, useCallback, useRef, useMemo } from "react";
 import { RouteDisplay } from "@/components/RouteDisplay";
+import { RetroRouteDisplay } from "@/components/RetroRouteDisplay";
 import { RouteSettings } from "@/components/RouteSettings";
 import { loadRoutes, RouteConfig } from "@/lib/ns-api";
 import { fetchRouteTrips, RouteTripData } from "@/lib/route-trips";
-import { Train, Settings, RefreshCw, ChevronLeft, ChevronRight } from "lucide-react";
+import { Train, Settings, RefreshCw, ChevronLeft, ChevronRight, Monitor, Tv } from "lucide-react";
 
 const Index = () => {
   const [routes, setRoutes] = useState<RouteConfig[]>([]);
