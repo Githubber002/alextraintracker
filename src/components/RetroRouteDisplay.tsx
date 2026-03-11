@@ -42,6 +42,8 @@ function RetroRow({ trip, isFastest, index }: { trip: ParsedTrip; isFastest: boo
   const arrTime = formatTime(trip.actualArrivalTime || trip.arrivalTime);
   const track = trip.actualTrack || trip.track || "-";
   const baseDelay = index * 250;
+  const crowdMap: Record<string, string> = { LOW: "●○○", MEDIUM: "●●○", HIGH: "●●●" };
+  const crowdLabel = crowdMap[trip.crowdForecast || ""] || "—";
 
   return (
     <tr className={`retro-table-row ${trip.cancelled ? "opacity-40 line-through" : ""}`}>
