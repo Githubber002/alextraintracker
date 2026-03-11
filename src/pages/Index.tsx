@@ -136,6 +136,30 @@ const Index = () => {
               </button>
             )}
 
+            {/* Language picker */}
+            <div className="relative group">
+              <button
+                className="p-2 rounded-lg hover:bg-secondary-foreground/10 transition-colors text-secondary-foreground text-xs font-medium"
+                title="Language"
+              >
+                {LANGUAGES.find(l => l.code === lang)?.flag || "🌐"}
+              </button>
+              <div className="absolute right-0 top-full mt-1 bg-card border border-border rounded-lg shadow-lg overflow-hidden hidden group-hover:block z-50">
+                {LANGUAGES.map(l => (
+                  <button
+                    key={l.code}
+                    onClick={() => setLang(l.code)}
+                    className={`w-full px-3 py-2 text-left text-xs flex items-center gap-2 hover:bg-muted transition-colors ${
+                      lang === l.code ? "bg-muted font-semibold text-card-foreground" : "text-muted-foreground"
+                    }`}
+                  >
+                    <span>{l.flag}</span>
+                    <span>{l.label}</span>
+                  </button>
+                ))}
+              </div>
+            </div>
+
             {/* Settings */}
             <button
               onClick={() => setShowSettings(true)}
