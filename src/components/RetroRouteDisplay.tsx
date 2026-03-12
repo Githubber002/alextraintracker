@@ -126,13 +126,13 @@ function RetroRow({ trip, isFastest, index, animate }: { trip: ParsedTrip; isFas
         </div>
       </td>
       <td className="retro-td">
-        <div className={`flap-tile ${isFastest ? "flap-fastest" : ""} ${arrDelayed ? "flap-delayed" : ""}`} style={{ minWidth: 95, display: 'flex', alignItems: 'center', justifyContent: 'center', gap: 0 }}>
-          <span style={{ width: 16, flexShrink: 0, display: 'flex', justifyContent: 'center' }}>
-            {isFastest && <Zap className="h-3.5 w-3.5 flap-zap" />}
+        <div className={`flap-tile ${isFastest ? "flap-fastest" : ""} ${arrDelayed ? "flap-delayed" : ""}`} style={{ minWidth: 70, display: 'flex', alignItems: 'center', justifyContent: 'center', gap: 0 }}>
+          <span style={{ width: 12, flexShrink: 0, display: 'flex', justifyContent: 'center' }}>
+            {isFastest && <Zap className="h-2.5 w-2.5 flap-zap" />}
           </span>
           <span style={{ display: 'inline-flex', alignItems: 'center' }}>
             {arrDelayed && (
-              <span style={{ fontSize: '0.55rem', textDecoration: 'line-through', opacity: 0.5, marginRight: 4 }}>
+              <span style={{ fontSize: '0.45rem', textDecoration: 'line-through', opacity: 0.5, marginRight: 2 }}>
                 <FlipText text={plannedArrTime} startDelay={baseDelay + 300} animate={animate} />
               </span>
             )}

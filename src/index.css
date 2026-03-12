@@ -122,7 +122,12 @@
 
   .flap-minutes {
     color: hsl(215 70% 30%);
-    font-size: 1rem;
+    font-size: 0.75rem;
+  }
+  @media (min-width: 640px) {
+    .flap-minutes {
+      font-size: 1rem;
+    }
   }
 
   .flap-fastest {
