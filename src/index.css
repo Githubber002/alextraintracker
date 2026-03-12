@@ -119,18 +119,32 @@
     font-size: 1.1rem;
   }
 
-  /* Flip character animation */
-  @keyframes flip-in {
+  /* Split-flap character animation — realistic Solari board */
+  .flip-char {
+    display: inline-block;
+    position: relative;
+    min-width: 0.62em;
+    text-align: center;
+    perspective: 200px;
+    animation: splitflap-reveal 0.4s ease-out both;
+  }
+
+  @keyframes splitflap-reveal {
     0% {
       transform: rotateX(90deg);
       opacity: 0;
     }
-    40% {
-      transform: rotateX(-8deg);
+    30% {
       opacity: 1;
     }
-    65% {
-      transform: rotateX(4deg);
+    50% {
+      transform: rotateX(-15deg);
+    }
+    70% {
+      transform: rotateX(8deg);
+    }
+    85% {
+      transform: rotateX(-3deg);
     }
     100% {
       transform: rotateX(0deg);
@@ -138,12 +152,11 @@
     }
   }
 
+  /* Wrapper for the split-flap character with 3D perspective */
   .flip-char {
-    display: inline-block;
-    animation: flip-in 0.35s ease-out both;
-    transform-origin: bottom center;
-    min-width: 0.62em;
-    text-align: center;
+    transform-origin: 50% 100%;
+    transform-style: preserve-3d;
+    backface-visibility: hidden;
   }
 }
 
