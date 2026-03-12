@@ -116,7 +116,7 @@ function RetroRow({ trip, isFastest, index, animate }: { trip: ParsedTrip; isFas
         </div>
       </td>
       <td className="retro-td">
-        <div className="flap-tile flap-tile-sm" style={{ fontSize: '0.7rem', letterSpacing: 0 }}>
+        <div className="flap-tile flap-tile-sm" style={{ fontSize: '0.55rem', letterSpacing: 0 }}>
           <FlipText text={crowdLabel} startDelay={baseDelay + 250} animate={animate} />
         </div>
       </td>
