@@ -38,7 +38,12 @@
   .retro-table {
     @apply w-full;
     border-collapse: separate;
-    border-spacing: 3px;
+    border-spacing: 2px;
+  }
+  @media (min-width: 640px) {
+    .retro-table {
+      border-spacing: 3px;
+    }
   }
 
   .retro-th {
