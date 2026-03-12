@@ -1,8 +1,31 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { RouteTripData } from "@/lib/route-trips";
 import { format } from "date-fns";
 import { Zap, Users, ArrowLeftRight, ChevronDown, ChevronUp } from "lucide-react";
 import { useI18n } from "@/lib/i18n";
+
+function LiveCountdown({ departureTime }: { departureTime: string }) {
+  const [secondsLeft, setSecondsLeft] = useState(() => {
+    const diff = new Date(departureTime).getTime() - Date.now();
+    return Math.max(0, Math.ceil(diff / 1000));
+  });
+
+  useEffect(() => {
+    const timer = setInterval(() => {
+      const diff = new Date(departureTime).getTime() - Date.now();
+      setSecondsLeft(Math.max(0, Math.ceil(diff / 1000)));
+    }, 1000);
+    return () => clearInterval(timer);
+  }, [departureTime]);
+
+  if (secondsLeft <= 0) return null; // will show "departsNow" via normal flow
+
+  return (
+    <span className="font-mono text-destructive font-bold tabular-nums animate-pulse">
+      0:{String(secondsLeft).padStart(2, "0")}
+    </span>
+  );
+}
 
 function CrowdIndicator({ level }: { level?: string }) {
   if (!level) return null;
