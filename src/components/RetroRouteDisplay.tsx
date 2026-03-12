@@ -143,8 +143,23 @@ function RetroRow({ trip, isFastest, index, animate }: { trip: ParsedTrip; isFas
 export function RetroRouteDisplay({ data }: RetroRouteDisplayProps) {
   const { t } = useI18n();
   const [expanded, setExpanded] = useState(false);
+  const [animate, setAnimate] = useState(() => {
+    if (sessionStorage.getItem(hasAnimatedKey)) return false;
+    return true;
+  });
   const INITIAL_COUNT = 5;
   const title = `${data.fromStationName} → ${data.route.toStation.namen.lang}`;
+
+  useEffect(() => {
+    if (animate) {
+      // Mark as animated after the animation completes
+      const timer = setTimeout(() => {
+        sessionStorage.setItem(hasAnimatedKey, 'true');
+        setAnimate(false);
+      }, 3000);
+      return () => clearTimeout(timer);
+    }
+  }, [animate]);
 
   const arrivals = data.trips.map(t => new Date(t.actualArrivalTime || t.arrivalTime).getTime());
   const fastestIdx = arrivals.length > 1 ? arrivals.indexOf(Math.min(...arrivals)) : -1;
@@ -152,7 +167,7 @@ export function RetroRouteDisplay({ data }: RetroRouteDisplayProps) {
   return (
     <div className="retro-board">
       <div className="retro-header">
-        <FlipText text={title.toUpperCase()} startDelay={0} />
+        <FlipText text={title.toUpperCase()} startDelay={0} animate={animate} />
       </div>
 
       {data.error && <p className="retro-status">{t("disruptionRetro")}</p>}
