@@ -110,9 +110,9 @@ function RetroRow({ trip, isFastest, index, animate }: { trip: ParsedTrip; isFas
           <FlipText text={track.padStart(2, " ")} startDelay={baseDelay + 120} animate={animate} />
         </div>
       </td>
-      <td className="retro-td retro-td-type">
-        <div className="flap-tile">
-          <FlipText text={(trip.trainType || "Trein").padEnd(6, " ")} startDelay={baseDelay + 200} animate={animate} />
+      <td className="retro-td">
+        <div className="flap-tile" style={{ fontSize: '0.95rem' }}>
+          <FlipText text={(trip.trainType || "Trein").padEnd(4, " ")} startDelay={baseDelay + 200} animate={animate} />
         </div>
       </td>
       <td className="retro-td">
