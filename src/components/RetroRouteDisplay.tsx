@@ -91,6 +91,8 @@ function RetroRow({ trip, isFastest, index }: { trip: ParsedTrip; isFastest: boo
 
 export function RetroRouteDisplay({ data }: RetroRouteDisplayProps) {
   const { t } = useI18n();
+  const [expanded, setExpanded] = useState(false);
+  const INITIAL_COUNT = 5;
   const title = `${data.fromStationName} → ${data.route.toStation.namen.lang}`;
 
   const arrivals = data.trips.map(t => new Date(t.actualArrivalTime || t.arrivalTime).getTime());
