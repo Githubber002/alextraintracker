@@ -2,7 +2,7 @@ import { useState } from "react";
 import { RouteConfig, Station, saveRoutes } from "@/lib/ns-api";
 import { StationSearch } from "./StationSearch";
 import { Plus, Trash2, ArrowRight, X, Save } from "lucide-react";
-import { useI18n } from "@/lib/i18n";
+import { useI18n, LANGUAGES } from "@/lib/i18n";
 
 interface RouteSettingsProps {
   routes: RouteConfig[];
@@ -12,7 +12,7 @@ interface RouteSettingsProps {
 
 export function RouteSettings({ routes: initialRoutes, onSave, onClose }: RouteSettingsProps) {
   const [routes, setRoutes] = useState<RouteConfig[]>(initialRoutes);
-  const { t } = useI18n();
+  const { t, lang, setLang } = useI18n();
 
   const addRoute = () => {
     if (routes.length >= 5) return;
@@ -66,9 +66,22 @@ export function RouteSettings({ routes: initialRoutes, onSave, onClose }: RouteS
       <div className="bg-card border border-border rounded-xl shadow-xl w-full max-w-lg p-5 mb-8">
         <div className="flex items-center justify-between mb-6">
           <h2 className="text-xl font-bold text-card-foreground">{t("configureRoutes")}</h2>
-          <button onClick={onClose} className="p-2 hover:bg-muted rounded-lg transition-colors">
-            <X className="h-5 w-5 text-muted-foreground" />
-          </button>
+          <div className="flex items-center gap-1">
+            {LANGUAGES.map(l => (
+              <button
+                key={l.code}
+                onClick={() => setLang(l.code)}
+                className={`px-2 py-1 text-sm rounded-md transition-colors ${
+                  lang === l.code ? "bg-secondary text-secondary-foreground font-semibold" : "text-muted-foreground hover:bg-muted"
+                }`}
+              >
+                {l.flag}
+              </button>
+            ))}
+            <button onClick={onClose} className="p-2 hover:bg-muted rounded-lg transition-colors ml-1">
+              <X className="h-5 w-5 text-muted-foreground" />
+            </button>
+          </div>
         </div>
 
         <p className="text-xs text-muted-foreground mb-4">
