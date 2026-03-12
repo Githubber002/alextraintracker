@@ -98,7 +98,7 @@ function RetroRow({ trip, isFastest, index, animate }: { trip: ParsedTrip; isFas
       <td className="retro-td">
         <div className={`flap-tile ${depDelayed ? "flap-delayed" : ""}`}>
           {depDelayed && (
-            <span style={{ fontSize: '0.55rem', textDecoration: 'line-through', opacity: 0.5, marginRight: 4 }}>
+            <span style={{ fontSize: '0.45rem', textDecoration: 'line-through', opacity: 0.5, marginRight: 2 }}>
               <FlipText text={plannedDepTime} startDelay={baseDelay} animate={animate} />
             </span>
           )}
@@ -111,28 +111,28 @@ function RetroRow({ trip, isFastest, index, animate }: { trip: ParsedTrip; isFas
         </div>
       </td>
       <td className="retro-td">
-        <div className="flap-tile" style={{ fontSize: '0.95rem' }}>
+        <div className="flap-tile" style={{ fontSize: '0.7rem' }}>
           <FlipText text={(trip.trainType || "Trein").padEnd(4, " ")} startDelay={baseDelay + 200} animate={animate} />
         </div>
       </td>
       <td className="retro-td">
-        <div className="flap-tile flap-tile-sm" style={{ fontSize: '0.7rem', letterSpacing: 0 }}>
+        <div className="flap-tile flap-tile-sm" style={{ fontSize: '0.55rem', letterSpacing: 0 }}>
           <FlipText text={crowdLabel} startDelay={baseDelay + 250} animate={animate} />
         </div>
       </td>
       <td className="retro-td">
-        <div className="flap-tile flap-tile-sm" style={{ fontSize: '0.9rem' }}>
+        <div className="flap-tile flap-tile-sm" style={{ fontSize: '0.7rem' }}>
           <FlipText text={trip.transfers > 0 ? `${trip.transfers}x` : "—"} startDelay={baseDelay + 260} animate={animate} />
         </div>
       </td>
       <td className="retro-td">
-        <div className={`flap-tile ${isFastest ? "flap-fastest" : ""} ${arrDelayed ? "flap-delayed" : ""}`} style={{ minWidth: 95, display: 'flex', alignItems: 'center', justifyContent: 'center', gap: 0 }}>
-          <span style={{ width: 16, flexShrink: 0, display: 'flex', justifyContent: 'center' }}>
-            {isFastest && <Zap className="h-3.5 w-3.5 flap-zap" />}
+        <div className={`flap-tile ${isFastest ? "flap-fastest" : ""} ${arrDelayed ? "flap-delayed" : ""}`} style={{ minWidth: 70, display: 'flex', alignItems: 'center', justifyContent: 'center', gap: 0 }}>
+          <span style={{ width: 12, flexShrink: 0, display: 'flex', justifyContent: 'center' }}>
+            {isFastest && <Zap className="h-2.5 w-2.5 flap-zap" />}
           </span>
           <span style={{ display: 'inline-flex', alignItems: 'center' }}>
             {arrDelayed && (
-              <span style={{ fontSize: '0.55rem', textDecoration: 'line-through', opacity: 0.5, marginRight: 4 }}>
+              <span style={{ fontSize: '0.45rem', textDecoration: 'line-through', opacity: 0.5, marginRight: 2 }}>
                 <FlipText text={plannedArrTime} startDelay={baseDelay + 300} animate={animate} />
               </span>
             )}

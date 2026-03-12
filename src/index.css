@@ -14,13 +14,19 @@
   }
 
   .retro-header {
-    @apply px-4 py-3 text-center font-bold tracking-widest;
+    @apply px-2 py-2 sm:px-4 sm:py-3 text-center font-bold tracking-widest;
     font-family: 'Share Tech Mono', monospace;
-    font-size: 0.95rem;
+    font-size: 0.75rem;
     color: hsl(0 0% 95%);
     background: hsl(215 70% 18%);
     border-bottom: 2px solid hsl(215 50% 25%);
-    letter-spacing: 0.15em;
+    letter-spacing: 0.12em;
+  }
+  @media (min-width: 640px) {
+    .retro-header {
+      font-size: 0.95rem;
+      letter-spacing: 0.15em;
+    }
   }
 
   .retro-body {
@@ -32,11 +38,16 @@
   .retro-table {
     @apply w-full;
     border-collapse: separate;
-    border-spacing: 3px;
+    border-spacing: 2px;
+  }
+  @media (min-width: 640px) {
+    .retro-table {
+      border-spacing: 3px;
+    }
   }
 
   .retro-th {
-    @apply text-[9px] uppercase tracking-widest pb-1 px-1;
+    @apply text-[7px] sm:text-[9px] uppercase tracking-wider sm:tracking-widest pb-0.5 sm:pb-1 px-0.5 sm:px-1;
     font-family: 'Share Tech Mono', monospace;
     color: hsl(210 20% 60%);
     font-weight: 400;
@@ -62,19 +73,26 @@
 
   /* Individual flap tile — white/cream like real boards */
   .flap-tile {
-    @apply flex items-center justify-center px-2 py-2 rounded-sm;
+    @apply flex items-center justify-center px-1 py-1.5 sm:px-2 sm:py-2 rounded-sm;
     font-family: 'Share Tech Mono', monospace;
-    font-size: 1.15rem;
+    font-size: 0.8rem;
     font-weight: 700;
-    letter-spacing: 0.08em;
+    letter-spacing: 0.04em;
     color: hsl(215 80% 15%);
     background: hsl(45 20% 94%);
-    min-height: 42px;
+    min-height: 32px;
     position: relative;
     box-shadow:
       inset 0 1px 0 hsl(45 30% 98%),
       inset 0 -1px 0 hsl(45 10% 82%),
       0 1px 3px rgba(0,0,0,0.25);
+  }
+  @media (min-width: 640px) {
+    .flap-tile {
+      font-size: 1.15rem;
+      letter-spacing: 0.08em;
+      min-height: 42px;
+    }
   }
 
   /* The split line through each flap */
@@ -90,7 +108,12 @@
   }
 
   .flap-tile-sm {
-    min-width: 42px;
+    min-width: 28px;
+  }
+  @media (min-width: 640px) {
+    .flap-tile-sm {
+      min-width: 42px;
+    }
   }
 
   .flap-delayed {
@@ -99,7 +122,12 @@
 
   .flap-minutes {
     color: hsl(215 70% 30%);
-    font-size: 1rem;
+    font-size: 0.75rem;
+  }
+  @media (min-width: 640px) {
+    .flap-minutes {
+      font-size: 1rem;
+    }
   }
 
   .flap-fastest {

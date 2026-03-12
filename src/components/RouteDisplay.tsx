@@ -96,16 +96,16 @@ export function RouteDisplay({ data }: RouteDisplayProps) {
 
       {!data.loading && data.trips.length > 0 && (
         <>
-          <div className="overflow-x-auto">
-            <table className="w-full text-sm">
+          <div>
+            <table className="w-full text-xs sm:text-sm">
               <thead>
-                <tr className="text-muted-foreground">
-                  <th className="text-left py-2 px-2 font-medium">{t("over")}</th>
-                  <th className="text-center py-2 px-2 font-medium">{t("departure")}</th>
-                  <th className="text-center py-2 px-2 font-medium">{t("track")}</th>
-                  <th className="text-center py-2 px-2 font-medium"><Users className="h-3.5 w-3.5 mx-auto" /></th>
-                  <th className="text-center py-2 px-2 font-medium"><ArrowLeftRight className="h-3.5 w-3.5 mx-auto" /></th>
-                  <th className="text-right py-2 px-2 font-medium">{t("arrival")}</th>
+                <tr className="text-muted-foreground text-[10px] sm:text-xs">
+                  <th className="text-left py-1 px-1 sm:px-2 font-medium">{t("over")}</th>
+                  <th className="text-center py-1 px-1 sm:px-2 font-medium">{t("departure")}</th>
+                  <th className="text-center py-1 px-1 sm:px-2 font-medium">{t("track")}</th>
+                  <th className="text-center py-1 px-0.5 sm:px-2 font-medium"><Users className="h-3 w-3 sm:h-3.5 sm:w-3.5 mx-auto" /></th>
+                  <th className="text-center py-1 px-0.5 sm:px-2 font-medium"><ArrowLeftRight className="h-3 w-3 sm:h-3.5 sm:w-3.5 mx-auto" /></th>
+                  <th className="text-right py-1 px-1 sm:px-2 font-medium">{t("arrival")}</th>
                 </tr>
               </thead>
               <tbody>
@@ -122,38 +122,38 @@ export function RouteDisplay({ data }: RouteDisplayProps) {
                       key={i}
                       className={`border-t border-border/50 ${trip.cancelled ? "opacity-50 line-through" : ""}`}
                     >
-                      <td className="py-3 px-2 text-left font-semibold text-secondary">
+                      <td className="py-2 px-1 sm:px-2 text-left font-semibold text-secondary whitespace-nowrap">
                         {trip.minutesUntil <= 1 && trip.minutesUntil > 0 ? (
                           <LiveCountdown departureTime={trip.actualDepartureTime || trip.departureTime} />
                         ) : (
                           formatMinutesUntil(trip.minutesUntil)
                         )}
                       </td>
-                      <td className="py-3 px-2 text-center font-mono text-card-foreground">
+                      <td className="py-2 px-1 sm:px-2 text-center font-mono text-card-foreground">
                         {depDelayed ? (
                           <span className="inline-flex flex-col items-center leading-tight">
-                            <span className="line-through text-muted-foreground text-[11px]">{formatTime(trip.departureTime)}</span>
+                            <span className="line-through text-muted-foreground text-[10px]">{formatTime(trip.departureTime)}</span>
                             <span className="text-destructive">{formatTime(trip.actualDepartureTime!)}</span>
                           </span>
                         ) : (
                           formatTime(trip.actualDepartureTime || trip.departureTime)
                         )}
                       </td>
-                      <td className={`py-3 px-2 text-center font-bold ${trackChanged ? "text-destructive" : "text-secondary"}`}>
+                      <td className={`py-2 px-0.5 sm:px-2 text-center font-bold ${trackChanged ? "text-destructive" : "text-secondary"}`}>
                         {trip.actualTrack || trip.track || "-"}
                       </td>
-                      <td className="py-3 px-2 text-center">
+                      <td className="py-2 px-0.5 sm:px-2 text-center">
                         <CrowdIndicator level={trip.crowdForecast} />
                       </td>
-                      <td className="py-3 px-2 text-center text-xs text-muted-foreground">
+                      <td className="py-2 px-0.5 sm:px-2 text-center text-[10px] sm:text-xs text-muted-foreground">
                         {trip.transfers > 0 ? `${trip.transfers}×` : "—"}
                       </td>
-                      <td className="py-3 px-2 text-right font-mono text-card-foreground">
-                        <span className="inline-flex items-center gap-1">
-                          {isFastest && <Zap className="h-3.5 w-3.5 text-secondary fill-secondary" />}
+                      <td className="py-2 px-1 sm:px-2 text-right font-mono text-card-foreground">
+                        <span className="inline-flex items-center gap-0.5">
+                          {isFastest && <Zap className="h-3 w-3 text-secondary fill-secondary" />}
                           {arrDelayed ? (
                             <span className="inline-flex flex-col items-end leading-tight">
-                              <span className="line-through text-muted-foreground text-[11px]">{formatTime(trip.arrivalTime)}</span>
+                              <span className="line-through text-muted-foreground text-[10px]">{formatTime(trip.arrivalTime)}</span>
                               <span className="text-destructive">{formatTime(trip.actualArrivalTime!)}</span>
                             </span>
                           ) : (
