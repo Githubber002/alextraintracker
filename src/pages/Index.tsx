@@ -285,6 +285,7 @@ const Index = () => {
             {t("releaseNotes")}
           </summary>
           <ul className="mt-2 text-[10px] text-muted-foreground space-y-1 list-none">
+            <li>⏱️ Live countdown timer (≤1 min to departure)</li>
             <li>📲 Installeerbaar als app (PWA)</li>
             <li>🌐 Multi-language (NL/EN/ES/HI/TR)</li>
             <li>⚡ Fastest train indicator</li>
