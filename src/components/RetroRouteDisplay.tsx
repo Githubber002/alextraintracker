@@ -205,6 +205,7 @@ export function RetroRouteDisplay({ data }: RetroRouteDisplayProps) {
                   trip={trip}
                   isFastest={i === fastestIdx && !trip.cancelled}
                   index={i}
+                  animate={animate}
                 />
               ))}
             </tbody>
