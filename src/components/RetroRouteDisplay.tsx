@@ -121,7 +121,7 @@ function RetroRow({ trip, isFastest, index, animate }: { trip: ParsedTrip; isFas
         </div>
       </td>
       <td className="retro-td">
-        <div className="flap-tile flap-tile-sm" style={{ fontSize: '0.9rem' }}>
+        <div className="flap-tile flap-tile-sm" style={{ fontSize: '0.7rem' }}>
           <FlipText text={trip.transfers > 0 ? `${trip.transfers}x` : "—"} startDelay={baseDelay + 260} animate={animate} />
         </div>
       </td>
