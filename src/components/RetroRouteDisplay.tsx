@@ -67,7 +67,7 @@ function FlipText({ text, startDelay = 0, animate = true }: { text: string; star
   );
 }
 
-function RetroRow({ trip, isFastest, index }: { trip: ParsedTrip; isFastest: boolean; index: number }) {
+function RetroRow({ trip, isFastest, index, animate }: { trip: ParsedTrip; isFastest: boolean; index: number; animate: boolean }) {
   const depDelayed =
     trip.actualDepartureTime &&
     new Date(trip.actualDepartureTime).getTime() - new Date(trip.departureTime).getTime() > 60000;
