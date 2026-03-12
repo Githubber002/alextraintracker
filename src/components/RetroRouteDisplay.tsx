@@ -91,7 +91,7 @@ function RetroRow({ trip, isFastest, index, animate }: { trip: ParsedTrip; isFas
           {trip.minutesUntil <= 1 && trip.minutesUntil > 0 ? (
             <RetroLiveCountdown departureTime={trip.actualDepartureTime || trip.departureTime} baseDelay={baseDelay + 80} />
           ) : (
-            <FlipText text={formatMinutesUntil(trip.minutesUntil).padStart(3, " ")} startDelay={baseDelay + 80} />
+            <FlipText text={formatMinutesUntil(trip.minutesUntil).padStart(3, " ")} startDelay={baseDelay + 80} animate={animate} />
           )}
         </div>
       </td>
@@ -99,30 +99,30 @@ function RetroRow({ trip, isFastest, index, animate }: { trip: ParsedTrip; isFas
         <div className={`flap-tile ${depDelayed ? "flap-delayed" : ""}`}>
           {depDelayed && (
             <span style={{ fontSize: '0.55rem', textDecoration: 'line-through', opacity: 0.5, marginRight: 4 }}>
-              <FlipText text={plannedDepTime} startDelay={baseDelay} />
+              <FlipText text={plannedDepTime} startDelay={baseDelay} animate={animate} />
             </span>
           )}
-          <FlipText text={depTime} startDelay={baseDelay + (depDelayed ? 100 : 0)} />
+          <FlipText text={depTime} startDelay={baseDelay + (depDelayed ? 100 : 0)} animate={animate} />
         </div>
       </td>
       <td className="retro-td">
         <div className={`flap-tile flap-tile-sm ${trackChanged ? "flap-delayed" : ""}`}>
-          <FlipText text={track.padStart(2, " ")} startDelay={baseDelay + 120} />
+          <FlipText text={track.padStart(2, " ")} startDelay={baseDelay + 120} animate={animate} />
         </div>
       </td>
       <td className="retro-td retro-td-type">
         <div className="flap-tile">
-          <FlipText text={(trip.trainType || "Trein").padEnd(6, " ")} startDelay={baseDelay + 200} />
+          <FlipText text={(trip.trainType || "Trein").padEnd(6, " ")} startDelay={baseDelay + 200} animate={animate} />
         </div>
       </td>
       <td className="retro-td">
         <div className="flap-tile flap-tile-sm" style={{ fontSize: '0.7rem', letterSpacing: 0 }}>
-          <FlipText text={crowdLabel} startDelay={baseDelay + 250} />
+          <FlipText text={crowdLabel} startDelay={baseDelay + 250} animate={animate} />
         </div>
       </td>
       <td className="retro-td">
         <div className="flap-tile flap-tile-sm" style={{ fontSize: '0.9rem' }}>
-          <FlipText text={trip.transfers > 0 ? `${trip.transfers}x` : "—"} startDelay={baseDelay + 260} />
+          <FlipText text={trip.transfers > 0 ? `${trip.transfers}x` : "—"} startDelay={baseDelay + 260} animate={animate} />
         </div>
       </td>
       <td className="retro-td">
@@ -130,10 +130,10 @@ function RetroRow({ trip, isFastest, index, animate }: { trip: ParsedTrip; isFas
           {isFastest && <Zap className="h-3.5 w-3.5 flap-zap" style={{ position: 'absolute', left: 4, top: '50%', transform: 'translateY(-50%)' }} />}
           {arrDelayed && (
             <span style={{ fontSize: '0.55rem', textDecoration: 'line-through', opacity: 0.5, marginRight: 4 }}>
-              <FlipText text={plannedArrTime} startDelay={baseDelay + 300} />
+              <FlipText text={plannedArrTime} startDelay={baseDelay + 300} animate={animate} />
             </span>
           )}
-          <FlipText text={arrTime} startDelay={baseDelay + (arrDelayed ? 400 : 300)} />
+          <FlipText text={arrTime} startDelay={baseDelay + (arrDelayed ? 400 : 300)} animate={animate} />
         </div>
       </td>
     </tr>
