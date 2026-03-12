@@ -126,11 +126,11 @@
     min-width: 0.62em;
     height: 1.4em;
     text-align: center;
-    perspective: 300px;
+    perspective: 400px;
     vertical-align: middle;
   }
 
-  /* Top half — static, shows new char */
+  /* Top half — shows new character (revealed after flap falls) */
   .flip-char-top {
     display: block;
     position: absolute;
@@ -143,7 +143,7 @@
     color: inherit;
   }
 
-  /* Bottom half — static, shows new char */
+  /* Bottom half — new character, initially hidden, revealed by animation */
   .flip-char-bottom {
     display: block;
     position: absolute;
@@ -154,9 +154,11 @@
     overflow: hidden;
     line-height: 0;
     color: inherit;
+    opacity: 0;
+    animation: bottom-reveal 0.01s ease-out both;
   }
 
-  /* The flipping flap — rotates from top down */
+  /* The flap — the card that flips DOWN from top, hinged at the middle */
   .flip-char-flap {
     display: block;
     position: absolute;
@@ -167,19 +169,49 @@
     overflow: hidden;
     line-height: 1.4em;
     color: inherit;
-    transform-origin: bottom center;
+    transform-origin: 50% 100%;
     transform-style: preserve-3d;
-    backface-visibility: hidden;
-    animation: flap-flip 0.35s ease-in both;
+    animation: flap-fall 0.5s cubic-bezier(0.4, 0.0, 0.2, 1) both;
+    z-index: 2;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.2);
   }
 
-  @keyframes flap-flip {
+  /* The flap falls DOWN: rotates forward around the bottom edge */
+  @keyframes flap-fall {
     0% {
       transform: rotateX(0deg);
+      box-shadow: 0 2px 4px rgba(0,0,0,0.2);
+    }
+    40% {
+      box-shadow: 0 4px 8px rgba(0,0,0,0.3);
+    }
+    80% {
+      transform: rotateX(-170deg);
+    }
+    90% {
+      transform: rotateX(-175deg);
     }
     100% {
       transform: rotateX(-180deg);
+      box-shadow: none;
     }
+  }
+
+  /* Reveal the bottom half when the flap passes ~90deg */
+  @keyframes bottom-reveal {
+    0%, 100% {
+      opacity: 1;
+    }
+  }
+
+  .flip-char-bottom {
+    animation-delay: inherit;
+  }
+
+  /* Stagger: bottom reveals halfway through the flap animation */
+  .flip-char-flap,
+  .flip-char-bottom {
+    animation-delay: inherit;
   }
 
   /* Split line across the middle */

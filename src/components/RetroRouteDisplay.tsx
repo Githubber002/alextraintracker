@@ -44,14 +44,14 @@ function FlipChar({ char, delay = 0, animate = true }: { char: string; delay?: n
     return (
       <span className="flip-char-wrapper">
         <span className="flip-char-top">{char}</span>
-        <span className="flip-char-bottom">{char}</span>
+        <span className="flip-char-bottom" style={{ opacity: 1 }}>{char}</span>
       </span>
     );
   }
   return (
-    <span className="flip-char-wrapper" style={{ animationDelay: `${delay}ms` }}>
+    <span className="flip-char-wrapper">
       <span className="flip-char-top">{char}</span>
-      <span className="flip-char-bottom">{char}</span>
+      <span className="flip-char-bottom" style={{ opacity: 0, animation: `bottom-reveal 0.01s ease-out ${delay + 250}ms forwards` }}>{char}</span>
       <span className="flip-char-flap" style={{ animationDelay: `${delay}ms` }}>{char}</span>
     </span>
   );
