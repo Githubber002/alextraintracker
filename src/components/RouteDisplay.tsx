@@ -38,7 +38,7 @@ function formatTime(dateStr: string): string {
 export function RouteDisplay({ data }: RouteDisplayProps) {
   const { t } = useI18n();
   const [expanded, setExpanded] = useState(false);
-  const INITIAL_COUNT = 3;
+  const INITIAL_COUNT = 5;
   const title = `${data.fromStationName} → ${data.route.toStation.namen.lang}`;
 
   function formatMinutesUntil(minutes: number): string {
