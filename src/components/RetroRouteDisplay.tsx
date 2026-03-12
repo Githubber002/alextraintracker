@@ -39,8 +39,10 @@ function RetroLiveCountdown({ departureTime, baseDelay }: { departureTime: strin
 
 function FlipChar({ char, delay = 0 }: { char: string; delay?: number }) {
   return (
-    <span className="flip-char" style={{ animationDelay: `${delay}ms` }}>
-      {char}
+    <span className="flip-char-wrapper" style={{ animationDelay: `${delay}ms` }}>
+      <span className="flip-char-top">{char}</span>
+      <span className="flip-char-bottom">{char}</span>
+      <span className="flip-char-flap" style={{ animationDelay: `${delay}ms` }}>{char}</span>
     </span>
   );
 }
@@ -49,7 +51,7 @@ function FlipText({ text, startDelay = 0 }: { text: string; startDelay?: number 
   return (
     <span className="inline-flex">
       {text.split("").map((char, i) => (
-        <FlipChar key={i} char={char} delay={startDelay + i * 40} />
+        <FlipChar key={i} char={char} delay={startDelay + i * 50} />
       ))}
     </span>
   );
