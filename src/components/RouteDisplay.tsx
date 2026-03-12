@@ -96,8 +96,8 @@ export function RouteDisplay({ data }: RouteDisplayProps) {
 
       {!data.loading && data.trips.length > 0 && (
         <>
-          <div className="overflow-x-auto">
-            <table className="w-full text-sm">
+          <div>
+            <table className="w-full text-xs sm:text-sm">
               <thead>
                 <tr className="text-muted-foreground text-[10px] sm:text-xs">
                   <th className="text-left py-1 px-1 sm:px-2 font-medium">{t("over")}</th>
