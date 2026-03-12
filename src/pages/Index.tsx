@@ -37,16 +37,22 @@ const Index = () => {
   // Swipe handling
   const touchStartX = useRef(0);
   const touchEndX = useRef(0);
+  const touchStartY = useRef(0);
+  const touchEndY = useRef(0);
 
   const handleTouchStart = (e: React.TouchEvent) => {
     touchStartX.current = e.touches[0].clientX;
+    touchStartY.current = e.touches[0].clientY;
   };
   const handleTouchMove = (e: React.TouchEvent) => {
     touchEndX.current = e.touches[0].clientX;
+    touchEndY.current = e.touches[0].clientY;
   };
   const handleTouchEnd = () => {
-    const diff = touchStartX.current - touchEndX.current;
-    if (Math.abs(diff) > 50) {
+    const diffX = Math.abs(touchStartX.current - touchEndX.current);
+    const diffY = Math.abs(touchStartY.current - touchEndY.current);
+    // Only trigger if horizontal swipe is dominant and significant
+    if (diffX > 50 && diffX > diffY * 2) {
       setReversed(prev => !prev);
     }
   };
