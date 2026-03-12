@@ -12,7 +12,7 @@ interface RouteSettingsProps {
 
 export function RouteSettings({ routes: initialRoutes, onSave, onClose }: RouteSettingsProps) {
   const [routes, setRoutes] = useState<RouteConfig[]>(initialRoutes);
-  const { t } = useI18n();
+  const { t, lang, setLang } = useI18n();
 
   const addRoute = () => {
     if (routes.length >= 5) return;
