@@ -17,6 +17,26 @@ function formatMinutesUntil(minutes: number): string {
   return `${minutes}'`;
 }
 
+function RetroLiveCountdown({ departureTime, baseDelay }: { departureTime: string; baseDelay: number }) {
+  const [secondsLeft, setSecondsLeft] = useState(() => {
+    const diff = new Date(departureTime).getTime() - Date.now();
+    return Math.max(0, Math.ceil(diff / 1000));
+  });
+
+  useEffect(() => {
+    const timer = setInterval(() => {
+      const diff = new Date(departureTime).getTime() - Date.now();
+      setSecondsLeft(Math.max(0, Math.ceil(diff / 1000)));
+    }, 1000);
+    return () => clearInterval(timer);
+  }, [departureTime]);
+
+  if (secondsLeft <= 0) return <FlipText text=" NU" startDelay={baseDelay} />;
+
+  const display = `0:${String(secondsLeft).padStart(2, "0")}`;
+  return <span className="animate-pulse"><FlipText text={display} startDelay={baseDelay} /></span>;
+}
+
 function FlipChar({ char, delay = 0 }: { char: string; delay?: number }) {
   return (
     <span className="flip-char" style={{ animationDelay: `${delay}ms` }}>
