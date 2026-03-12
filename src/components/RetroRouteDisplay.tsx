@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { RouteTripData, ParsedTrip } from "@/lib/route-trips";
 import { format } from "date-fns";
 import { Zap, ChevronDown, ChevronUp } from "lucide-react";
@@ -15,6 +15,26 @@ function formatTime(dateStr: string): string {
 function formatMinutesUntil(minutes: number): string {
   if (minutes <= 0) return "NU";
   return `${minutes}'`;
+}
+
+function RetroLiveCountdown({ departureTime, baseDelay }: { departureTime: string; baseDelay: number }) {
+  const [secondsLeft, setSecondsLeft] = useState(() => {
+    const diff = new Date(departureTime).getTime() - Date.now();
+    return Math.max(0, Math.ceil(diff / 1000));
+  });
+
+  useEffect(() => {
+    const timer = setInterval(() => {
+      const diff = new Date(departureTime).getTime() - Date.now();
+      setSecondsLeft(Math.max(0, Math.ceil(diff / 1000)));
+    }, 1000);
+    return () => clearInterval(timer);
+  }, [departureTime]);
+
+  if (secondsLeft <= 0) return <FlipText text=" NU" startDelay={baseDelay} />;
+
+  const display = `0:${String(secondsLeft).padStart(2, "0")}`;
+  return <span className="animate-pulse"><FlipText text={display} startDelay={baseDelay} /></span>;
 }
 
 function FlipChar({ char, delay = 0 }: { char: string; delay?: number }) {
@@ -86,7 +106,11 @@ function RetroRow({ trip, isFastest, index }: { trip: ParsedTrip; isFastest: boo
       </td>
       <td className="retro-td">
         <div className="flap-tile flap-tile-sm flap-minutes">
-          <FlipText text={formatMinutesUntil(trip.minutesUntil).padStart(3, " ")} startDelay={baseDelay + 80} />
+          {trip.minutesUntil <= 1 && trip.minutesUntil > 0 ? (
+            <RetroLiveCountdown departureTime={trip.actualDepartureTime || trip.departureTime} baseDelay={baseDelay + 80} />
+          ) : (
+            <FlipText text={formatMinutesUntil(trip.minutesUntil).padStart(3, " ")} startDelay={baseDelay + 80} />
+          )}
         </div>
       </td>
       <td className="retro-td">
