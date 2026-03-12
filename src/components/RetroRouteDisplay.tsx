@@ -75,6 +75,15 @@ function RetroRow({ trip, isFastest, index }: { trip: ParsedTrip; isFastest: boo
   return (
     <tr className={`retro-table-row ${trip.cancelled ? "opacity-40 line-through" : ""}`}>
       <td className="retro-td">
+        <div className="flap-tile flap-tile-sm flap-minutes">
+          {trip.minutesUntil <= 1 && trip.minutesUntil > 0 ? (
+            <RetroLiveCountdown departureTime={trip.actualDepartureTime || trip.departureTime} baseDelay={baseDelay + 80} />
+          ) : (
+            <FlipText text={formatMinutesUntil(trip.minutesUntil).padStart(3, " ")} startDelay={baseDelay + 80} />
+          )}
+        </div>
+      </td>
+      <td className="retro-td">
         <div className={`flap-tile ${depDelayed ? "flap-delayed" : ""}`}>
           {depDelayed && (
             <span style={{ fontSize: '0.55rem', textDecoration: 'line-through', opacity: 0.5, marginRight: 4 }}>
@@ -102,15 +111,6 @@ function RetroRow({ trip, isFastest, index }: { trip: ParsedTrip; isFastest: boo
       <td className="retro-td">
         <div className="flap-tile flap-tile-sm" style={{ fontSize: '0.9rem' }}>
           <FlipText text={trip.transfers > 0 ? `${trip.transfers}x` : "—"} startDelay={baseDelay + 260} />
-        </div>
-      </td>
-      <td className="retro-td">
-        <div className="flap-tile flap-tile-sm flap-minutes">
-          {trip.minutesUntil <= 1 && trip.minutesUntil > 0 ? (
-            <RetroLiveCountdown departureTime={trip.actualDepartureTime || trip.departureTime} baseDelay={baseDelay + 80} />
-          ) : (
-            <FlipText text={formatMinutesUntil(trip.minutesUntil).padStart(3, " ")} startDelay={baseDelay + 80} />
-          )}
         </div>
       </td>
       <td className="retro-td">
