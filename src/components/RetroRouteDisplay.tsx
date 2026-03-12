@@ -130,9 +130,9 @@ function RetroRow({ trip, isFastest, index, animate }: { trip: ParsedTrip; isFas
           <span style={{ width: 16, flexShrink: 0, display: 'flex', justifyContent: 'center' }}>
             {isFastest && <Zap className="h-3.5 w-3.5 flap-zap" />}
           </span>
-          <span style={{ display: 'flex', flexDirection: 'column', alignItems: 'flex-end' }}>
+          <span style={{ display: 'inline-flex', alignItems: 'center' }}>
             {arrDelayed && (
-              <span style={{ fontSize: '0.55rem', textDecoration: 'line-through', opacity: 0.5 }}>
+              <span style={{ fontSize: '0.55rem', textDecoration: 'line-through', opacity: 0.5, marginRight: 4 }}>
                 <FlipText text={plannedArrTime} startDelay={baseDelay + 300} animate={animate} />
               </span>
             )}
