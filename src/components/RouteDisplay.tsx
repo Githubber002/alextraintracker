@@ -88,8 +88,10 @@ export function RouteDisplay({ data }: RouteDisplayProps) {
               <tbody>
                 {visibleTrips.map((trip, i) => {
                   const trackChanged = trip.actualTrack && trip.actualTrack !== trip.track;
-                  const delayed = trip.actualDepartureTime && 
+                  const depDelayed = trip.actualDepartureTime && 
                     new Date(trip.actualDepartureTime).getTime() - new Date(trip.departureTime).getTime() > 60000;
+                  const arrDelayed = trip.actualArrivalTime &&
+                    new Date(trip.actualArrivalTime).getTime() - new Date(trip.arrivalTime).getTime() > 60000;
                   const isFastest = i === fastestIdx && data.trips.length > 1 && !trip.cancelled;
 
                   return (
@@ -100,8 +102,15 @@ export function RouteDisplay({ data }: RouteDisplayProps) {
                       <td className="py-3 px-2 text-left font-semibold text-secondary">
                         {formatMinutesUntil(trip.minutesUntil)}
                       </td>
-                      <td className={`py-3 px-2 text-center font-mono ${delayed ? "text-destructive" : "text-card-foreground"}`}>
-                        {formatTime(trip.actualDepartureTime || trip.departureTime)}
+                      <td className="py-3 px-2 text-center font-mono text-card-foreground">
+                        {depDelayed ? (
+                          <span className="inline-flex flex-col items-center leading-tight">
+                            <span className="line-through text-muted-foreground text-[11px]">{formatTime(trip.departureTime)}</span>
+                            <span className="text-destructive">{formatTime(trip.actualDepartureTime!)}</span>
+                          </span>
+                        ) : (
+                          formatTime(trip.actualDepartureTime || trip.departureTime)
+                        )}
                       </td>
                       <td className={`py-3 px-2 text-center font-bold ${trackChanged ? "text-destructive" : "text-secondary"}`}>
                         {trip.actualTrack || trip.track || "-"}
@@ -115,7 +124,14 @@ export function RouteDisplay({ data }: RouteDisplayProps) {
                       <td className="py-3 px-2 text-right font-mono text-card-foreground">
                         <span className="inline-flex items-center gap-1">
                           {isFastest && <Zap className="h-3.5 w-3.5 text-secondary fill-secondary" />}
-                          {formatTime(trip.actualArrivalTime || trip.arrivalTime)}
+                          {arrDelayed ? (
+                            <span className="inline-flex flex-col items-end leading-tight">
+                              <span className="line-through text-muted-foreground text-[11px]">{formatTime(trip.arrivalTime)}</span>
+                              <span className="text-destructive">{formatTime(trip.actualArrivalTime!)}</span>
+                            </span>
+                          ) : (
+                            formatTime(trip.actualArrivalTime || trip.arrivalTime)
+                          )}
                         </span>
                       </td>
                     </tr>
