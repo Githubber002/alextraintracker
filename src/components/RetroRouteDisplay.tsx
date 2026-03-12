@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { RouteTripData, ParsedTrip } from "@/lib/route-trips";
 import { format } from "date-fns";
 import { Zap, ChevronDown, ChevronUp } from "lucide-react";
