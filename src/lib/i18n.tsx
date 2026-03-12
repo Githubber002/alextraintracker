@@ -58,6 +58,8 @@ const translations: Record<Language, Record<string, string>> = {
     busy: "Druk",
     retroView: "Retro klapperbord",
     modernView: "Moderne weergave",
+    showMore: "Meer vertrektijden",
+    showLess: "Minder tonen",
   },
   en: {
     departures: "Departures",
