@@ -24,8 +24,9 @@
   }
 
   .retro-body {
-    @apply p-2;
+    @apply p-2 overflow-x-auto;
     background: hsl(215 60% 15%);
+    -webkit-overflow-scrolling: touch;
   }
 
   .retro-table {
