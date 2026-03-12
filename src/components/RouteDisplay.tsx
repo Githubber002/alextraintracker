@@ -123,7 +123,11 @@ export function RouteDisplay({ data }: RouteDisplayProps) {
                       className={`border-t border-border/50 ${trip.cancelled ? "opacity-50 line-through" : ""}`}
                     >
                       <td className="py-3 px-2 text-left font-semibold text-secondary">
-                        {formatMinutesUntil(trip.minutesUntil)}
+                        {trip.minutesUntil <= 1 && trip.minutesUntil > 0 ? (
+                          <LiveCountdown departureTime={trip.actualDepartureTime || trip.departureTime} />
+                        ) : (
+                          formatMinutesUntil(trip.minutesUntil)
+                        )}
                       </td>
                       <td className="py-3 px-2 text-center font-mono text-card-foreground">
                         {depDelayed ? (
