@@ -140,8 +140,6 @@
     height: 50%;
     overflow: hidden;
     line-height: 1.4em;
-    border-radius: 2px 2px 0 0;
-    background: hsl(45 18% 91%);
     color: inherit;
   }
 
@@ -155,8 +153,6 @@
     height: 50%;
     overflow: hidden;
     line-height: 0;
-    border-radius: 0 0 2px 2px;
-    background: hsl(45 15% 88%);
     color: inherit;
   }
 
@@ -170,27 +166,19 @@
     height: 50%;
     overflow: hidden;
     line-height: 1.4em;
-    border-radius: 2px 2px 0 0;
-    background: hsl(45 18% 91%);
     color: inherit;
     transform-origin: bottom center;
     transform-style: preserve-3d;
     backface-visibility: hidden;
     animation: flap-flip 0.35s ease-in both;
-    box-shadow: 0 1px 3px rgba(0,0,0,0.15);
   }
 
   @keyframes flap-flip {
     0% {
       transform: rotateX(0deg);
-      background: hsl(45 18% 91%);
-    }
-    50% {
-      background: hsl(45 12% 82%);
     }
     100% {
       transform: rotateX(-180deg);
-      background: hsl(45 15% 88%);
     }
   }
 
