@@ -135,8 +135,11 @@ export function RouteDisplay({ data }: RouteDisplayProps) {
             )}
           </button>
         )}
+        </>
         );
       })()}
     </div>
+  );
+}
   );
 }
