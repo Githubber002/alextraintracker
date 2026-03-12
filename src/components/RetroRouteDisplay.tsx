@@ -133,7 +133,7 @@ export function RetroRouteDisplay({ data }: RetroRouteDisplayProps) {
               </tr>
             </thead>
             <tbody>
-              {data.trips.map((trip, i) => (
+              {(expanded ? data.trips : data.trips.slice(0, INITIAL_COUNT)).map((trip, i) => (
                 <RetroRow
                   key={i}
                   trip={trip}
