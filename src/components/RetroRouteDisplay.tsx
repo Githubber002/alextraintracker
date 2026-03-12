@@ -1,6 +1,7 @@
+import { useState } from "react";
 import { RouteTripData, ParsedTrip } from "@/lib/route-trips";
 import { format } from "date-fns";
-import { Zap } from "lucide-react";
+import { Zap, ChevronDown, ChevronUp } from "lucide-react";
 import { useI18n } from "@/lib/i18n";
 
 interface RetroRouteDisplayProps {
