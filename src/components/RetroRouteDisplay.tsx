@@ -37,7 +37,17 @@ function RetroLiveCountdown({ departureTime, baseDelay }: { departureTime: strin
   return <span className="animate-pulse"><FlipText text={display} startDelay={baseDelay} /></span>;
 }
 
-function FlipChar({ char, delay = 0 }: { char: string; delay?: number }) {
+const hasAnimatedKey = 'retro-first-load-animated';
+
+function FlipChar({ char, delay = 0, animate = true }: { char: string; delay?: number; animate?: boolean }) {
+  if (!animate) {
+    return (
+      <span className="flip-char-wrapper">
+        <span className="flip-char-top">{char}</span>
+        <span className="flip-char-bottom">{char}</span>
+      </span>
+    );
+  }
   return (
     <span className="flip-char-wrapper" style={{ animationDelay: `${delay}ms` }}>
       <span className="flip-char-top">{char}</span>
@@ -47,17 +57,17 @@ function FlipChar({ char, delay = 0 }: { char: string; delay?: number }) {
   );
 }
 
-function FlipText({ text, startDelay = 0 }: { text: string; startDelay?: number }) {
+function FlipText({ text, startDelay = 0, animate = true }: { text: string; startDelay?: number; animate?: boolean }) {
   return (
     <span className="inline-flex">
       {text.split("").map((char, i) => (
-        <FlipChar key={i} char={char} delay={startDelay + i * 50} />
+        <FlipChar key={i} char={char} delay={startDelay + i * 50} animate={animate} />
       ))}
     </span>
   );
 }
 
-function RetroRow({ trip, isFastest, index }: { trip: ParsedTrip; isFastest: boolean; index: number }) {
+function RetroRow({ trip, isFastest, index, animate }: { trip: ParsedTrip; isFastest: boolean; index: number; animate: boolean }) {
   const depDelayed =
     trip.actualDepartureTime &&
     new Date(trip.actualDepartureTime).getTime() - new Date(trip.departureTime).getTime() > 60000;
@@ -81,7 +91,7 @@ function RetroRow({ trip, isFastest, index }: { trip: ParsedTrip; isFastest: boo
           {trip.minutesUntil <= 1 && trip.minutesUntil > 0 ? (
             <RetroLiveCountdown departureTime={trip.actualDepartureTime || trip.departureTime} baseDelay={baseDelay + 80} />
           ) : (
-            <FlipText text={formatMinutesUntil(trip.minutesUntil).padStart(3, " ")} startDelay={baseDelay + 80} />
+            <FlipText text={formatMinutesUntil(trip.minutesUntil).padStart(3, " ")} startDelay={baseDelay + 80} animate={animate} />
           )}
         </div>
       </td>
@@ -89,41 +99,41 @@ function RetroRow({ trip, isFastest, index }: { trip: ParsedTrip; isFastest: boo
         <div className={`flap-tile ${depDelayed ? "flap-delayed" : ""}`}>
           {depDelayed && (
             <span style={{ fontSize: '0.55rem', textDecoration: 'line-through', opacity: 0.5, marginRight: 4 }}>
-              <FlipText text={plannedDepTime} startDelay={baseDelay} />
+              <FlipText text={plannedDepTime} startDelay={baseDelay} animate={animate} />
             </span>
           )}
-          <FlipText text={depTime} startDelay={baseDelay + (depDelayed ? 100 : 0)} />
+          <FlipText text={depTime} startDelay={baseDelay + (depDelayed ? 100 : 0)} animate={animate} />
         </div>
       </td>
       <td className="retro-td">
         <div className={`flap-tile flap-tile-sm ${trackChanged ? "flap-delayed" : ""}`}>
-          <FlipText text={track.padStart(2, " ")} startDelay={baseDelay + 120} />
+          <FlipText text={track.padStart(2, " ")} startDelay={baseDelay + 120} animate={animate} />
         </div>
       </td>
       <td className="retro-td retro-td-type">
         <div className="flap-tile">
-          <FlipText text={(trip.trainType || "Trein").padEnd(6, " ")} startDelay={baseDelay + 200} />
+          <FlipText text={(trip.trainType || "Trein").padEnd(6, " ")} startDelay={baseDelay + 200} animate={animate} />
         </div>
       </td>
       <td className="retro-td">
         <div className="flap-tile flap-tile-sm" style={{ fontSize: '0.7rem', letterSpacing: 0 }}>
-          <FlipText text={crowdLabel} startDelay={baseDelay + 250} />
+          <FlipText text={crowdLabel} startDelay={baseDelay + 250} animate={animate} />
         </div>
       </td>
       <td className="retro-td">
         <div className="flap-tile flap-tile-sm" style={{ fontSize: '0.9rem' }}>
-          <FlipText text={trip.transfers > 0 ? `${trip.transfers}x` : "—"} startDelay={baseDelay + 260} />
+          <FlipText text={trip.transfers > 0 ? `${trip.transfers}x` : "—"} startDelay={baseDelay + 260} animate={animate} />
         </div>
       </td>
       <td className="retro-td">
-        <div className={`flap-tile ${isFastest ? "flap-fastest" : ""} ${arrDelayed ? "flap-delayed" : ""}`}>
-          {isFastest && <Zap className="h-3.5 w-3.5 flap-zap" />}
+        <div className={`flap-tile ${isFastest ? "flap-fastest" : ""} ${arrDelayed ? "flap-delayed" : ""}`} style={{ minWidth: 80, position: 'relative' }}>
+          {isFastest && <Zap className="h-3.5 w-3.5 flap-zap" style={{ position: 'absolute', left: 4, top: '50%', transform: 'translateY(-50%)' }} />}
           {arrDelayed && (
             <span style={{ fontSize: '0.55rem', textDecoration: 'line-through', opacity: 0.5, marginRight: 4 }}>
-              <FlipText text={plannedArrTime} startDelay={baseDelay + 300} />
+              <FlipText text={plannedArrTime} startDelay={baseDelay + 300} animate={animate} />
             </span>
           )}
-          <FlipText text={arrTime} startDelay={baseDelay + (arrDelayed ? 400 : 300)} />
+          <FlipText text={arrTime} startDelay={baseDelay + (arrDelayed ? 400 : 300)} animate={animate} />
         </div>
       </td>
     </tr>
@@ -133,8 +143,23 @@ function RetroRow({ trip, isFastest, index }: { trip: ParsedTrip; isFastest: boo
 export function RetroRouteDisplay({ data }: RetroRouteDisplayProps) {
   const { t } = useI18n();
   const [expanded, setExpanded] = useState(false);
+  const [animate, setAnimate] = useState(() => {
+    if (sessionStorage.getItem(hasAnimatedKey)) return false;
+    return true;
+  });
   const INITIAL_COUNT = 5;
   const title = `${data.fromStationName} → ${data.route.toStation.namen.lang}`;
+
+  useEffect(() => {
+    if (animate) {
+      // Mark as animated after the animation completes
+      const timer = setTimeout(() => {
+        sessionStorage.setItem(hasAnimatedKey, 'true');
+        setAnimate(false);
+      }, 3000);
+      return () => clearTimeout(timer);
+    }
+  }, [animate]);
 
   const arrivals = data.trips.map(t => new Date(t.actualArrivalTime || t.arrivalTime).getTime());
   const fastestIdx = arrivals.length > 1 ? arrivals.indexOf(Math.min(...arrivals)) : -1;
@@ -142,7 +167,7 @@ export function RetroRouteDisplay({ data }: RetroRouteDisplayProps) {
   return (
     <div className="retro-board">
       <div className="retro-header">
-        <FlipText text={title.toUpperCase()} startDelay={0} />
+        <FlipText text={title.toUpperCase()} startDelay={0} animate={animate} />
       </div>
 
       {data.error && <p className="retro-status">{t("disruptionRetro")}</p>}
@@ -180,6 +205,7 @@ export function RetroRouteDisplay({ data }: RetroRouteDisplayProps) {
                   trip={trip}
                   isFastest={i === fastestIdx && !trip.cancelled}
                   index={i}
+                  animate={animate}
                 />
               ))}
             </tbody>
