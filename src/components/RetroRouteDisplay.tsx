@@ -126,14 +126,18 @@ function RetroRow({ trip, isFastest, index, animate }: { trip: ParsedTrip; isFas
         </div>
       </td>
       <td className="retro-td">
-        <div className={`flap-tile ${isFastest ? "flap-fastest" : ""} ${arrDelayed ? "flap-delayed" : ""}`} style={{ minWidth: 95 }}>
-          {isFastest && <Zap className="h-3.5 w-3.5 flap-zap" />}
-          {arrDelayed && (
-            <span style={{ fontSize: '0.55rem', textDecoration: 'line-through', opacity: 0.5, marginRight: 4 }}>
-              <FlipText text={plannedArrTime} startDelay={baseDelay + 300} animate={animate} />
-            </span>
-          )}
-          <FlipText text={arrTime} startDelay={baseDelay + (arrDelayed ? 400 : 300)} animate={animate} />
+        <div className={`flap-tile ${isFastest ? "flap-fastest" : ""} ${arrDelayed ? "flap-delayed" : ""}`} style={{ minWidth: 95, display: 'flex', alignItems: 'center', justifyContent: 'flex-end', gap: 0 }}>
+          <span style={{ width: 16, flexShrink: 0, display: 'flex', justifyContent: 'center' }}>
+            {isFastest && <Zap className="h-3.5 w-3.5 flap-zap" />}
+          </span>
+          <span style={{ display: 'flex', flexDirection: 'column', alignItems: 'flex-end' }}>
+            {arrDelayed && (
+              <span style={{ fontSize: '0.55rem', textDecoration: 'line-through', opacity: 0.5 }}>
+                <FlipText text={plannedArrTime} startDelay={baseDelay + 300} animate={animate} />
+              </span>
+            )}
+            <FlipText text={arrTime} startDelay={baseDelay + (arrDelayed ? 400 : 300)} animate={animate} />
+          </span>
         </div>
       </td>
     </tr>
