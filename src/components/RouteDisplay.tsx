@@ -46,6 +46,10 @@ export function RouteDisplay({ data }: RouteDisplayProps) {
     return `${minutes} ${t("min")}`;
   }
 
+  const visibleTrips = expanded ? data.trips : data.trips.slice(0, INITIAL_COUNT);
+  const arrivals = data.trips.map(t => new Date(t.actualArrivalTime || t.arrivalTime).getTime());
+  const fastestIdx = arrivals.indexOf(Math.min(...arrivals));
+
   return (
     <div className="bg-card rounded-xl p-4 border border-border">
       <h3 className="text-lg font-bold text-card-foreground mb-1">{title}</h3>
@@ -67,79 +71,73 @@ export function RouteDisplay({ data }: RouteDisplayProps) {
         <p className="text-muted-foreground text-sm py-4 text-center">{t("noTrains")}</p>
       )}
 
-      {!data.loading && data.trips.length > 0 && (() => {
-        const arrivals = data.trips.map(t => new Date(t.actualArrivalTime || t.arrivalTime).getTime());
-        const fastestIdx = arrivals.indexOf(Math.min(...arrivals));
+      {!data.loading && data.trips.length > 0 && (
+        <>
+          <div className="overflow-x-auto">
+            <table className="w-full text-sm">
+              <thead>
+                <tr className="text-muted-foreground">
+                  <th className="text-left py-2 px-2 font-medium">{t("over")}</th>
+                  <th className="text-center py-2 px-2 font-medium">{t("departure")}</th>
+                  <th className="text-center py-2 px-2 font-medium">{t("track")}</th>
+                  <th className="text-center py-2 px-2 font-medium"><Users className="h-3.5 w-3.5 mx-auto" /></th>
+                  <th className="text-center py-2 px-2 font-medium"><ArrowLeftRight className="h-3.5 w-3.5 mx-auto" /></th>
+                  <th className="text-right py-2 px-2 font-medium">{t("arrival")}</th>
+                </tr>
+              </thead>
+              <tbody>
+                {visibleTrips.map((trip, i) => {
+                  const trackChanged = trip.actualTrack && trip.actualTrack !== trip.track;
+                  const delayed = trip.actualDepartureTime && 
+                    new Date(trip.actualDepartureTime).getTime() - new Date(trip.departureTime).getTime() > 60000;
+                  const isFastest = i === fastestIdx && data.trips.length > 1 && !trip.cancelled;
 
-        return (
-        <div className="overflow-x-auto">
-          <table className="w-full text-sm">
-            <thead>
-              <tr className="text-muted-foreground">
-                <th className="text-left py-2 px-2 font-medium">{t("over")}</th>
-                <th className="text-center py-2 px-2 font-medium">{t("departure")}</th>
-                <th className="text-center py-2 px-2 font-medium">{t("track")}</th>
-                <th className="text-center py-2 px-2 font-medium"><Users className="h-3.5 w-3.5 mx-auto" /></th>
-                <th className="text-center py-2 px-2 font-medium"><ArrowLeftRight className="h-3.5 w-3.5 mx-auto" /></th>
-                <th className="text-right py-2 px-2 font-medium">{t("arrival")}</th>
-              </tr>
-            </thead>
-            <tbody>
-              {data.trips.map((trip, i) => {
-                const trackChanged = trip.actualTrack && trip.actualTrack !== trip.track;
-                const delayed = trip.actualDepartureTime && 
-                  new Date(trip.actualDepartureTime).getTime() - new Date(trip.departureTime).getTime() > 60000;
-                const isFastest = i === fastestIdx && data.trips.length > 1 && !trip.cancelled;
-
-                return (
-                  <tr
-                    key={i}
-                    className={`border-t border-border/50 ${trip.cancelled ? "opacity-50 line-through" : ""}`}
-                  >
-                    <td className="py-3 px-2 text-left font-semibold text-secondary">
-                      {formatMinutesUntil(trip.minutesUntil)}
-                    </td>
-                    <td className={`py-3 px-2 text-center font-mono ${delayed ? "text-destructive" : "text-card-foreground"}`}>
-                      {formatTime(trip.actualDepartureTime || trip.departureTime)}
-                    </td>
-                    <td className={`py-3 px-2 text-center font-bold ${trackChanged ? "text-destructive" : "text-secondary"}`}>
-                      {trip.actualTrack || trip.track || "-"}
-                    </td>
-                    <td className="py-3 px-2 text-center">
-                      <CrowdIndicator level={trip.crowdForecast} />
-                    </td>
-                    <td className="py-3 px-2 text-center text-xs text-muted-foreground">
-                      {trip.transfers > 0 ? `${trip.transfers}×` : "—"}
-                    </td>
-                    <td className="py-3 px-2 text-right font-mono text-card-foreground">
-                      <span className="inline-flex items-center gap-1">
-                        {isFastest && <Zap className="h-3.5 w-3.5 text-secondary fill-secondary" />}
-                        {formatTime(trip.actualArrivalTime || trip.arrivalTime)}
-                      </span>
-                    </td>
-                  </tr>
-                );
-              })}
-            </tbody>
-          </table>
-        </div>
-        {data.trips.length > INITIAL_COUNT && (
-          <button
-            onClick={() => setExpanded(e => !e)}
-            className="w-full mt-2 py-2 text-xs text-muted-foreground hover:text-card-foreground flex items-center justify-center gap-1 transition-colors"
-          >
-            {expanded ? (
-              <><ChevronUp className="h-3 w-3" />{t("showLess")}</>
-            ) : (
-              <><ChevronDown className="h-3 w-3" />{t("showMore")} ({data.trips.length - INITIAL_COUNT})</>
-            )}
-          </button>
-        )}
+                  return (
+                    <tr
+                      key={i}
+                      className={`border-t border-border/50 ${trip.cancelled ? "opacity-50 line-through" : ""}`}
+                    >
+                      <td className="py-3 px-2 text-left font-semibold text-secondary">
+                        {formatMinutesUntil(trip.minutesUntil)}
+                      </td>
+                      <td className={`py-3 px-2 text-center font-mono ${delayed ? "text-destructive" : "text-card-foreground"}`}>
+                        {formatTime(trip.actualDepartureTime || trip.departureTime)}
+                      </td>
+                      <td className={`py-3 px-2 text-center font-bold ${trackChanged ? "text-destructive" : "text-secondary"}`}>
+                        {trip.actualTrack || trip.track || "-"}
+                      </td>
+                      <td className="py-3 px-2 text-center">
+                        <CrowdIndicator level={trip.crowdForecast} />
+                      </td>
+                      <td className="py-3 px-2 text-center text-xs text-muted-foreground">
+                        {trip.transfers > 0 ? `${trip.transfers}×` : "—"}
+                      </td>
+                      <td className="py-3 px-2 text-right font-mono text-card-foreground">
+                        <span className="inline-flex items-center gap-1">
+                          {isFastest && <Zap className="h-3.5 w-3.5 text-secondary fill-secondary" />}
+                          {formatTime(trip.actualArrivalTime || trip.arrivalTime)}
+                        </span>
+                      </td>
+                    </tr>
+                  );
+                })}
+              </tbody>
+            </table>
+          </div>
+          {data.trips.length > INITIAL_COUNT && (
+            <button
+              onClick={() => setExpanded(e => !e)}
+              className="w-full mt-2 py-2 text-xs text-muted-foreground hover:text-card-foreground flex items-center justify-center gap-1 transition-colors"
+            >
+              {expanded ? (
+                <><ChevronUp className="h-3 w-3" />{t("showLess")}</>
+              ) : (
+                <><ChevronDown className="h-3 w-3" />{t("showMore")} ({data.trips.length - INITIAL_COUNT})</>
+              )}
+            </button>
+          )}
         </>
-        );
-      })()}
+      )}
     </div>
-  );
-}
   );
 }
