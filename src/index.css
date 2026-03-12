@@ -103,7 +103,12 @@
   }
 
   .flap-tile-sm {
-    min-width: 42px;
+    min-width: 28px;
+  }
+  @media (min-width: 640px) {
+    .flap-tile-sm {
+      min-width: 42px;
+    }
   }
 
   .flap-delayed {
