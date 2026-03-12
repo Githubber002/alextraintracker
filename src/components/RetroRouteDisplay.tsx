@@ -36,12 +36,17 @@ function FlipText({ text, startDelay = 0 }: { text: string; startDelay?: number 
 }
 
 function RetroRow({ trip, isFastest, index }: { trip: ParsedTrip; isFastest: boolean; index: number }) {
-  const delayed =
+  const depDelayed =
     trip.actualDepartureTime &&
     new Date(trip.actualDepartureTime).getTime() - new Date(trip.departureTime).getTime() > 60000;
+  const arrDelayed =
+    trip.actualArrivalTime &&
+    new Date(trip.actualArrivalTime).getTime() - new Date(trip.arrivalTime).getTime() > 60000;
   const trackChanged = trip.actualTrack && trip.actualTrack !== trip.track;
   const depTime = formatTime(trip.actualDepartureTime || trip.departureTime);
+  const plannedDepTime = formatTime(trip.departureTime);
   const arrTime = formatTime(trip.actualArrivalTime || trip.arrivalTime);
+  const plannedArrTime = formatTime(trip.arrivalTime);
   const track = trip.actualTrack || trip.track || "-";
   const baseDelay = index * 250;
   const crowdMap: Record<string, string> = { LOW: "●○○", MEDIUM: "●●○", HIGH: "●●●" };
@@ -50,8 +55,13 @@ function RetroRow({ trip, isFastest, index }: { trip: ParsedTrip; isFastest: boo
   return (
     <tr className={`retro-table-row ${trip.cancelled ? "opacity-40 line-through" : ""}`}>
       <td className="retro-td">
-        <div className={`flap-tile ${delayed ? "flap-delayed" : ""}`}>
-          <FlipText text={depTime} startDelay={baseDelay} />
+        <div className={`flap-tile ${depDelayed ? "flap-delayed" : ""}`}>
+          {depDelayed && (
+            <span style={{ fontSize: '0.55rem', textDecoration: 'line-through', opacity: 0.5, marginRight: 4 }}>
+              <FlipText text={plannedDepTime} startDelay={baseDelay} />
+            </span>
+          )}
+          <FlipText text={depTime} startDelay={baseDelay + (depDelayed ? 100 : 0)} />
         </div>
       </td>
       <td className="retro-td">
@@ -80,9 +90,14 @@ function RetroRow({ trip, isFastest, index }: { trip: ParsedTrip; isFastest: boo
         </div>
       </td>
       <td className="retro-td">
-        <div className={`flap-tile ${isFastest ? "flap-fastest" : ""}`}>
+        <div className={`flap-tile ${isFastest ? "flap-fastest" : ""} ${arrDelayed ? "flap-delayed" : ""}`}>
           {isFastest && <Zap className="h-3.5 w-3.5 flap-zap" />}
-          <FlipText text={arrTime} startDelay={baseDelay + 300} />
+          {arrDelayed && (
+            <span style={{ fontSize: '0.55rem', textDecoration: 'line-through', opacity: 0.5, marginRight: 4 }}>
+              <FlipText text={plannedArrTime} startDelay={baseDelay + 300} />
+            </span>
+          )}
+          <FlipText text={arrTime} startDelay={baseDelay + (arrDelayed ? 400 : 300)} />
         </div>
       </td>
     </tr>
