@@ -14,13 +14,19 @@
   }
 
   .retro-header {
-    @apply px-4 py-3 text-center font-bold tracking-widest;
+    @apply px-2 py-2 sm:px-4 sm:py-3 text-center font-bold tracking-widest;
     font-family: 'Share Tech Mono', monospace;
-    font-size: 0.95rem;
+    font-size: 0.75rem;
     color: hsl(0 0% 95%);
     background: hsl(215 70% 18%);
     border-bottom: 2px solid hsl(215 50% 25%);
-    letter-spacing: 0.15em;
+    letter-spacing: 0.12em;
+  }
+  @media (min-width: 640px) {
+    .retro-header {
+      font-size: 0.95rem;
+      letter-spacing: 0.15em;
+    }
   }
 
   .retro-body {
