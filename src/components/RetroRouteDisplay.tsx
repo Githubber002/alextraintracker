@@ -143,6 +143,19 @@ export function RetroRouteDisplay({ data }: RetroRouteDisplayProps) {
               ))}
             </tbody>
           </table>
+          {data.trips.length > INITIAL_COUNT && (
+            <button
+              onClick={() => setExpanded(e => !e)}
+              className="w-full mt-1 py-2 text-xs flex items-center justify-center gap-1 transition-colors"
+              style={{ color: '#fbbf24' }}
+            >
+              {expanded ? (
+                <><ChevronUp className="h-3 w-3" />{t("showLess")}</>
+              ) : (
+                <><ChevronDown className="h-3 w-3" />{t("showMore")} ({data.trips.length - INITIAL_COUNT})</>
+              )}
+            </button>
+          )}
         </div>
       )}
     </div>

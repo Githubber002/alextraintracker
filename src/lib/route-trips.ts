@@ -50,7 +50,7 @@ function parseTrips(trips: Trip[]): ParsedTrip[] {
       };
     })
     .filter((t): t is NonNullable<typeof t> => t !== null && t.minutesUntil >= -1)
-    .slice(0, 5);
+    .slice(0, 8);
 }
 
 export async function fetchRouteTrips(route: RouteConfig): Promise<RouteTripData[]> {

@@ -123,6 +123,18 @@ export function RouteDisplay({ data }: RouteDisplayProps) {
             </tbody>
           </table>
         </div>
+        {data.trips.length > INITIAL_COUNT && (
+          <button
+            onClick={() => setExpanded(e => !e)}
+            className="w-full mt-2 py-2 text-xs text-muted-foreground hover:text-card-foreground flex items-center justify-center gap-1 transition-colors"
+          >
+            {expanded ? (
+              <><ChevronUp className="h-3 w-3" />{t("showLess")}</>
+            ) : (
+              <><ChevronDown className="h-3 w-3" />{t("showMore")} ({data.trips.length - INITIAL_COUNT})</>
+            )}
+          </button>
+        )}
         );
       })()}
     </div>

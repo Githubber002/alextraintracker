@@ -258,6 +258,8 @@ const translations: Record<Language, Record<string, string>> = {
     busy: "Kalabalık",
     retroView: "Retro pano",
     modernView: "Modern görünüm",
+    showMore: "Daha fazla kalkış",
+    showLess: "Daha az göster",
   },
 };
 
