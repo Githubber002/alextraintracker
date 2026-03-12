@@ -54,6 +54,23 @@ Deno.serve(async (req) => {
         headers: { 'Ocp-Apim-Subscription-Key': apiKey },
       })
       const data = await response.json()
+
+      // Fetch additional trips using scroll context to ensure we have 8+
+      if (data.scrollRequestForwardContext && (data.trips?.length || 0) < 10) {
+        try {
+          const moreUrl = `https://gateway.apiportal.ns.nl/reisinformatie-api/api/v3/trips?fromStation=${encodeURIComponent(fromStation)}&toStation=${encodeURIComponent(toStation)}&scrollContext=${encodeURIComponent(data.scrollRequestForwardContext)}&passing=false`
+          const moreResponse = await fetch(moreUrl, {
+            headers: { 'Ocp-Apim-Subscription-Key': apiKey },
+          })
+          const moreData = await moreResponse.json()
+          if (moreData.trips) {
+            data.trips = [...(data.trips || []), ...moreData.trips]
+          }
+        } catch (_) {
+          // Ignore scroll errors, return what we have
+        }
+      }
+
       return new Response(JSON.stringify(data), {
         headers: { ...corsHeaders, 'Content-Type': 'application/json' },
       })
