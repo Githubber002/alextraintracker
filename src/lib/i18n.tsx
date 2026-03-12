@@ -208,6 +208,8 @@ const translations: Record<Language, Record<string, string>> = {
     busy: "व्यस्त",
     retroView: "रेट्रो बोर्ड",
     modernView: "आधुनिक दृश्य",
+    showMore: "और प्रस्थान",
+    showLess: "कम दिखाएं",
   },
   tr: {
     departures: "Kalkışlar",
