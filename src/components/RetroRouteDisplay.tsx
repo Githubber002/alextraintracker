@@ -116,8 +116,8 @@ function RetroRow({ trip, isFastest, index }: { trip: ParsedTrip; isFastest: boo
         </div>
       </td>
       <td className="retro-td">
-        <div className={`flap-tile ${isFastest ? "flap-fastest" : ""} ${arrDelayed ? "flap-delayed" : ""}`}>
-          {isFastest && <Zap className="h-3.5 w-3.5 flap-zap" />}
+        <div className={`flap-tile ${isFastest ? "flap-fastest" : ""} ${arrDelayed ? "flap-delayed" : ""}`} style={{ minWidth: 80, position: 'relative' }}>
+          {isFastest && <Zap className="h-3.5 w-3.5 flap-zap" style={{ position: 'absolute', left: 4, top: '50%', transform: 'translateY(-50%)' }} />}
           {arrDelayed && (
             <span style={{ fontSize: '0.55rem', textDecoration: 'line-through', opacity: 0.5, marginRight: 4 }}>
               <FlipText text={plannedArrTime} startDelay={baseDelay + 300} />
