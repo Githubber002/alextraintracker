@@ -126,7 +126,7 @@ function RetroRow({ trip, isFastest, index, animate }: { trip: ParsedTrip; isFas
         </div>
       </td>
       <td className="retro-td">
-        <div className={`flap-tile ${isFastest ? "flap-fastest" : ""} ${arrDelayed ? "flap-delayed" : ""}`} style={{ minWidth: 95, display: 'flex', alignItems: 'center', justifyContent: 'flex-end', gap: 0 }}>
+        <div className={`flap-tile ${isFastest ? "flap-fastest" : ""} ${arrDelayed ? "flap-delayed" : ""}`} style={{ minWidth: 95, display: 'flex', alignItems: 'center', justifyContent: 'center', gap: 0 }}>
           <span style={{ width: 16, flexShrink: 0, display: 'flex', justifyContent: 'center' }}>
             {isFastest && <Zap className="h-3.5 w-3.5 flap-zap" />}
           </span>
