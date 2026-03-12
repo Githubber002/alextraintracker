@@ -106,7 +106,11 @@ function RetroRow({ trip, isFastest, index }: { trip: ParsedTrip; isFastest: boo
       </td>
       <td className="retro-td">
         <div className="flap-tile flap-tile-sm flap-minutes">
-          <FlipText text={formatMinutesUntil(trip.minutesUntil).padStart(3, " ")} startDelay={baseDelay + 80} />
+          {trip.minutesUntil <= 1 && trip.minutesUntil > 0 ? (
+            <RetroLiveCountdown departureTime={trip.actualDepartureTime || trip.departureTime} baseDelay={baseDelay + 80} />
+          ) : (
+            <FlipText text={formatMinutesUntil(trip.minutesUntil).padStart(3, " ")} startDelay={baseDelay + 80} />
+          )}
         </div>
       </td>
       <td className="retro-td">
