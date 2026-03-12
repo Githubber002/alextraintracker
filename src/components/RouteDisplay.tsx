@@ -99,13 +99,13 @@ export function RouteDisplay({ data }: RouteDisplayProps) {
           <div className="overflow-x-auto">
             <table className="w-full text-sm">
               <thead>
-                <tr className="text-muted-foreground">
-                  <th className="text-left py-2 px-2 font-medium">{t("over")}</th>
-                  <th className="text-center py-2 px-2 font-medium">{t("departure")}</th>
-                  <th className="text-center py-2 px-2 font-medium">{t("track")}</th>
-                  <th className="text-center py-2 px-2 font-medium"><Users className="h-3.5 w-3.5 mx-auto" /></th>
-                  <th className="text-center py-2 px-2 font-medium"><ArrowLeftRight className="h-3.5 w-3.5 mx-auto" /></th>
-                  <th className="text-right py-2 px-2 font-medium">{t("arrival")}</th>
+                <tr className="text-muted-foreground text-[10px] sm:text-xs">
+                  <th className="text-left py-1 px-1 sm:px-2 font-medium">{t("over")}</th>
+                  <th className="text-center py-1 px-1 sm:px-2 font-medium">{t("departure")}</th>
+                  <th className="text-center py-1 px-1 sm:px-2 font-medium">{t("track")}</th>
+                  <th className="text-center py-1 px-0.5 sm:px-2 font-medium"><Users className="h-3 w-3 sm:h-3.5 sm:w-3.5 mx-auto" /></th>
+                  <th className="text-center py-1 px-0.5 sm:px-2 font-medium"><ArrowLeftRight className="h-3 w-3 sm:h-3.5 sm:w-3.5 mx-auto" /></th>
+                  <th className="text-right py-1 px-1 sm:px-2 font-medium">{t("arrival")}</th>
                 </tr>
               </thead>
               <tbody>
