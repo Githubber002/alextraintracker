@@ -98,7 +98,7 @@ function RetroRow({ trip, isFastest, index, animate }: { trip: ParsedTrip; isFas
       <td className="retro-td">
         <div className={`flap-tile ${depDelayed ? "flap-delayed" : ""}`}>
           {depDelayed && (
-            <span style={{ fontSize: '0.55rem', textDecoration: 'line-through', opacity: 0.5, marginRight: 4 }}>
+            <span style={{ fontSize: '0.45rem', textDecoration: 'line-through', opacity: 0.5, marginRight: 2 }}>
               <FlipText text={plannedDepTime} startDelay={baseDelay} animate={animate} />
             </span>
           )}
