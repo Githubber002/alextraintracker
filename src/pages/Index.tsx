@@ -263,7 +263,7 @@ const Index = () => {
 
       <footer className="max-w-2xl mx-auto px-4 py-8 mt-8 border-t border-border">
         <p className="text-xs text-muted-foreground text-center mb-3">
-          Vibe Coded by Alex
+          <a href="https://www.crossborderalex.com/" target="_blank" rel="noopener noreferrer" className="hover:text-foreground transition-colors underline underline-offset-2">Vibe Coded by Alex</a>
         </p>
 
         <details className="text-center mb-3">
