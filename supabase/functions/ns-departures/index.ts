@@ -49,7 +49,7 @@ Deno.serve(async (req) => {
       if (!fromStation || !toStation) {
         throw new Error('fromStation and toStation are required')
       }
-      const nsUrl = `https://gateway.apiportal.ns.nl/reisinformatie-api/api/v3/trips?fromStation=${encodeURIComponent(fromStation)}&toStation=${encodeURIComponent(toStation)}&dateTime=${encodeURIComponent(new Date().toISOString())}`
+      const nsUrl = `https://gateway.apiportal.ns.nl/reisinformatie-api/api/v3/trips?fromStation=${encodeURIComponent(fromStation)}&toStation=${encodeURIComponent(toStation)}&dateTime=${encodeURIComponent(new Date().toISOString())}&passing=false`
       const response = await fetch(nsUrl, {
         headers: { 'Ocp-Apim-Subscription-Key': apiKey },
       })
