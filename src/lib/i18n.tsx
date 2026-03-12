@@ -58,6 +58,8 @@ const translations: Record<Language, Record<string, string>> = {
     busy: "Druk",
     retroView: "Retro klapperbord",
     modernView: "Moderne weergave",
+    showMore: "Meer vertrektijden",
+    showLess: "Minder tonen",
   },
   en: {
     departures: "Departures",
@@ -106,6 +108,8 @@ const translations: Record<Language, Record<string, string>> = {
     busy: "Busy",
     retroView: "Retro flip board",
     modernView: "Modern view",
+    showMore: "More departures",
+    showLess: "Show less",
   },
   es: {
     departures: "Salidas",
@@ -154,6 +158,8 @@ const translations: Record<Language, Record<string, string>> = {
     busy: "Lleno",
     retroView: "Panel retro",
     modernView: "Vista moderna",
+    showMore: "Más salidas",
+    showLess: "Mostrar menos",
   },
   hi: {
     departures: "प्रस्थान",
@@ -202,6 +208,8 @@ const translations: Record<Language, Record<string, string>> = {
     busy: "व्यस्त",
     retroView: "रेट्रो बोर्ड",
     modernView: "आधुनिक दृश्य",
+    showMore: "और प्रस्थान",
+    showLess: "कम दिखाएं",
   },
   tr: {
     departures: "Kalkışlar",
@@ -250,6 +258,8 @@ const translations: Record<Language, Record<string, string>> = {
     busy: "Kalabalık",
     retroView: "Retro pano",
     modernView: "Modern görünüm",
+    showMore: "Daha fazla kalkış",
+    showLess: "Daha az göster",
   },
 };
 

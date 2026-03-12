@@ -1,6 +1,7 @@
+import { useState } from "react";
 import { RouteTripData, ParsedTrip } from "@/lib/route-trips";
 import { format } from "date-fns";
-import { Zap } from "lucide-react";
+import { Zap, ChevronDown, ChevronUp } from "lucide-react";
 import { useI18n } from "@/lib/i18n";
 
 interface RetroRouteDisplayProps {
@@ -90,6 +91,8 @@ function RetroRow({ trip, isFastest, index }: { trip: ParsedTrip; isFastest: boo
 
 export function RetroRouteDisplay({ data }: RetroRouteDisplayProps) {
   const { t } = useI18n();
+  const [expanded, setExpanded] = useState(false);
+  const INITIAL_COUNT = 5;
   const title = `${data.fromStationName} → ${data.route.toStation.namen.lang}`;
 
   const arrivals = data.trips.map(t => new Date(t.actualArrivalTime || t.arrivalTime).getTime());
@@ -130,7 +133,7 @@ export function RetroRouteDisplay({ data }: RetroRouteDisplayProps) {
               </tr>
             </thead>
             <tbody>
-              {data.trips.map((trip, i) => (
+              {(expanded ? data.trips : data.trips.slice(0, INITIAL_COUNT)).map((trip, i) => (
                 <RetroRow
                   key={i}
                   trip={trip}
@@ -140,6 +143,19 @@ export function RetroRouteDisplay({ data }: RetroRouteDisplayProps) {
               ))}
             </tbody>
           </table>
+          {data.trips.length > INITIAL_COUNT && (
+            <button
+              onClick={() => setExpanded(e => !e)}
+              className="w-full mt-1 py-2 text-xs flex items-center justify-center gap-1 transition-colors"
+              style={{ color: '#fbbf24' }}
+            >
+              {expanded ? (
+                <><ChevronUp className="h-3 w-3" />{t("showLess")}</>
+              ) : (
+                <><ChevronDown className="h-3 w-3" />{t("showMore")} ({data.trips.length - INITIAL_COUNT})</>
+              )}
+            </button>
+          )}
         </div>
       )}
     </div>
