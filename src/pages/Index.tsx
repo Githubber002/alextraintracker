@@ -2,6 +2,7 @@ import { useState, useEffect, useCallback, useRef, useMemo } from "react";
 import { RouteDisplay } from "@/components/RouteDisplay";
 import { DisruptionTicker } from "@/components/DisruptionTicker";
 import { RetroRouteDisplay } from "@/components/RetroRouteDisplay";
+import { OfflineBanner } from "@/components/OfflineBanner";
 import { RouteSettings } from "@/components/RouteSettings";
 import { loadRoutes, RouteConfig } from "@/lib/ns-api";
 import { fetchRouteTrips, RouteTripData } from "@/lib/route-trips";
