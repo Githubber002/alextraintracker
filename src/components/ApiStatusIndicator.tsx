@@ -19,7 +19,7 @@ export function ApiStatusIndicator() {
       }
     };
     check();
-    const interval = setInterval(check, 60000);
+    const interval = setInterval(check, 1800000);
     return () => clearInterval(interval);
   }, []);
 
