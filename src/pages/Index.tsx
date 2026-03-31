@@ -269,6 +269,9 @@ const Index = () => {
       </div>
 
       <footer className="max-w-2xl mx-auto px-4 py-8 mt-8 border-t border-border">
+        <div className="mb-3">
+          <ApiStatusIndicator />
+        </div>
         <p className="text-xs text-muted-foreground text-center mb-3">
           <a href="https://www.crossborderalex.com/" target="_blank" rel="noopener noreferrer" className="hover:text-foreground transition-colors underline underline-offset-2">Vibe Coded by Alex</a>
         </p>
