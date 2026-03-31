@@ -6,6 +6,7 @@ import { RouteSettings } from "@/components/RouteSettings";
 import { loadRoutes, RouteConfig } from "@/lib/ns-api";
 import { fetchRouteTrips, RouteTripData } from "@/lib/route-trips";
 import { Train, Settings, RefreshCw, ChevronLeft, ChevronRight, Tv, Monitor, Sun, Moon, Globe } from "lucide-react";
+import { ApiStatusIndicator } from "@/components/ApiStatusIndicator";
 import { useI18n, LANGUAGES } from "@/lib/i18n";
 
 const Index = () => {
@@ -268,6 +269,9 @@ const Index = () => {
       </div>
 
       <footer className="max-w-2xl mx-auto px-4 py-8 mt-8 border-t border-border">
+        <div className="mb-3">
+          <ApiStatusIndicator />
+        </div>
         <p className="text-xs text-muted-foreground text-center mb-3">
           <a href="https://www.crossborderalex.com/" target="_blank" rel="noopener noreferrer" className="hover:text-foreground transition-colors underline underline-offset-2">Vibe Coded by Alex</a>
         </p>
