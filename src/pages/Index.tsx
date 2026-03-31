@@ -6,6 +6,7 @@ import { RouteSettings } from "@/components/RouteSettings";
 import { loadRoutes, RouteConfig } from "@/lib/ns-api";
 import { fetchRouteTrips, RouteTripData } from "@/lib/route-trips";
 import { Train, Settings, RefreshCw, ChevronLeft, ChevronRight, Tv, Monitor, Sun, Moon, Globe } from "lucide-react";
+import { ApiStatusIndicator } from "@/components/ApiStatusIndicator";
 import { useI18n, LANGUAGES } from "@/lib/i18n";
 
 const Index = () => {
