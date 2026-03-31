@@ -2,6 +2,7 @@ import { useState, useEffect, useCallback, useRef, useMemo } from "react";
 import { RouteDisplay } from "@/components/RouteDisplay";
 import { DisruptionTicker } from "@/components/DisruptionTicker";
 import { RetroRouteDisplay } from "@/components/RetroRouteDisplay";
+import { OfflineBanner } from "@/components/OfflineBanner";
 import { RouteSettings } from "@/components/RouteSettings";
 import { loadRoutes, RouteConfig } from "@/lib/ns-api";
 import { fetchRouteTrips, RouteTripData } from "@/lib/route-trips";
@@ -106,6 +107,7 @@ const Index = () => {
 
   return (
     <div className="min-h-screen bg-background">
+      <OfflineBanner />
       <header className="bg-secondary py-4 px-4">
         <div className="max-w-2xl mx-auto flex items-center justify-between">
           <div className="flex items-center gap-3">
