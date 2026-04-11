@@ -69,9 +69,10 @@ export function RouteSettings({ routes: initialRoutes, onSave, onClose }: RouteS
           <div className="flex items-center gap-1">
             {LANGUAGES.map(l => (
               <button
+                type="button"
                 key={l.code}
-                onClick={() => setLang(l.code)}
-                className={`px-2 py-1 text-sm rounded-md transition-colors ${
+                onClick={(e) => { e.stopPropagation(); setLang(l.code); }}
+                className={`min-w-[2.5rem] min-h-[2.5rem] flex items-center justify-center text-base rounded-md transition-colors ${
                   lang === l.code ? "bg-secondary text-secondary-foreground font-semibold" : "text-muted-foreground hover:bg-muted"
                 }`}
               >
