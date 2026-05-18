@@ -121,12 +121,12 @@ const Index = () => {
     <div className="min-h-screen bg-background">
       <OfflineBanner />
       <header className="bg-secondary py-4 px-4">
-        <div className="max-w-2xl mx-auto flex items-center justify-between">
-          <div className="flex items-center gap-3">
-            <Train className="h-6 w-6 text-secondary-foreground" />
-            <h1 className="text-lg font-bold text-secondary-foreground tracking-tight">{t("departures")}</h1>
+        <div className="max-w-2xl mx-auto flex items-center justify-between gap-2">
+          <div className="flex items-center gap-2 min-w-0">
+            <Train className="h-6 w-6 text-secondary-foreground shrink-0" />
+            <h1 className="text-lg font-bold text-secondary-foreground tracking-tight truncate">{t("departures")}</h1>
           </div>
-          <div className="flex items-center gap-1">
+          <div className="flex items-center gap-0.5 shrink-0">
             {/* Retro toggle */}
             <button
               onClick={() => {
@@ -135,7 +135,7 @@ const Index = () => {
                   return !r;
                 });
               }}
-              className={`flex items-center gap-1 px-2 py-1.5 rounded-lg text-xs font-medium transition-colors ${
+              className={`flex items-center gap-1 p-1.5 sm:px-2 rounded-lg text-xs font-medium transition-colors ${
                 retro 
                   ? "bg-primary text-primary-foreground" 
                   : "text-secondary-foreground hover:bg-secondary-foreground/10"
@@ -149,7 +149,7 @@ const Index = () => {
             {/* Dark mode toggle */}
             <button
               onClick={() => setDark(d => !d)}
-              className="p-2 rounded-lg hover:bg-secondary-foreground/10 transition-colors text-secondary-foreground"
+              className="p-1.5 rounded-lg hover:bg-secondary-foreground/10 transition-colors text-secondary-foreground"
               title={dark ? t("lightTheme") : t("darkTheme")}
             >
               {dark ? <Sun className="h-4 w-4" /> : <Moon className="h-4 w-4" />}
@@ -158,12 +158,12 @@ const Index = () => {
             {/* Font size toggle */}
             <button
               onClick={() => setFontScale(s => (s === 'sm' ? 'md' : s === 'md' ? 'lg' : 'sm'))}
-              className="flex items-center gap-0.5 p-2 rounded-lg hover:bg-secondary-foreground/10 transition-colors text-secondary-foreground"
+              className="flex items-center gap-0.5 p-1.5 rounded-lg hover:bg-secondary-foreground/10 transition-colors text-secondary-foreground"
               title={`Tekstgrootte: ${fontScale === 'sm' ? 'Standaard' : fontScale === 'md' ? 'Groot' : 'Extra groot'}`}
               aria-label="Tekstgrootte aanpassen"
             >
               <Type className="h-4 w-4" />
-              <span className="text-[10px] font-bold leading-none">
+              <span className="hidden sm:inline text-[10px] font-bold leading-none">
                 {fontScale === 'sm' ? 'A' : fontScale === 'md' ? 'A+' : 'A++'}
               </span>
             </button>
@@ -173,7 +173,7 @@ const Index = () => {
               <button
                 onClick={() => refreshTrips(activeRoutes)}
                 disabled={loading}
-                className="p-2 rounded-lg hover:bg-secondary-foreground/10 transition-colors text-secondary-foreground disabled:opacity-50"
+                className="p-1.5 rounded-lg hover:bg-secondary-foreground/10 transition-colors text-secondary-foreground disabled:opacity-50"
               >
                 <RefreshCw className={`h-4 w-4 ${loading ? "animate-spin" : ""}`} />
               </button>
@@ -182,7 +182,7 @@ const Index = () => {
             {/* Language picker */}
             <div className="relative group">
               <button
-                className="p-2 rounded-lg hover:bg-secondary-foreground/10 transition-colors text-secondary-foreground text-xs font-medium"
+                className="p-1.5 rounded-lg hover:bg-secondary-foreground/10 transition-colors text-secondary-foreground text-xs font-medium"
                 title="Language"
               >
                 {LANGUAGES.find(l => l.code === lang)?.flag || "🌐"}
@@ -206,7 +206,7 @@ const Index = () => {
             {/* Settings */}
             <button
               onClick={() => setShowSettings(true)}
-              className="p-2 rounded-lg hover:bg-secondary-foreground/10 transition-colors text-secondary-foreground"
+              className="p-1.5 rounded-lg hover:bg-secondary-foreground/10 transition-colors text-secondary-foreground"
             >
               <Settings className="h-4 w-4" />
             </button>
