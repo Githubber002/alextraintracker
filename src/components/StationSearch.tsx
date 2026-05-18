@@ -1,4 +1,4 @@
-import { useState, useEffect, useCallback } from "react";
+import { useState, useEffect, useCallback, useRef } from "react";
 import { searchStations, Station } from "@/lib/ns-api";
 import { Search, MapPin } from "lucide-react";
 import { useI18n } from "@/lib/i18n";
@@ -15,6 +15,15 @@ export function StationSearch({ onSelect, selectedStation, compact }: StationSea
   const [results, setResults] = useState<Station[]>([]);
   const [isOpen, setIsOpen] = useState(false);
   const [loading, setLoading] = useState(false);
+  const inputRef = useRef<HTMLInputElement>(null);
+
+  const handleFocus = () => {
+    setIsOpen(true);
+    // Wait for the mobile keyboard to open, then scroll input into view
+    setTimeout(() => {
+      inputRef.current?.scrollIntoView({ behavior: "smooth", block: "center" });
+    }, 300);
+  };
 
   useEffect(() => {
     if (selectedStation) {
@@ -52,6 +61,7 @@ export function StationSearch({ onSelect, selectedStation, compact }: StationSea
       <div className="relative">
         <Search className={`absolute ${compact ? "left-3 h-4 w-4" : "left-4 h-5 w-5"} top-1/2 -translate-y-1/2 text-muted-foreground`} />
         <input
+          ref={inputRef}
           type="text"
           placeholder={t("searchStation")}
           value={query}
@@ -59,7 +69,7 @@ export function StationSearch({ onSelect, selectedStation, compact }: StationSea
             setQuery(e.target.value);
             setIsOpen(true);
           }}
-          onFocus={() => setIsOpen(true)}
+          onFocus={handleFocus}
           onBlur={() => setTimeout(() => setIsOpen(false), 200)}
           className={inputClass}
         />
