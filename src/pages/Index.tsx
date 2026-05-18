@@ -6,7 +6,7 @@ import { OfflineBanner } from "@/components/OfflineBanner";
 import { RouteSettings } from "@/components/RouteSettings";
 import { loadRoutes, RouteConfig } from "@/lib/ns-api";
 import { fetchRouteTrips, RouteTripData } from "@/lib/route-trips";
-import { Train, Settings, RefreshCw, ChevronLeft, ChevronRight, Tv, Monitor, Sun, Moon, Globe } from "lucide-react";
+import { Train, Settings, RefreshCw, ChevronLeft, ChevronRight, Tv, Monitor, Sun, Moon, Globe, Type } from "lucide-react";
 import { ApiStatusIndicator } from "@/components/ApiStatusIndicator";
 import { useI18n, LANGUAGES } from "@/lib/i18n";
 
@@ -24,6 +24,18 @@ const Index = () => {
     if (saved !== null) return saved === 'true';
     return false;
   });
+  const [fontScale, setFontScale] = useState<'sm' | 'md' | 'lg'>(() => {
+    const saved = localStorage.getItem('font-scale');
+    if (saved === 'sm' || saved === 'md' || saved === 'lg') return saved;
+    return 'sm';
+  });
+
+  // Apply font scale to <html> root font-size (scales all rem-based sizes)
+  useEffect(() => {
+    const sizes = { sm: '16px', md: '18px', lg: '20px' };
+    document.documentElement.style.fontSize = sizes[fontScale];
+    localStorage.setItem('font-scale', fontScale);
+  }, [fontScale]);
 
   // Apply dark class to html
   useEffect(() => {
@@ -141,6 +153,19 @@ const Index = () => {
               title={dark ? t("lightTheme") : t("darkTheme")}
             >
               {dark ? <Sun className="h-4 w-4" /> : <Moon className="h-4 w-4" />}
+            </button>
+
+            {/* Font size toggle */}
+            <button
+              onClick={() => setFontScale(s => (s === 'sm' ? 'md' : s === 'md' ? 'lg' : 'sm'))}
+              className="flex items-center gap-0.5 p-2 rounded-lg hover:bg-secondary-foreground/10 transition-colors text-secondary-foreground"
+              title={`Tekstgrootte: ${fontScale === 'sm' ? 'Standaard' : fontScale === 'md' ? 'Groot' : 'Extra groot'}`}
+              aria-label="Tekstgrootte aanpassen"
+            >
+              <Type className="h-4 w-4" />
+              <span className="text-[10px] font-bold leading-none">
+                {fontScale === 'sm' ? 'A' : fontScale === 'md' ? 'A+' : 'A++'}
+              </span>
             </button>
 
             {/* Refresh */}
