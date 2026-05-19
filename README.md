@@ -1,73 +1,70 @@
-# Welcome to your Lovable project
+# 🚆 Vertrektijden
 
-## Project info
+A minimalist Dutch train departure board — your favourite NS routes, live, on any device.
 
-**URL**: https://lovable.dev/projects/REPLACE_WITH_PROJECT_ID
+**Live app:** https://alextraintracker.lovable.app
 
-## How can I edit this code?
+Built for commuters who just want to know: *when's my next train, and is it on time?*
 
-There are several ways of editing your application.
+## ✨ Features
 
-**Use Lovable**
+- **Multi-route config** — save up to 5 favourite routes (2 departure stations → 1 destination)
+- **Outbound / return swap** — one tap (or swipe) to flip Heen ↔ Terug
+- **Live countdown** — pulsing `0:SS` timer when a train leaves within a minute
+- **Fastest train highlight** — instantly see the quickest option
+- **Disruption ticker** — live NS disruptions scroll across the top
+- **Retro split-flap mode** — vintage 70s/80s NS Solari board styling
+- **Light & dark themes** — NS Yellow & Blue brand identity
+- **Adjustable text size** — A / A+ / A++ for better readability
+- **Multi-language** — 🇳🇱 NL · 🇬🇧 EN · 🇪🇸 ES · 🇮🇳 HI · 🇹🇷 TR
+- **Installable PWA** — add to home screen on iOS & Android, works offline
+- **Android-friendly inputs** — auto-scrolls above the on-screen keyboard
+- **API status indicator** — traffic-light health of the NS backend
 
-Simply visit the [Lovable Project](https://lovable.dev/projects/REPLACE_WITH_PROJECT_ID) and start prompting.
+## 🛠 Tech Stack
 
-Changes made via Lovable will be committed automatically to this repo.
+- **Frontend:** React 18 + Vite 5 + TypeScript + Tailwind CSS + shadcn/ui
+- **Backend:** Lovable Cloud edge functions proxying the NS Trips v3 & Disruptions APIs (keeps the `NS_API_KEY` secret)
+- **Storage:** `localStorage` for preferences (routes, language, direction, text size, theme)
+- **PWA:** Network-first service worker for fresh data with an offline fallback
 
-**Use your preferred IDE**
+## 🚀 Getting Started
 
-If you want to work locally using your own IDE, you can clone this repo and push changes. Pushed changes will also be reflected in Lovable.
-
-The only requirement is having Node.js & npm installed - [install with nvm](https://github.com/nvm-sh/nvm#installing-and-updating)
-
-Follow these steps:
+Requirements: Node.js + npm ([install with nvm](https://github.com/nvm-sh/nvm#installing-and-updating)).
 
 ```sh
-# Step 1: Clone the repository using the project's Git URL.
 git clone <YOUR_GIT_URL>
-
-# Step 2: Navigate to the project directory.
-cd <YOUR_PROJECT_NAME>
-
-# Step 3: Install the necessary dependencies.
-npm i
-
-# Step 4: Start the development server with auto-reloading and an instant preview.
+cd vertrektijden
+npm install
 npm run dev
 ```
 
-**Edit a file directly in GitHub**
+Dev server runs on `http://localhost:8080`.
 
-- Navigate to the desired file(s).
-- Click the "Edit" button (pencil icon) at the top right of the file view.
-- Make your changes and commit the changes.
+The `.env` file is auto-managed by Lovable Cloud. The NS API key lives as a secret on the edge function — no key required for local frontend development.
 
-**Use GitHub Codespaces**
+## 📁 Project Structure
 
-- Navigate to the main page of your repository.
-- Click on the "Code" button (green button) near the top right.
-- Select the "Codespaces" tab.
-- Click on "New codespace" to launch a new Codespace environment.
-- Edit files directly within the Codespace and commit and push your changes once you're done.
+```
+src/
+  components/         UI: RouteDisplay, RetroRouteDisplay, RouteSettings,
+                      StationSearch, DisruptionTicker, OfflineBanner, …
+  lib/
+    ns-api.ts         NS API client (via edge function)
+    route-trips.ts    Trip aggregation & fastest-train logic
+    i18n.tsx          Multi-language strings & provider
+  pages/Index.tsx     Main app shell
+supabase/
+  functions/
+    ns-departures/    Edge function proxying NS Trips + Disruptions
+```
 
-## What technologies are used for this project?
+## 🌍 Deploy
 
-This project is built with:
+Open the [Lovable project](https://lovable.dev) and click **Share → Publish**. Custom domains: **Project → Settings → Domains**.
 
-- Vite
-- TypeScript
-- React
-- shadcn-ui
-- Tailwind CSS
+## 🙏 Credits
 
-## How can I deploy this project?
-
-Simply open [Lovable](https://lovable.dev/projects/REPLACE_WITH_PROJECT_ID) and click on Share -> Publish.
-
-## Can I connect a custom domain to my Lovable project?
-
-Yes, you can!
-
-To connect a domain, navigate to Project > Settings > Domains and click Connect Domain.
-
-Read more here: [Setting up a custom domain](https://docs.lovable.dev/features/custom-domain#custom-domain)
+- Vibe Coded by **Alex**
+- Departure & disruption data © **NS (Nederlandse Spoorwegen)**
+- Built with [Lovable](https://lovable.dev)
