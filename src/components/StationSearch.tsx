@@ -19,10 +19,14 @@ export function StationSearch({ onSelect, selectedStation, compact }: StationSea
 
   const handleFocus = () => {
     setIsOpen(true);
-    // Wait for the mobile keyboard to open, then scroll input into view
-    setTimeout(() => {
-      inputRef.current?.scrollIntoView({ behavior: "smooth", block: "center" });
-    }, 300);
+    // Android: scroll input into view above keyboard.
+    // iOS handles this natively — forcing scrollIntoView there can drop focus / hide the dropdown.
+    const isIOS = /iPad|iPhone|iPod/.test(navigator.userAgent) && !(window as any).MSStream;
+    if (!isIOS) {
+      setTimeout(() => {
+        inputRef.current?.scrollIntoView({ behavior: "smooth", block: "center" });
+      }, 300);
+    }
   };
 
   useEffect(() => {
